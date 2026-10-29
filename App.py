@@ -16,13 +16,8 @@ from pathlib import Path
 import gradio as gr
 
 import script_profit_dashboard
-import tmg_channel_dashboard
 import tmg_context_dashboard
 import tmg_daily_dashboard
-import tmg_multi_dashboard
-import tmg_position_dashboard
-import tmg_research_dashboard
-import tmg_squeeze_dashboard
 import weex_autotrade_dashboard as weex
 
 ROOT = Path(__file__).resolve().parent
@@ -97,37 +92,9 @@ with gr.Blocks(title="Automatisk handel · WEEX og ML") as demo:
                     gr.File(value=str(ROOT / "tradingview" / pine), label="Pine-kilde", interactive=False)
 
             with gr.Accordion("TMG Trades · Stonksy + VRVP POC & Liquidity Trap (@tmgtrades)", open=False):
-                gr.Markdown(f"Velg **{weex.TMG_LABEL}** i Skript #1, #2 eller #3. Se testresultatene før valg av "
-                            f"tidsintervall.\n\n{weex.TMG_TEXT}")
+                gr.Markdown(f"Velg **{weex.TMG_LABEL}** i Skript #1, #2 eller #3.\n\n{weex.TMG_TEXT}")
                 gr.File(value=str(ROOT / "tradingview/tmg_trades_strategy.pine"),
                         label="TMG Trades · Pine v6-strategi", interactive=False)
-                tmg_review_text, tmg_review_chart, tmg_review_rows = tmg_research_dashboard.view("BTCUSDT")
-                tmg_review_coin = gr.Dropdown(list(tmg_research_dashboard.SYMBOLS), value="BTCUSDT",
-                                              label="TMG-test · velg marked")
-                tmg_review_status = gr.Markdown(tmg_review_text)
-                tmg_review_figure = gr.Plot(value=tmg_review_chart, label="TMG · historisk simulert kapital")
-                tmg_review_table = gr.Dataframe(value=tmg_review_rows, label="TMG · netto, kostnadsstress og største fall",
-                                                interactive=False)
-                tmg_review_coin.change(fn=tmg_research_dashboard.view, inputs=[tmg_review_coin],
-                                       outputs=[tmg_review_status, tmg_review_figure, tmg_review_table])
-                gr.File(value=str(ROOT / "reports/tmg_improvement_2026-10-26/README.md"),
-                        label="TMG · metode og resultater fra 120 forsøk", interactive=False)
-                with gr.Accordion("Nye funn fra TMG-kanalen · ekte futuresdata og helgevolum", open=False):
-                    tmg_channel_text, tmg_channel_chart, tmg_channel_rows = tmg_channel_dashboard.view("BTCUSDT")
-                    tmg_channel_coin = gr.Dropdown(list(tmg_channel_dashboard.SYMBOLS), value="BTCUSDT",
-                                                   label="TMG-kanalen · ekte futuresdata")
-                    tmg_channel_status = gr.Markdown(tmg_channel_text)
-                    tmg_channel_figure = gr.Plot(value=tmg_channel_chart,
-                                                 label="Kanalfunn · kapital og filtrerte signaler")
-                    tmg_channel_table = gr.Dataframe(value=tmg_channel_rows, label="Samme tidsrom, mynt og retning",
-                                                     interactive=False)
-                    tmg_channel_coin.change(fn=tmg_channel_dashboard.view, inputs=[tmg_channel_coin],
-                                            outputs=[tmg_channel_status, tmg_channel_figure, tmg_channel_table])
-                    gr.File(value=[str(ROOT / "tradingview/tmg_spot_participation.pine"),
-                                   str(ROOT / "reports/tmg_channel_2026-10-26/SOURCE_NOTES.md"),
-                                   str(ROOT / "reports/tmg_channel_2026-10-26/README.md")],
-                            label="TradingView-volumpanel uten ordre · kilder og metode", file_count="multiple",
-                            interactive=False)
 
             with gr.Accordion("Ny indikator · TMG Dagsbekreftelse (kjøp/selg · 1 time)", open=False):
                 (tmg_daily_text, tmg_daily_chart, tmg_daily_rows, tmg_daily_metrics,
@@ -168,84 +135,11 @@ with gr.Blocks(title="Automatisk handel · WEEX og ML") as demo:
                                str(ROOT / "reports/tmg_daily_2026-10-26/SOURCE_NOTES.md")],
                         label="TMG Dagsbekreftelse · Pine-indikator og testgrunnlag", file_count="multiple",
                         interactive=False)
-                with gr.Accordion("Nyeste kanalfunn · volatilitet, dags-RSI og gevinstvern", open=False):
-                    tmg_context_text, tmg_context_rows = tmg_context_dashboard.findings()
-                    tmg_context_status = gr.Markdown(tmg_context_text)
-                    tmg_context_table = gr.Dataframe(
-                        value=tmg_context_rows, interactive=False,
-                        label="11 låste forsøk · bare utvikling og 2024, ingen rangering på kontrollen")
-                    tmg_daily_coin.change(fn=tmg_context_dashboard.findings, inputs=[tmg_daily_coin],
-                                          outputs=[tmg_context_status, tmg_context_table])
                 gr.File(value=[str(ROOT / "tradingview/tmg_daily_profit_guard.pine"),
                                str(ROOT / "reports/tmg_context_2026-10-26/README.md"),
                                str(ROOT / "reports/tmg_context_2026-10-26/SOURCE_NOTES.md")],
                         label="Valgfritt gevinstvern · Pine-indikator, nye kilder og hele kostnadstesten",
                         file_count="multiple", interactive=False)
-                with gr.Accordion("Flere videofunn · ekte spotpress, Pine-proxy og funding", open=False):
-                    tmg_multi_window = gr.Dropdown(list(tmg_multi_dashboard.WINDOWS),
-                                                   value=tmg_multi_dashboard.WINDOWS[0],
-                                                   label="Historisk kontekst · 2024, ikke sanntid")
-                    tmg_multi_text, tmg_multi_rows, tmg_multi_chart, tmg_multi_signals = tmg_multi_dashboard.view()
-                    tmg_multi_status = gr.Markdown(tmg_multi_text)
-                    tmg_multi_table = gr.Dataframe(value=tmg_multi_rows, interactive=False,
-                                                   label="Åtte nye tester og dagens referanse · alle avvisningsgrunner")
-                    tmg_multi_figure = gr.Plot(value=tmg_multi_chart,
-                                               label="Historiske signaler med separat ekte spotpress, CLV og funding")
-                    tmg_multi_events = gr.Dataframe(value=tmg_multi_signals, interactive=False,
-                                                    label="Eksisterende kjøp/selg · kjent kontekst ved signalclose")
-                    tmg_multi_outputs = [tmg_multi_status, tmg_multi_table, tmg_multi_figure, tmg_multi_events]
-                    for control in (tmg_daily_coin, tmg_multi_window):
-                        control.change(fn=tmg_multi_dashboard.view, inputs=[tmg_daily_coin, tmg_multi_window],
-                                       outputs=tmg_multi_outputs)
-                    gr.File(value=[str(ROOT / "reports/tmg_multi_2026-10-26/README.md"),
-                                   str(ROOT / "reports/tmg_multi_2026-10-26/SOURCE_NOTES.md")],
-                            label="Nye videokilder og hele metoden", file_count="multiple", interactive=False)
-                with gr.Accordion("Ny forskningsindikator · OI, ukespress og bekreftet inngang", open=False) \
-                        as tmg_position_review:
-                    tmg_position_window = gr.Dropdown(list(tmg_position_dashboard.WINDOWS),
-                                                      value=tmg_position_dashboard.WINDOWS[0],
-                                                      label="Historiske kandidatsignaler · 2024, ikke sanntid")
-                    tmg_position_status = gr.Markdown("Åpne panelet for den nye OI-kandidaten, testresultater og "
-                                                      "kjøp/selg. Ingen ordre.")
-                    tmg_position_table = gr.Dataframe(interactive=False,
-                                                      label="Tolv låste regler og dagens referanse · kostnader inkludert")
-                    tmg_position_figure = gr.Plot(label="Dagens signaler og OI-kandidat · historisk 2024")
-                    tmg_position_events = gr.Dataframe(interactive=False, label="Kjøp/selg og OI-observasjonens tidspunkt")
-                    tmg_position_inputs = [tmg_daily_coin, tmg_position_window]
-                    tmg_position_outputs = [tmg_position_status, tmg_position_table, tmg_position_figure,
-                                            tmg_position_events]
-                    tmg_position_review.expand(fn=tmg_position_dashboard.view, inputs=tmg_position_inputs,
-                                               outputs=tmg_position_outputs)
-                    for control in (tmg_position_window, tmg_daily_coin):
-                        control.change(fn=tmg_position_dashboard.view, inputs=tmg_position_inputs,
-                                       outputs=tmg_position_outputs)
-                    gr.File(value=[str(ROOT / "tradingview/tmg_oi_confirmation.pine"),
-                                   str(ROOT / "tradingview/TMG_OI_README.md"),
-                                   str(ROOT / "reports/tmg_oi_2026-10-26/README.md"),
-                                   str(ROOT / "reports/tmg_oi_2026-10-26/SOURCE_NOTES.md")],
-                            label="TMG OI · Pine-prototype for TradingView · separat feed, ikke koblet til handel",
-                            file_count="multiple", interactive=False)
-                with gr.Accordion("Videre videotest · spotstøtte og squeeze", open=False) as tmg_squeeze_review:
-                    tmg_squeeze_rule = gr.Dropdown(tmg_squeeze_dashboard.CHOICES, value="oi",
-                                                   label="Historisk regel å undersøke · aktiverer ingen handler")
-                    tmg_squeeze_status = gr.Markdown("Åpne for å se åtte nye videoregler testet mot OI-kandidaten på "
-                                                     "ekte historikk.")
-                    tmg_squeeze_table = gr.Dataframe(interactive=False,
-                                                     label="Alle åtte regler og to referanser · kostnader inkludert")
-                    tmg_squeeze_figure = gr.Plot(label="Historiske kjøp/selg/lukk og netto kapital · 2024")
-                    tmg_squeeze_events = gr.Dataframe(interactive=False, label="Signal ved close og observert spotpress/OI")
-                    tmg_squeeze_inputs = [tmg_daily_coin, tmg_squeeze_rule]
-                    tmg_squeeze_outputs = [tmg_squeeze_status, tmg_squeeze_table, tmg_squeeze_figure,
-                                           tmg_squeeze_events]
-                    tmg_squeeze_review.expand(fn=tmg_squeeze_dashboard.view, inputs=tmg_squeeze_inputs,
-                                              outputs=tmg_squeeze_outputs)
-                    for control in (tmg_squeeze_rule, tmg_daily_coin):
-                        control.change(fn=tmg_squeeze_dashboard.view, inputs=tmg_squeeze_inputs,
-                                       outputs=tmg_squeeze_outputs)
-                    gr.File(value=[str(ROOT / "reports/tmg_squeeze_2026-10-26/README.md"),
-                                   str(ROOT / "reports/tmg_squeeze_2026-10-26/SOURCE_NOTES.md")],
-                            label="Nye videofunn · regler og full sammenligning", file_count="multiple",
-                            interactive=False)
 
             # --- Skript-feltene side om side ---
             slots = []

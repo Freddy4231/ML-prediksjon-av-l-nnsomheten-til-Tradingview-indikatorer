@@ -1,13 +1,26 @@
 """Pakk ekte modellinput og synlige datasett uten å endre eller trene gamle modeller."""
 from __future__ import annotations
+import hashlib
 import json
 from datetime import datetime,timezone
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import script_profit_ml as spm
 import script_profit_predictor as predictor
 from research import script_ml_check as training
-from research.tmg_improvement import sha,write,ROOT
+
+ROOT=Path(__file__).resolve().parents[1]
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def write(path,doc):
+    Path(path).parent.mkdir(parents=True,exist_ok=True)
+    Path(path).write_text(json.dumps(doc,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
+
 
 OUTPUT=ROOT/'reports/script_profit_website_2026-10-27'
 RESULTS=ROOT/'reports/script_ml_check/results.json'

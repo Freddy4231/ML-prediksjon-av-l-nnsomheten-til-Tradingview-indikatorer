@@ -8,7 +8,7 @@ En Gradio-app bestående av 2 element:
 SuperTrend, Chandelier Exit, TMG Trades, Pro Swing, Kinetic Scalper, Market Oracle og Bigscalp) på offentlige
 WEEX-lys for 15 kryptovalutaer. Hvert felt har sanntidsgraf, valg av mynter, intervall, retning, margin og
 gearing, og knappene Start, Stopp og Lukk. Under feltene vises posisjoner, utførte handler og en beslutningslogg.
-TMG-nedtrekkene viser forskningsresultatene bak TMG-indikatorene.
+TMG-indikatorene TMG Trades og TMG Dagsbekreftelse har egne nedtrekk med Pine-kilde, signaler og historisk kostnadstest.
 
 Papirhandelen er en forenklet etterligning av ordremotoren. Den beslutter ved lysets lukking og fyller til
 sluttkursen med 0,08 % gebyr per side. Nødstoppen utløses når 90 % av marginen er tapt. Clean Wave, SuperTrend,
