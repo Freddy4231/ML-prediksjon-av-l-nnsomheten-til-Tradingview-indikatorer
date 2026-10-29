@@ -1,6 +1,7 @@
 """DAT158 · BTC-prognose (visningskopi): skriptenes signaler på WEEX-lys, papirhandel og ML-vurdering av skript.
 
 Kjør lokalt:  python App.py   →   http://127.0.0.1:7862   (ML-siden: http://127.0.0.1:7862/ml-skript)
+Del offentlig:  python App.py --share   →   midlertidig lenke https://….gradio.live så lenge appen kjører
 
 Hovedsiden har fanen «Automatisk handel · WEEX» med de samme feltene som serverversjonen: tre skript-felt med
 sanntidsgrafer, Start/Stopp/Lukk, posisjoner, fyll og beslutningslogg. **Kopien kan ikke handle**: den har ingen
@@ -9,6 +10,7 @@ offentlige WEEX-priser (weex_autotrade_dashboard.py). Undersiden «ML-vurdering 
 forutsi lønnsomheten til en teknisk indikator (script_profit_dashboard.py). Ikke finansiell rådgivning.
 """
 import os
+import sys
 from pathlib import Path
 
 import gradio as gr
@@ -365,5 +367,6 @@ script_profit_inputs = script_profit_dashboard.add_page(demo)
 
 
 if __name__ == "__main__":
+    # «--share» gir i tillegg en offentlig, midlertidig Gradio-lenke (*.gradio.live) så lenge appen kjører her.
     demo.launch(server_name=os.environ.get("GRADIO_SERVER_NAME", "127.0.0.1"), server_port=PORT,
-                theme=gr.themes.Soft(), css=APP_CSS)
+                share="--share" in sys.argv[1:], theme=gr.themes.Soft(), css=APP_CSS)

@@ -2,6 +2,10 @@
 
 ML assignment 2 for Gabriel og Fredrik. Innleveringsrapporten ligger i `Mal DAT158 innlevering 2.docx`.
 
+> **▶ Åpne appen i nettleseren:** kjør `python App.py --share` (se «Kjør lokalt»). Gradio skriver da en offentlig
+> lenke, `https://….gradio.live`, som alle kan åpne så lenge appen kjører på maskinen. Lenken er ny ved hver
+> oppstart og slutter å virke etter en uke eller når appen stoppes. På egen maskin: http://127.0.0.1:7862.
+
 En Gradio-app i to deler:
 
 1. **Automatisk handel · WEEX (papirhandel)** – tre skript-felt med tekniske indikatorer (Clean Wave Matrix PRO,
@@ -45,6 +49,9 @@ python App.py
 
 Åpne http://127.0.0.1:7862 (ML-siden: http://127.0.0.1:7862/ml-skript). Port 7862 er valgt fordi 7860 ofte er i
 bruk. En annen port settes med `GRADIO_SERVER_PORT=7870 python App.py`.
+
+Med `python App.py --share` lager Gradio i tillegg en midlertidig offentlig lenke som kan deles. Papirhandelen er da
+felles for alle som bruker lenken, og den sender fortsatt ingen ordre.
 
 Grafene og papirhandelen trenger internett for å hente offentlige WEEX-lys. ML-siden virker uten nett med
 «Lagret eksempel · 11. oktober 2026»; «Ferske BTC-data» henter offentlige Binance-lys.
