@@ -1,0 +1,350 @@
+//@version=6
+// Momentum Market Structure - uavhengig rekonstruksjon (DAT158)
+// Bygget fra den OFFENTLIGE beskrivelsen av «Momentum Market Structure Pro» (SimpleCryptoLife):
+// https://www.tradingview.com/script/v1A3wNPJ-Momentum-Market-Structure-Pro/
+// Originalen er et betalt skript med skjult kildekode. Dette er IKKE originalkoden og er ikke hentet fra den.
+// Alle formler, terskler og standardverdier under er egne, åpent valgte tilnærminger til beskrivelsen:
+//   - momentumpivoter: Stochastic (eller glattet RSI) går inn i øvre/nedre sone og snur tilbake; prisens
+//     ytterpunkt mens det skjer blir pivotprisen (topp = høyeste high, bunn = laveste low)
+//   - implisitte pivoter: to like pivoter på rad (topp, topp) gir en motsatt pivot i ytterpunktet mellom dem
+//   - Dow-struktur HH/HL/LH/LL på momentumpivoter, valgfri «Ranging» (LH i opptrend / HL i nedtrend)
+//   - BOS/CHoCH på close (ikke veker); ny CHoCH = ytterste pris siden siste bekreftede momentumpivot
+//   - enkle S/R-soner fra momentum- og implisitte pivoter, deaktivert når close går gjennom sonen
+//   - Candle Trend: close under lowen til benets høyeste lys snur ned, close over highen til benets
+//     laveste lys snur opp (tilnærming til «Simple/True High/Low» fra forfatterens åpne MarketStructure-bibliotek)
+//   - long ved sprett fra støtte, short ved avvisning fra motstand, valgfritt filtrert på struktur og Candle Trend
+//   - stopp = close ∓ ATR × multiplikator, mål = R:R × avstanden fra close til stoppen
+// Adaptive soner (volum-modererte lysmønstre) er ikke rekonstruert. Resultater fra denne filen sier ingenting
+// om originalens lønnsomhet. Ikke finansiell rådgivning.
+strategy("Momentum Market Structure - rekonstruksjon (DAT158)", "MMS Recon", overlay = true, max_bars_back = 1000, max_labels_count = 500, initial_capital = 10000, default_qty_type = strategy.percent_of_equity, default_qty_value = 100, commission_type = strategy.commission.percent, commission_value = 0.1, process_orders_on_close = false)
+
+// ---------------- Input ----------------
+string execMode = input.string("Plan (SL/TP)", "Handel", options = ["Plan (SL/TP)", "Snu ved signal"], group = "Strategi (DAT158)")
+string tradeDirection = input.string("Long og short", "Retning", options = ["Long og short", "Kun long"], group = "Strategi (DAT158)")
+
+string momSource = input.string("Stochastic", "Momentum", options = ["Stochastic", "Glattet RSI"], group = "Momentum")
+int stochLen = input.int(14, "Stochastic-lengde", minval = 2, group = "Momentum")
+int stochSmooth = input.int(3, "Stochastic %K-glatting", minval = 1, group = "Momentum")
+int signalLen = input.int(3, "Signallinje (%D)", minval = 1, group = "Momentum")
+float stochUpper = input.float(80, "Stochastic øvre nivå", minval = 50, maxval = 100, group = "Momentum")
+float stochLower = input.float(20, "Stochastic nedre nivå", minval = 0, maxval = 50, group = "Momentum")
+int rsiLen = input.int(14, "RSI-lengde", minval = 2, group = "Momentum")
+int rsiSmooth = input.int(3, "RSI-glatting", minval = 1, group = "Momentum")
+float rsiUpper = input.float(65, "RSI øvre nivå", minval = 50, maxval = 100, group = "Momentum")
+float rsiLower = input.float(35, "RSI nedre nivå", minval = 0, maxval = 50, group = "Momentum")
+bool useImplied = input.bool(true, "Implisitte pivoter", group = "Struktur")
+string biasMode = input.string("BOS/CHoCH", "Strukturfilter for signaler", options = ["BOS/CHoCH", "Dow-trend", "Av"], group = "Struktur")
+bool useRanging = input.bool(false, "«Ranging» (LH i opptrend / HL i nedtrend) stopper Dow-filteret", group = "Struktur")
+bool useCandleTrend = input.bool(true, "Krev Candle Trend i samme retning", group = "Struktur")
+int maxZones = input.int(8, "Maks aktive soner per side", minval = 1, maxval = 30, group = "Soner")
+float zoneMinATR = input.float(0.2, "Minste sonetykkelse (× ATR)", minval = 0.01, step = 0.05, group = "Soner")
+float zoneMaxATR = input.float(1.0, "Største sonetykkelse (× ATR)", minval = 0.05, step = 0.05, group = "Soner")
+int atrLen = input.int(14, "ATR-lengde", minval = 1, group = "Stopp og mål")
+float atrMult = input.float(2.0, "ATR-multiplikator for stopp", minval = 0.1, step = 0.1, group = "Stopp og mål")
+float rrRatio = input.float(2.0, "Gevinst/risiko (R:R)", minval = 0.1, step = 0.1, group = "Stopp og mål")
+bool showStructure = input.bool(true, "Vis HH/HL/LH/LL og BOS/CHoCH", group = "Visning")
+
+// ---------------- Momentum ----------------
+float stochK = ta.sma(ta.stoch(close, high, low, stochLen), stochSmooth)
+float rsiK = ta.sma(ta.rsi(close, rsiLen), rsiSmooth)
+float mom = momSource == "Stochastic" ? stochK : rsiK
+float momSignal = ta.sma(mom, signalLen)
+float upLevel = momSource == "Stochastic" ? stochUpper : rsiUpper
+float dnLevel = momSource == "Stochastic" ? stochLower : rsiLower
+float midLevel = (upLevel + dnLevel) / 2
+float atr = ta.atr(atrLen)
+
+// ---------------- Momentumpivoter (reset fra sonene) ----------------
+// Topp: momentum går inn i øvre sone, og toppen bekreftes når det faller ut igjen under signallinjen.
+var int hiState = 0
+var float hiTrack = na
+var int hiTrackBar = na
+bool momHigh = false
+float momHighPrice = na
+int momHighBar = na
+if hiState == 0
+    if mom >= upLevel
+        hiState := 1
+        hiTrack := high
+        hiTrackBar := bar_index
+else
+    if high > hiTrack
+        hiTrack := high
+        hiTrackBar := bar_index
+    if mom < upLevel and (mom < momSignal or mom < midLevel)
+        momHigh := true
+        momHighPrice := hiTrack
+        momHighBar := hiTrackBar
+        hiState := 0
+
+// Bunn: momentum går inn i nedre sone, og bunnen bekreftes når det stiger ut igjen over signallinjen.
+var int loState = 0
+var float loTrack = na
+var int loTrackBar = na
+bool momLow = false
+float momLowPrice = na
+int momLowBar = na
+if loState == 0
+    if mom <= dnLevel
+        loState := 1
+        loTrack := low
+        loTrackBar := bar_index
+else
+    if low < loTrack
+        loTrack := low
+        loTrackBar := bar_index
+    if mom > dnLevel and (mom > momSignal or mom > midLevel)
+        momLow := true
+        momLowPrice := loTrack
+        momLowBar := loTrackBar
+        loState := 0
+
+// ---------------- Implisitte pivoter ----------------
+var int lastPivDir = 0
+var int lastPivBar = na
+bool impliedLow = false
+float impliedLowPrice = na
+int impliedLowBar = na
+bool impliedHigh = false
+float impliedHighPrice = na
+int impliedHighBar = na
+
+if momHigh
+    if useImplied and lastPivDir == 1 and not na(lastPivBar) and momHighBar > lastPivBar
+        int fromOff = bar_index - momHighBar
+        int toOff = math.min(bar_index - lastPivBar, 900)
+        for i = fromOff to toOff
+            if na(impliedLowPrice) or low[i] < impliedLowPrice
+                impliedLowPrice := low[i]
+                impliedLowBar := bar_index - i
+        impliedLow := not na(impliedLowPrice)
+    lastPivDir := 1
+    lastPivBar := momHighBar
+
+if momLow
+    if useImplied and lastPivDir == -1 and not na(lastPivBar) and momLowBar > lastPivBar
+        int fromOff = bar_index - momLowBar
+        int toOff = math.min(bar_index - lastPivBar, 900)
+        for i = fromOff to toOff
+            if na(impliedHighPrice) or high[i] > impliedHighPrice
+                impliedHighPrice := high[i]
+                impliedHighBar := bar_index - i
+        impliedHigh := not na(impliedHighPrice)
+    lastPivDir := -1
+    lastPivBar := momLowBar
+
+// ---------------- Dow-struktur (bare momentumpivoter) ----------------
+var float prevMomHigh = na
+var float prevMomLow = na
+var int dow = 0
+var bool ranging = false
+if momHigh
+    bool isHH = na(prevMomHigh) or momHighPrice > prevMomHigh
+    if isHH
+        dow := 1
+        ranging := false
+    else if dow == 1
+        ranging := true
+    if showStructure
+        label.new(momHighBar, momHighPrice, isHH ? "HH" : "LH", style = label.style_label_down, color = color.new(color.gray, 100), textcolor = isHH ? color.teal : color.orange, size = size.tiny)
+    prevMomHigh := momHighPrice
+if momLow
+    bool isLL = na(prevMomLow) or momLowPrice < prevMomLow
+    if isLL
+        dow := -1
+        ranging := false
+    else if dow == -1
+        ranging := true
+    if showStructure
+        label.new(momLowBar, momLowPrice, isLL ? "LL" : "HL", style = label.style_label_up, color = color.new(color.gray, 100), textcolor = isLL ? color.red : color.teal, size = size.tiny)
+    prevMomLow := momLowPrice
+
+// ---------------- BOS og CHoCH (brudd på close) ----------------
+// Ytterpunkter siden siste bekreftede momentumpivot (gir neste CHoCH-nivå).
+var float lowSincePivot = na
+var float highSincePivot = na
+if momHigh or momLow
+    lowSincePivot := low
+    highSincePivot := high
+else
+    lowSincePivot := na(lowSincePivot) ? low : math.min(lowSincePivot, low)
+    highSincePivot := na(highSincePivot) ? high : math.max(highSincePivot, high)
+
+var float bosHighLevel = na
+var float bosLowLevel = na
+var float chochLevel = na
+var int msb = 0
+if momHigh
+    bosHighLevel := momHighPrice
+if momLow
+    bosLowLevel := momLowPrice
+
+bool bosBull = false
+bool bosBear = false
+bool chochBull = false
+bool chochBear = false
+if msb >= 0 and not na(bosHighLevel) and close > bosHighLevel
+    bosBull := msb == 1
+    chochBull := msb == 0
+    msb := 1
+    chochLevel := lowSincePivot
+    bosHighLevel := na
+else if msb <= 0 and not na(bosLowLevel) and close < bosLowLevel
+    bosBear := msb == -1
+    chochBear := msb == 0
+    msb := -1
+    chochLevel := highSincePivot
+    bosLowLevel := na
+else if msb == 1 and not na(chochLevel) and close < chochLevel
+    chochBear := true
+    msb := -1
+    chochLevel := highSincePivot
+    bosLowLevel := na
+else if msb == -1 and not na(chochLevel) and close > chochLevel
+    chochBull := true
+    msb := 1
+    chochLevel := lowSincePivot
+    bosHighLevel := na
+
+if showStructure and (bosBull or bosBear)
+    label.new(bar_index, bosBull ? high : low, "BOS", style = bosBull ? label.style_label_down : label.style_label_up, color = color.new(color.gray, 100), textcolor = color.gray, size = size.tiny)
+if showStructure and (chochBull or chochBear)
+    label.new(bar_index, chochBull ? high : low, "CHoCH", style = chochBull ? label.style_label_down : label.style_label_up, color = color.new(color.gray, 100), textcolor = chochBull ? color.teal : color.red, size = size.tiny)
+
+// ---------------- Candle Trend ----------------
+var int candleTrend = 0
+var float legHigh = na
+var float legHighLow = na
+var float legLow = na
+var float legLowHigh = na
+if na(legHigh) or high >= legHigh
+    legHigh := high
+    legHighLow := low
+if na(legLow) or low <= legLow
+    legLow := low
+    legLowHigh := high
+if candleTrend != -1 and close < legHighLow
+    candleTrend := -1
+    legLow := low
+    legLowHigh := high
+else if candleTrend != 1 and close > legLowHigh
+    candleTrend := 1
+    legHigh := high
+    legHighLow := low
+
+// ---------------- Støtte- og motstandssoner ----------------
+var array<float> supTop = array.new_float()
+var array<float> supBot = array.new_float()
+var array<float> resTop = array.new_float()
+var array<float> resBot = array.new_float()
+
+// Sprett/avvisning testes mot sonene som fantes før dette lyset.
+bool touchSupport = false
+bool touchResist = false
+if array.size(supTop) > 0
+    for i = 0 to array.size(supTop) - 1
+        if low <= array.get(supTop, i) and close > array.get(supTop, i)
+            touchSupport := true
+if array.size(resBot) > 0
+    for i = 0 to array.size(resBot) - 1
+        if high >= array.get(resBot, i) and close < array.get(resBot, i)
+            touchResist := true
+
+// Close gjennom sonen deaktiverer den.
+if array.size(supTop) > 0
+    for i = array.size(supTop) - 1 to 0
+        if close < array.get(supBot, i)
+            array.remove(supTop, i)
+            array.remove(supBot, i)
+if array.size(resTop) > 0
+    for i = array.size(resTop) - 1 to 0
+        if close > array.get(resTop, i)
+            array.remove(resTop, i)
+            array.remove(resBot, i)
+
+float zoneMin = zoneMinATR * nz(atr, high - low)
+float zoneMax = zoneMaxATR * nz(atr, high - low)
+float newSupport1 = momLow ? momLowPrice : na
+int newSupport1Bar = momLow ? momLowBar : na
+float newSupport2 = impliedLow ? impliedLowPrice : na
+int newSupport2Bar = impliedLow ? impliedLowBar : na
+float newResist1 = momHigh ? momHighPrice : na
+int newResist1Bar = momHigh ? momHighBar : na
+float newResist2 = impliedHigh ? impliedHighPrice : na
+int newResist2Bar = impliedHigh ? impliedHighBar : na
+
+for s = 0 to 1
+    float price = s == 0 ? newSupport1 : newSupport2
+    int pivotBar = s == 0 ? newSupport1Bar : newSupport2Bar
+    if not na(price) and close > price
+        int off = bar_index - pivotBar
+        float wick = math.min(open[off], close[off]) - price
+        array.push(supBot, price)
+        array.push(supTop, price + math.min(math.max(wick, zoneMin), zoneMax))
+        while array.size(supTop) > maxZones
+            array.shift(supTop)
+            array.shift(supBot)
+for s = 0 to 1
+    float price = s == 0 ? newResist1 : newResist2
+    int pivotBar = s == 0 ? newResist1Bar : newResist2Bar
+    if not na(price) and close < price
+        int off = bar_index - pivotBar
+        float wick = price - math.max(open[off], close[off])
+        array.push(resTop, price)
+        array.push(resBot, price - math.min(math.max(wick, zoneMin), zoneMax))
+        while array.size(resTop) > maxZones
+            array.shift(resTop)
+            array.shift(resBot)
+
+// Nærmeste aktive sone på hver side (for grafen).
+float nearestSupport = na
+if array.size(supTop) > 0
+    for i = 0 to array.size(supTop) - 1
+        float top = array.get(supTop, i)
+        if top <= close and (na(nearestSupport) or top > nearestSupport)
+            nearestSupport := top
+float nearestResist = na
+if array.size(resBot) > 0
+    for i = 0 to array.size(resBot) - 1
+        float bot = array.get(resBot, i)
+        if bot >= close and (na(nearestResist) or bot < nearestResist)
+            nearestResist := bot
+
+// ---------------- Signaler ----------------
+int dowBias = useRanging and ranging ? 0 : dow
+int bias = biasMode == "BOS/CHoCH" ? msb : biasMode == "Dow-trend" ? dowBias : 0
+bool longAllowed = (biasMode == "Av" or bias == 1) and (not useCandleTrend or candleTrend == 1)
+bool shortAllowed = (biasMode == "Av" or bias == -1) and (not useCandleTrend or candleTrend == -1)
+bool longRaw = touchSupport and longAllowed
+bool shortRaw = touchResist and shortAllowed
+bool longSignal = longRaw and not longRaw[1] and not shortRaw
+bool shortSignal = shortRaw and not shortRaw[1] and not longRaw
+
+float longStop = close - atrMult * atr
+float shortStop = close + atrMult * atr
+float longTarget = close + rrRatio * (close - longStop)
+float shortTarget = close - rrRatio * (shortStop - close)
+
+// ---------------- Strategi: ordre (DAT158) ----------------
+// Signalet avgjøres ved lysets close og fylles ved neste åpning. Stopp/mål regnes fra signallysets close.
+if longSignal and strategy.position_size <= 0 and not na(atr)
+    strategy.entry("Long", strategy.long, comment = "Sprett fra støtte")
+    if execMode == "Plan (SL/TP)"
+        strategy.exit("Plan Long", "Long", stop = longStop, limit = longTarget)
+if shortSignal and not na(atr)
+    if tradeDirection == "Kun long"
+        strategy.close("Long", comment = "Short-signal")
+    else if strategy.position_size >= 0
+        strategy.entry("Short", strategy.short, comment = "Avvist fra motstand")
+        if execMode == "Plan (SL/TP)"
+            strategy.exit("Plan Short", "Short", stop = shortStop, limit = shortTarget)
+
+// ---------------- Visning ----------------
+bgcolor(dowBias == 1 ? color.new(color.teal, 92) : dowBias == -1 ? color.new(color.red, 92) : na, title = "Dow-bias")
+plot(nearestSupport, "Nærmeste støtte", color = color.new(color.teal, 30), style = plot.style_linebr)
+plot(nearestResist, "Nærmeste motstand", color = color.new(color.red, 30), style = plot.style_linebr)
+plot(chochLevel, "CHoCH-nivå", color = color.new(color.gray, 40), style = plot.style_linebr)
+plotshape(longSignal, "Long", shape.triangleup, location.belowbar, color.teal, size = size.small)
+plotshape(shortSignal, "Short", shape.triangledown, location.abovebar, color.red, size = size.small)
+alertcondition(longSignal, "Long", "MMS Recon: long (sprett fra støtte)")
+alertcondition(shortSignal, "Short", "MMS Recon: short (avvist fra motstand)")

@@ -1,0 +1,61 @@
+//@version=6
+indicator(title="UT Bot - bekreftede signaler", overlay=true)
+
+// Port av brukerens UT Bot v4: samme ATR-stopp og kryss ved barens slutt.
+// Dette er en indikator og signallogg, ikke en megler eller en ordremotor.
+a = input.float(1.0, title="Nokkelverdi / folsomhet", minval=0.00000001)
+c = input.int(10, title="ATR-periode", minval=1)
+h = input.bool(false, title="Signal fra Heikin Ashi-close")
+sendJSON = input.bool(false, title="Aktiver JSON-varsler til signallogg")
+showStop = input.bool(true, title="Vis ATR-trailingstopp")
+
+// Bruk vanlige tidsbaserte lys: ATR skal alltid komme fra ekte OHLC-priser.
+if not chart.is_standard
+    runtime.error("Bruk vanlige lys pa grafen. Velg eventuell Heikin Ashi i indikatorens innstillinger.")
+if na(time_close)
+    runtime.error("Indikatoren krever tidsbaserte barer med kjent sluttidspunkt.")
+
+xATR = ta.atr(c)
+nLoss = a * xATR
+haClose = request.security(ticker.heikinashi(syminfo.tickerid), timeframe.period, close, gaps=barmerge.gaps_off, lookahead=barmerge.lookahead_off)
+src = h ? haClose : close
+
+var float xATRTrailingStop = 0.0
+previousStop = nz(xATRTrailingStop[1], 0.0)
+if src > previousStop and src[1] > previousStop
+    xATRTrailingStop := math.max(previousStop, src - nLoss)
+else if src < previousStop and src[1] < previousStop
+    xATRTrailingStop := math.min(previousStop, src + nLoss)
+else
+    xATRTrailingStop := src > previousStop ? src - nLoss : src + nLoss
+
+// Beregn begge kryss hver bar. EMA med lengde 1 er identisk med src.
+emaOne = ta.ema(src, 1)
+above = ta.crossover(emaOne, xATRTrailingStop)
+below = ta.crossover(xATRTrailingStop, emaOne)
+buy = barstate.isconfirmed and src > xATRTrailingStop and above
+sell = barstate.isconfirmed and src < xATRTrailingStop and below
+barbuy = src > xATRTrailingStop
+barsell = src < xATRTrailingStop
+
+plot(showStop and barstate.isconfirmed ? xATRTrailingStop : na, title="UT ATR-stopp", color=barbuy ? color.green : color.red, linewidth=2, style=plot.style_linebr)
+plotshape(buy, title="Buy", text="KJOP", style=shape.labelup, location=location.belowbar, color=color.green, textcolor=color.white, size=size.tiny)
+plotshape(sell, title="Sell", text="SELG", style=shape.labeldown, location=location.abovebar, color=color.red, textcolor=color.white, size=size.tiny)
+barcolor(barstate.isconfirmed ? (barbuy ? color.green : barsell ? color.red : na) : na)
+
+// Kompatible enkeltvarsler. Disse tekstmeldingene er ikke JSON-inboxmeldinger.
+alertcondition(buy, title="UT Long", message="UT Long")
+alertcondition(sell, title="UT Short", message="UT Short")
+
+f_json(string signal) =>
+    string eventId = syminfo.tickerid + ":" + timeframe.period + ":" + str.tostring(time_close) + ":" + signal
+    string body = "{\"schema_version\":1,\"event_id\":\"" + eventId + "\",\"symbol\":\"" + syminfo.tickerid + "\",\"timeframe\":\"" + timeframe.period + "\",\"signal\":\"" + signal + "\",\"bar_close_time\":" + str.tostring(time_close)
+    body += ",\"price\":" + str.tostring(close, "0.################") + ",\"strategy\":\"ut_bot_v1\",\"key_value\":" + str.tostring(a, "0.################") + ",\"atr_period\":" + str.tostring(c) + ",\"heikin_ashi\":" + (h ? "true" : "false") + "}"
+    body
+
+// Lag selv et varsel med betingelsen "Any alert() function call".
+// Ingen API-nokler eller token skal legges i Pine eller denne meldingen.
+if sendJSON and buy
+    alert(f_json("buy"), alert.freq_once_per_bar_close)
+if sendJSON and sell
+    alert(f_json("sell"), alert.freq_once_per_bar_close)

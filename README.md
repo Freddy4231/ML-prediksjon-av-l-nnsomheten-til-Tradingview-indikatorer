@@ -17,6 +17,9 @@ En Gradio-app i to deler:
    Random Forest eller gradient boosting). Modellen forutsier sannsynligheten for at indikatoren blir lønnsom neste
    dag, uke eller måned, og meravkastningen mot vanlig kjøp og hold. Modellen trenes fortløpende fremover i tid
    (walk-forward), og siden viser treffsikkerhet, latency, throughput og feature importance.
+   **Nederst på ML-siden ligger Pine-testen:** lim inn et hvilket som helst Pine Script fra TradingView, velg marked
+   og periode, og se om det tjente penger etter gebyr på 1–60 minutters lys. Maskinlæringsdelen forutsier om hver
+   handel skriptet gjør, blir lønnsom (logistisk regresjon, Random Forest og gradient boosting).
 
 > **Ikke finansiell rådgivning.** Alle resultater er historiske simuleringer og usikre modellanslag.
 
@@ -78,6 +81,16 @@ python -m unittest discover -s tests
   feature importance. 2019–2024 brukes til vurdering; 2025–2026 er kjent kontrollhistorikk, ikke en urørt test.
 - Datasett, modeller og kode er bundet sammen med SHA-256 i `manifest.json`; endres en fil, sperres vurderingen.
 
+## Pine-test: modeller og data
+
+Pine-koden oversettes av appens egen Pine-tolk (`pine_engine/`) og kjøres lys for lys på ekte priser fra Binance
+(krypto) eller Yahoo Finance (aksjer, indekser, valuta), med fyll ved neste lys, 0,10 % kostnad per side og faktisk
+funding. Hver handel blir ett ML-eksempel med 20 egenskaper fra signallyset, og fasit er om handelen ga gevinst etter
+gebyr. Logistisk regresjon (C = 0,5), Random Forest (200 trær) og HistGradientBoosting (dybde 3, læringsrate 0,05)
+trenes fortløpende fremover i tid på handler som var avsluttet før signalet. Siden viser treffsikkerhet, MSE/Brier,
+log loss, AUC, treningstid, latency, throughput, feil-prediksjoner og feature importance. Prisdata lastes ned ved
+første bruk til `data/pine_cache/` (ikke i repoet).
+
 ## Filer
 
 | Fil | Rolle |
@@ -87,7 +100,9 @@ python -m unittest discover -s tests
 | `papirhandel.py` | Papirhandel for Start/Stopp/Lukk, posisjoner, fyll og beslutningslogg |
 | `script_profit_dashboard.py`, `script_model_compare.py`, `script_profit_predictor.py`, `script_profit_ml.py` | ML-undersiden |
 | `clean_wave_weex.py`, `kivanc_supertrend.py`, `triple_supertrend.py`, `ut_bot_signals.py`, `tmg_trades_weex.py`, `pro_swing_weex.py`, `kinetic_scalper_weex.py`, `market_oracle_weex.py`, `bigscalp_weex.py` | Indikatorene |
-| `pine_engine/` | Pine Script-tolk som kjører Kinetic- og Oracle-rekonstruksjonene |
+| `pine_dashboard.py` | Pine-testen nederst på ML-siden: lønnsomhetstest og ML per handel |
+| `pine_engine/` | Pine Script-tolk: parser, oversetter, kjøring, megler, backtest, data og ML (`ml.py`) |
+| `download_data.py` | Henter og kontrollerer Binance-arkiver for Pine-testen |
 | `tmg_*.py`, `research/tmg_*.py`, `reports/tmg_*`, `data/` | TMG-forskningspanelene med SHA-kontrollerte data |
 | `tradingview/` | Pine-kildene til indikatorene |
 

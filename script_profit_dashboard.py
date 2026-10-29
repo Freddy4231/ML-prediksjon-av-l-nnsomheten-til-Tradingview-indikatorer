@@ -72,4 +72,8 @@ def add_page(demo):
         for control in (indicator,minutes,horizon,model,capital,source,cadence,window,feature_set,compare_all):
             control.change(lambda:('Valget er endret. Trykk «Beregn med ML» for en ny vurdering.',*compare.empty()),
                            outputs=outputs,api_visibility='private')
+        # Nederst: hele Pine-testen (lim inn et Pine Script, test lønnsomheten og ML på skriptets handler). Ingen ordre.
+        import pine_dashboard
+        gr.Markdown('---')
+        pine_dashboard.add_section()
         return {'indicator':indicator,'minutes':minutes,'horizon':horizon,'model':model,'capital':capital,'source':source}

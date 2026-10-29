@@ -4,7 +4,7 @@
   "results_path": "reports/script_ml_check/results.json",
   "runtime_sha256": {
     "script_profit_predictor.py": "4ea499105691a5283694323fc8fd36188ee6f6da844edb5d17e89f512e4a136b",
-    "script_profit_dashboard.py": "4a9e857b5f4a81c764e45a2f2a9aaeb5dd50c62d066d17d81e43db03d762070c",
+    "script_profit_dashboard.py": "9507ddcb5c685acfca7d313101360318a8179e1d680b774f07bfa11eaac68420",
     "script_profit_ml.py": "2517ffb830dc54c4b3376b2afe483b35d90741d97430c3849fa3b2938f7cc726",
     "script_model_compare.py": "10db3906fe75f574f6121e31f2f9dc1588a877f50a533839c7ae0d052b5f495a",
     "features.py": "b760e02b824364a595a2f8b33b7499408bf88af02916ae01a6a6fbbe44c3269f",
@@ -84,6 +84,6 @@
   "training": "Eksisterende modeller; ingen ny modelltilpasning eller valg. Full historikk brukes som i originaltreningen.",
   "demo": "Ekte historiske egenskaper ved11.okt2026, kjøres gjennom ekte estimators ved klikk. Ingen ny måling av presisjon.",
   "live": "Siste avsluttede UTC-døgn, ekte spotlys uten hull. Forkortet oppvarming kan endre indikatorens tilstand.",
-  "runtime_updated_utc": "2026-10-28T15:14:03.463598+00:00",
+  "runtime_updated_utc": "2026-10-29T11:11:21.576740+00:00",
   "comparison": "Modellsammenligningen trener fortløpende (walk-forward) ved klikk på de samme datasettene; lagrede modeller og demonstrasjonsinput er uendret."
 }

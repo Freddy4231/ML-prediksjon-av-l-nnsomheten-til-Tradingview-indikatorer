@@ -178,6 +178,29 @@ class PaperTradingTests(unittest.TestCase):
         self.assertFalse([name for name in names if "WEEX" in name and "fyll" in name])
 
 
+class PineSectionTests(unittest.TestCase):
+    """Pine-testen nederst på ML-siden: hele kjeden fra innlimt kode til ML, uten nettverk og uten ordre."""
+
+    def test_pasted_strategy_is_backtested_and_its_trades_predicted_offline(self):
+        import pine_dashboard as page
+        from pine_engine import data as D
+        from tests.test_pine_ml import bars as pine_bars
+        synthetic = pine_bars(3000)
+        silent = lambda *args, **kwargs: None
+        with NoNetwork(), patch.object(D, "load_bars", lambda *args, **kwargs: (synthetic, 300, 60)), \
+                patch.object(D, "binance_funding", lambda *args, **kwargs: None):
+            out = page.run_test(page.SIMPLE_EXAMPLE, "binance:BTCUSDT", "Siste år", "", "", ["1 time"],
+                                "Long og short", 0.1, True, True, page.B.AUTO, page.B.AUTO, None, progress=silent)
+            self.assertEqual(len(out), 9)
+            self.assertNotIn("❌", out[0])
+            self.assertTrue(out[1]["visible"])
+            ml = page.run_ml(page.SIMPLE_EXAMPLE, "binance:BTCUSDT", "Siste år", "", "", "Long og short", 0.1, True,
+                             True, page.B.AUTO, page.B.AUTO, None, "1 time", [page.ML.LR, page.ML.HGB],
+                             list(page.ML_MODES)[0], 200, 5, 30, 0.5, False, progress=silent)
+        self.assertIn("grunnraten", ml[0])
+        self.assertEqual(list(ml[1]["value"].columns), page.ML_COLUMNS)
+
+
 class AppTests(unittest.TestCase):
     def test_main_page_has_the_fields_and_the_ml_page_answers_without_network(self):
         import gradio as gr
@@ -191,7 +214,11 @@ class AppTests(unittest.TestCase):
                          "Sanntidsgraf · Skript #3", "Utførte handler (papirfyll, simulert)", "papirhandel",
                          "TMG Dagsbekreftelse", "Kontroller WEEX-tilkobling"):
                 self.assertIn(text, config)
-            self.assertIn("Beregn med ML", client.get("/config", params={"page": "ml-skript"}).text)
+            ml_page = client.get("/config", params={"page": "ml-skript"}).text
+            for text in ("Beregn med ML", "Pine-test", "Test lønnsomhet", "Hvilke modeller brukes",
+                         "Tren og test modellene", "Avanserte valg"):
+                self.assertIn(text, ml_page)
+            self.assertNotIn("Lagre for WEEX", ml_page)
             reply = client.post("/gradio_api/api/ml_script_assess", json={"data": [
                 "ut_bot", "60", "Neste uke", "Logistisk regresjon / Ridge", 10000, "Lagret eksempel · 11. oktober 2026",
                 "Hvert år", "Voksende · all kjent historikk", "Grunnleggende · 27 egenskaper", False]})

@@ -1,0 +1,557 @@
+//@version=6
+// Independent reconstruction from the public feature description, not recovered source.
+// Original reference: https://www.tradingview.com/script/lxSZFyk7-Price-Reaction-Levels-MQLSoftware/
+// All formulas, weights and presets below are openly chosen approximations.
+// Tillegg (DAT158): long-signal når kanalen (ribbon) blir blå og short-signal når den blir rød.
+// Se seksjonen «Kanalfarge: long blå / short rød» under. Resten av skriptet er uendret.
+indicator("Price Reaction Levels - Independent Reconstruction (kanalfarge)", "PRL Recon Kanal", overlay = false, precision = 2, max_lines_count = 500, max_labels_count = 500, max_bars_back = 2000)
+
+// --------------------------- Inputs ---------------------------
+string styleInput = input.string("Auto", "Trading style", options = ["Auto", "Scalping", "Day", "Swing", "Position", "Custom"], group = "Signals")
+int minScore = input.int(70, "Signal quality filter", minval = 0, maxval = 100, group = "Signals")
+int premiumScore = input.int(90, "Premium signal threshold", minval = 0, maxval = 100, group = "Signals")
+bool useReaction = input.bool(true, "Level Reaction signals", group = "Signals")
+bool useFlip = input.bool(true, "Trend Flip signals", group = "Signals")
+bool usePullback = input.bool(true, "Ribbon Pullback signals", group = "Signals")
+int flipWindow = input.int(20, "Flip confirmation window (bars)", minval = 1, group = "Signals", tooltip = "A ribbon pullback is eligible only within this many bars after a confirmed trend flip.")
+bool hardHTF = input.bool(false, "Hard HTF filter (both rows must agree)", group = "Signals")
+int stopCooldown = input.int(5, "Cooldown after stop (bars)", minval = 0, group = "Signals")
+string htfMode = input.string("Auto", "HTF selection", options = ["Auto", "Manual"], group = "Higher timeframes")
+string manualHTF1 = input.timeframe("240", "Manual HTF 1", group = "Higher timeframes")
+string manualHTF2 = input.timeframe("1D", "Manual HTF 2", group = "Higher timeframes")
+bool showLevels = input.bool(true, "Show reaction levels", group = "Levels")
+int pivotBars = input.int(5, "Level sensitivity (pivot bars)", minval = 2, maxval = 50, group = "Levels")
+int maxLevels = input.int(20, "Max active levels", minval = 2, maxval = 60, group = "Levels")
+float mergeATR = input.float(0.35, "Merge distance (x ATR)", minval = 0.01, step = 0.05, group = "Levels")
+float testATR = input.float(0.20, "Reaction zone (x ATR)", minval = 0.01, step = 0.05, group = "Levels")
+float breakATR = input.float(0.15, "Break confirmation (x ATR)", minval = 0.0, step = 0.05, group = "Levels")
+float tp1R = input.float(1.0, "TP1 (R multiple)", minval = 0.1, step = 0.1, group = "Trade plan")
+float tp2R = input.float(2.0, "TP2 (R multiple)", minval = 0.2, step = 0.1, group = "Trade plan")
+float tp3R = input.float(3.0, "TP3 (R multiple)", minval = 0.3, step = 0.1, group = "Trade plan")
+float stopPadding = input.float(0.25, "Stop padding (x ATR)", minval = 0.0, step = 0.05, group = "Trade plan")
+float minRiskATR = input.float(0.75, "Minimum risk (x ATR)", minval = 0.05, step = 0.05, group = "Trade plan")
+string beMode = input.string("Auto", "Break-even mode", options = ["Auto", "Off", "Entry", "Entry + 0.1R"], group = "Trade plan")
+string runnerMode = input.string("Auto", "Trail runner after TP3", options = ["Auto", "On", "Off"], group = "Trade plan")
+string reverseMode = input.string("Auto", "Exit on opposite trend flip", options = ["Auto", "On", "Off"], group = "Trade plan")
+int timeStopInput = input.int(0, "Time stop (bars; 0 = auto)", minval = 0, maxval = 2000, group = "Trade plan")
+bool showPlans = input.bool(true, "Show trade levels", group = "Trade plan")
+int keepClosed = input.int(1, "Keep closed trades on chart", minval = 0, maxval = 20, group = "Trade plan")
+float balance = input.float(10000, "Account balance (symbol quote currency)", minval = 0, group = "Sizing")
+float riskPercent = input.float(1.0, "Risk %", minval = 0.01, maxval = 100, step = 0.1, group = "Sizing")
+string volumeMode = input.string("Units", "Volume display", options = ["Units", "Lots"], group = "Sizing")
+float lotSize = input.float(100000, "Units per lot", minval = 0.000001, group = "Sizing")
+int customFast = input.int(12, "Fast ribbon length", minval = 2, maxval = 300, group = "Custom tuning")
+int customSlow = input.int(30, "Slow ribbon length", minval = 3, maxval = 500, group = "Custom tuning")
+int customER = input.int(14, "Efficiency length", minval = 2, maxval = 300, group = "Custom tuning")
+int customATR = input.int(14, "Trail ATR length", minval = 2, maxval = 300, group = "Custom tuning")
+float customMult = input.float(2.0, "Trail multiplier", minval = 0.1, step = 0.1, group = "Custom tuning")
+float customRegime = input.float(0.15, "Minimum efficiency", minval = 0, maxval = 1, step = 0.01, group = "Custom tuning")
+float hysteresis = input.float(0.05, "Ribbon hysteresis (x ATR)", minval = 0.0, step = 0.01, group = "Custom tuning")
+string flowMode = input.string("Balanced", "Flow confirmer", options = ["Fast", "Balanced", "Strict", "Disabled"], group = "Visuals")
+string theme = input.string("Neo Slate", "Color theme", options = ["Neo Slate", "Royal Gold", "Arctic Ice"], group = "Visuals")
+string glowMode = input.string("Subtle", "Glow", options = ["Off", "Subtle", "Balanced", "Bright"], group = "Visuals")
+bool showRibbon = input.bool(true, "Show ribbon", group = "Visuals")
+bool showMiddle = input.bool(true, "Show middle line", group = "Visuals")
+bool showTrail = input.bool(true, "Show adaptive trail", group = "Visuals")
+bool showStrip = input.bool(false, "Show trend strip", group = "Visuals")
+bool colorBars = input.bool(false, "Color price bars", group = "Visuals")
+bool markerScore = input.bool(true, "Marker shows score", group = "Visuals")
+int keepMarkers = input.int(100, "Keep signal markers", minval = 0, maxval = 150, group = "Visuals")
+bool showPanel = input.bool(true, "Show dashboard", group = "Visuals")
+string panelPosition = input.string("Top right", "Dashboard position", options = ["Top right", "Bottom right", "Top left", "Bottom left"], group = "Visuals")
+string panelSize = input.string("Small", "Dashboard text", options = ["Tiny", "Small", "Normal"], group = "Visuals")
+bool detailedAlerts = input.bool(false, "Enable detailed alert() messages", group = "Alerts", tooltip = "Choose 'Any alert() function call' when creating an alert.")
+bool showChannelSignals = input.bool(true, "Vis long/short ved kanalfarge", group = "Kanalfarge")
+
+// Explicit reconstruction presets. main_period prevents HTF contexts reselecting the style.
+int chartSeconds = timeframe.in_seconds(timeframe.main_period)
+string tradingStyle = styleInput == "Auto" ? (chartSeconds <= 300 ? "Scalping" : chartSeconds <= 3600 ? "Day" : chartSeconds <= 86400 ? "Swing" : "Position") : styleInput
+int fastLen = tradingStyle == "Scalping" ? 8 : tradingStyle == "Day" ? 12 : tradingStyle == "Swing" ? 18 : tradingStyle == "Position" ? 24 : customFast
+int slowLen = tradingStyle == "Scalping" ? 21 : tradingStyle == "Day" ? 30 : tradingStyle == "Swing" ? 45 : tradingStyle == "Position" ? 60 : customSlow
+int erLen = tradingStyle == "Custom" ? customER : tradingStyle == "Scalping" ? 10 : tradingStyle == "Position" ? 24 : 14
+int atrLen = tradingStyle == "Custom" ? customATR : 14
+float trailMult = tradingStyle == "Custom" ? customMult : tradingStyle == "Scalping" ? 1.5 : tradingStyle == "Day" ? 2.0 : tradingStyle == "Swing" ? 2.5 : 3.0
+float regimeFloor = tradingStyle == "Custom" ? customRegime : tradingStyle == "Scalping" ? 0.12 : tradingStyle == "Day" ? 0.15 : 0.18
+int timeStopBars = timeStopInput > 0 ? timeStopInput : tradingStyle == "Scalping" ? 20 : tradingStyle == "Day" ? 32 : tradingStyle == "Swing" ? 48 : 72
+string effectiveBE = beMode == "Auto" ? (tradingStyle == "Scalping" or tradingStyle == "Day" ? "Entry" : "Entry + 0.1R") : beMode
+bool useRunner = runnerMode == "On" or (runnerMode == "Auto" and (tradingStyle == "Swing" or tradingStyle == "Position"))
+bool reverseExit = reverseMode == "On" or (reverseMode == "Auto" and tradingStyle == "Day")
+color bull = theme == "Royal Gold" ? #E9C46A : theme == "Arctic Ice" ? #9DECF9 : #65BAE4
+color bear = theme == "Royal Gold" ? #C18BF4 : theme == "Arctic Ice" ? #F5A3BE : #F06C86
+color amber = #D6AA4B
+color neutral = #8D95A5
+color ink = #121722
+color textColor = #D9DFEA
+
+// --------------------------- Engines ---------------------------
+f_er(float src, simple int length) =>
+    float path = math.sum(math.abs(ta.change(src)), length)
+    float value = not na(src[length]) and path > 0 ? math.abs(src - src[length]) / path : 0.0
+    math.max(0.0, math.min(1.0, value))
+
+f_rfa(float src, simple int length, float efficiency) =>
+    float alpha = math.min(1.0, 2.0 / (length + 1.0) * (0.25 + 3.75 * efficiency))
+    var float value = na
+    value := na(value[1]) ? src : value[1] + alpha * (src - value[1])
+    value
+
+f_engine(simple int fl, simple int sl, simple int el, simple int al, simple float mult, simple float hyst) =>
+    float er = f_er(close, el)
+    float atr = ta.atr(al)
+    float fast = f_rfa(hlc3, fl, er)
+    float slow = f_rfa(hlc3, sl, er)
+    float middle = (fast + slow) * 0.5
+    var int ribbonVote = 0
+    ribbonVote := fast - slow > atr * hyst ? 1 : fast - slow < -atr * hyst ? -1 : ribbonVote
+    float width = atr * mult / (0.35 + 0.65 * er)
+    var int trailVote = 0
+    var float trail = na
+    if not na(width)
+        if na(trail[1])
+            trailVote := close >= middle ? 1 : -1
+            trail := hl2 - trailVote * width
+        else if trailVote[1] == 1
+            trailVote := close < trail[1] ? -1 : 1
+            trail := trailVote == 1 ? math.max(trail[1], hl2 - width) : hl2 + width
+        else
+            trailVote := close > trail[1] ? 1 : -1
+            trail := trailVote == -1 ? math.min(trail[1], hl2 + width) : hl2 - width
+    var int direction = 0
+    if ribbonVote != 0 and ribbonVote == trailVote
+        direction := ribbonVote
+    [fast, slow, middle, trail, direction, er, atr]
+
+f_closed_vote(simple int fl, simple int sl, simple int el, simple int al, simple float mult, simple float hyst) =>
+    [f, s, m, t, d, e, a] = f_engine(fl, sl, el, al, mult, hyst)
+    d[1]
+
+f_next_tf(simple int seconds) =>
+    seconds < 60 ? "1" : seconds < 180 ? "3" : seconds < 300 ? "5" : seconds < 900 ? "15" : seconds < 1800 ? "30" : seconds < 3600 ? "60" : seconds < 7200 ? "120" : seconds < 14400 ? "240" : seconds < 86400 ? "1D" : seconds < 604800 ? "1W" : seconds < timeframe.in_seconds("1M") ? "1M" : seconds < timeframe.in_seconds("3M") ? "3M" : seconds < timeframe.in_seconds("6M") ? "6M" : "12M"
+
+string autoHTF1 = f_next_tf(chartSeconds)
+string autoHTF2 = f_next_tf(timeframe.in_seconds(autoHTF1))
+string htf1 = htfMode == "Manual" ? manualHTF1 : autoHTF1
+string htf2 = htfMode == "Manual" ? manualHTF2 : autoHTF2
+if barstate.isfirst
+    if na(chartSeconds)
+        runtime.error("Use a time-based chart for automatic timeframe selection.")
+    if timeframe.in_seconds(htf1) <= chartSeconds or timeframe.in_seconds(htf2) <= timeframe.in_seconds(htf1)
+        runtime.error("Select two strictly ascending higher timeframes: chart < HTF 1 < HTF 2. Auto supports charts below 6 months.")
+    if tp1R >= tp2R or tp2R >= tp3R
+        runtime.error("Targets must satisfy TP1 < TP2 < TP3.")
+    if fastLen >= slowLen
+        runtime.error("Fast ribbon length must be less than slow ribbon length.")
+
+[fast, slow, middle, trail, trend, efficiency, atr] = f_engine(fastLen, slowLen, erLen, atrLen, trailMult, hysteresis)
+int vote1 = request.security(syminfo.tickerid, htf1, f_closed_vote(fastLen, slowLen, erLen, atrLen, trailMult, hysteresis), gaps = barmerge.gaps_off, lookahead = barmerge.lookahead_on)
+int vote2 = request.security(syminfo.tickerid, htf2, f_closed_vote(fastLen, slowLen, erLen, atrLen, trailMult, hysteresis), gaps = barmerge.gaps_off, lookahead = barmerge.lookahead_on)
+bool ready = bar_index >= math.max(slowLen, erLen) + atrLen and not na(atr) and atr > 0 and not na(vote1) and not na(vote2)
+bool trendFlip = barstate.isconfirmed and ready and trend != 0 and trend[1] != 0 and trend != trend[1]
+var int lastFlipBar = na
+if trendFlip
+    lastFlipBar := bar_index
+bool churn = efficiency < regimeFloor
+bool counterHTFChop = tradingStyle != "Scalping" and vote1 != vote2 and efficiency < regimeFloor * 1.5
+color trendColor = trend == 1 ? bull : trend == -1 ? bear : neutral
+
+// --------------------------- Kanalfarge: long blå / short rød (tillegg) ---------------------------
+// Kanalen (ribbon) får fargen trendColor: blå («bull») når trend = 1, rød («bear») når trend = -1.
+// Long når kanalen blir blå, short når den blir rød. Signalet avgjøres ved lysets close og handles
+// ved neste åpning (TradingView-varsel eller boten). Skriptets egne Buy/Sell-planer er bare visning.
+bool channelBlue = barstate.isconfirmed and trend == 1 and trend[1] != 1
+bool channelRed = barstate.isconfirmed and trend == -1 and trend[1] != -1
+plotshape(showChannelSignals and channelBlue, "Long (kanal blå)", shape.triangleup, location.belowbar, bull, size = size.small, force_overlay = true)
+plotshape(showChannelSignals and channelRed, "Short (kanal rød)", shape.triangledown, location.abovebar, bear, size = size.small, force_overlay = true)
+alertcondition(channelBlue, "Long: kanal blå", "{{ticker}} kanalen ble blå – long ved {{close}}")
+alertcondition(channelRed, "Short: kanal rød", "{{ticker}} kanalen ble rød – short ved {{close}}")
+
+// --------------------------- Reaction levels ---------------------------
+type ReactionLevel
+    float price
+    int role
+    int born
+    int touches = 0
+    int flips = 0
+    int lastTouch = -1000000
+    int seeds = 1
+    bool inZone = false
+    line stroke = na
+    label tag = na
+
+method erase(ReactionLevel self) =>
+    line.delete(self.stroke)
+    label.delete(self.tag)
+
+f_add_level(array<ReactionLevel> levels, float price, int role, float tolerance) =>
+    bool merged = false
+    for level in levels
+        if level.role == role and math.abs(level.price - price) <= tolerance
+            // Keep the original price anchor; do not slide historical lines to a new average.
+            level.seeds += 1
+            merged := true
+            break
+    if not merged
+        ReactionLevel level = ReactionLevel.new(price, role, bar_index)
+        if showLevels
+            level.stroke := line.new(time, price, time + 1, price, xloc = xloc.bar_time, color = role == 1 ? bull : bear, force_overlay = true)
+            level.tag := label.new(time, price, "", xloc = xloc.bar_time, style = label.style_label_left, color = color.new(ink, 20), textcolor = textColor, size = size.tiny, force_overlay = true)
+        array.push(levels, level)
+        if array.size(levels) > maxLevels
+            ReactionLevel retired = array.shift(levels)
+            retired.erase()
+
+f_score(int family, int direction, int tests) =>
+    // Heuristic score, NOT the author's measured model and NOT a probability.
+    int familyPoints = family == 1 ? 45 : family == 2 ? 35 : 30
+    int htfPoints = (vote1 == direction ? 15 : 0) + (vote2 == direction ? 15 : 0)
+    int levelPoints = family != 1 ? 10 : tests == 0 ? 17 : tests <= 2 ? 25 : tests == 3 ? 10 : 0
+    math.min(100, familyPoints + htfPoints + levelPoints)
+
+f_family(int family) =>
+    family == 1 ? "Level Reaction" : family == 2 ? "Trend Flip" : "Ribbon Pullback"
+
+var array<ReactionLevel> levels = array.new<ReactionLevel>()
+float pivotHigh = ta.pivothigh(high, pivotBars, pivotBars)
+float pivotLow = ta.pivotlow(low, pivotBars, pivotBars)
+int reactionScore = -1
+float reactionAnchor = na
+bool levelBrokenEvent = false
+if barstate.isconfirmed and ready
+    // Retire in reverse order so removals cannot skip an element.
+    int index = array.size(levels) - 1
+    while index >= 0
+        ReactionLevel level = array.get(levels, index)
+        bool broken = level.role == 1 ? close < level.price - atr * breakATR : close > level.price + atr * breakATR
+        if broken
+            levelBrokenEvent := true
+            if level.flips == 0
+                level.role := -level.role
+                level.flips := 1
+                level.inZone := true
+                level.lastTouch := bar_index
+            else
+                level.erase()
+                array.remove(levels, index)
+        else
+            bool overlaps = low <= level.price + atr * testATR and high >= level.price - atr * testATR
+            bool newTest = overlaps and not level.inZone and bar_index > level.born and bar_index - level.lastTouch > 2
+            if newTest
+                level.touches += 1
+                level.lastTouch := bar_index
+                bool rejects = level.role == 1 ? close > level.price and close > open : close < level.price and close < open
+                if rejects and level.role == trend
+                    int candidateScore = f_score(1, trend, level.touches)
+                    if candidateScore > reactionScore
+                        reactionScore := candidateScore
+                        reactionAnchor := level.price
+            level.inZone := overlaps
+        index -= 1
+    // Only commit a pivot on its confirmation bar. No backdated entries or levels.
+    if not na(pivotHigh) and close <= pivotHigh + atr * breakATR
+        f_add_level(levels, pivotHigh, -1, atr * mergeATR)
+    if not na(pivotLow) and close >= pivotLow - atr * breakATR
+        f_add_level(levels, pivotLow, 1, atr * mergeATR)
+    for level in levels
+        if showLevels
+            color levelColor = level.flips > 0 ? amber : level.role == 1 ? bull : bear
+            string roleName = level.role == 1 ? "Support" : "Resistance"
+            string caption = (level.flips > 0 ? "Flip to " : "") + roleName + " - " + str.tostring(level.touches) + "x" + (level.touches >= 4 ? " weak" : "")
+            line.set_x2(level.stroke, time)
+            line.set_color(level.stroke, levelColor)
+            line.set_style(level.stroke, level.touches >= 4 ? line.style_dashed : line.style_solid)
+            label.set_xy(level.tag, time, level.price)
+            label.set_text(level.tag, caption)
+            label.set_textcolor(level.tag, levelColor)
+
+// --------------------------- Signal candidates ---------------------------
+bool ribbonOverlap = low <= math.max(fast, slow) and high >= math.min(fast, slow)
+bool pullback = not na(lastFlipBar) and bar_index > lastFlipBar and bar_index - lastFlipBar <= flipWindow and ribbonOverlap and not ribbonOverlap[1] and (trend == 1 ? close > middle and close > open : close < middle and close < open)
+int family = 0
+int setupScore = -1
+float structuralAnchor = na
+if barstate.isconfirmed and ready and trend != 0
+    if useReaction and reactionScore >= 0
+        family := 1
+        setupScore := reactionScore
+        structuralAnchor := trend == 1 ? math.min(reactionAnchor, low) : math.max(reactionAnchor, high)
+    if useFlip and trendFlip
+        int grade = f_score(2, trend, 0)
+        if grade > setupScore
+            family := 2
+            setupScore := grade
+            structuralAnchor := trend == 1 ? math.min(low, trail) : math.max(high, trail)
+    if usePullback and pullback
+        int grade = f_score(3, trend, 0)
+        if grade > setupScore
+            family := 3
+            setupScore := grade
+            structuralAnchor := trend == 1 ? math.min(low, math.min(fast, slow)) : math.max(high, math.max(fast, slow))
+
+// --------------------------- Trade drawings and state ---------------------------
+type TradePlan
+    int direction
+    int born
+    float entry
+    float stop
+    float initialRisk
+    float remaining = 1.0
+    float realized = 0.0
+    bool hit1 = false
+    bool hit2 = false
+    bool hit3 = false
+    array<line> lines = na
+    array<label> tags = na
+    label outcome = na
+
+method erase(TradePlan self) =>
+    for drawing in self.lines
+        line.delete(drawing)
+    for tag in self.tags
+        label.delete(tag)
+    label.delete(self.outcome)
+
+method redraw(TradePlan self) =>
+    if array.size(self.lines) > 0
+        for i = 0 to 4
+            float price = i == 0 ? self.entry : i == 1 ? self.stop : self.entry + self.direction * self.initialRisk * (i == 2 ? tp1R : i == 3 ? tp2R : tp3R)
+            string name = i == 0 ? "Entry" : i == 1 ? "Stop" : "TP" + str.tostring(i - 1)
+            bool hit = i == 2 ? self.hit1 : i == 3 ? self.hit2 : i == 4 ? self.hit3 : false
+            line drawing = array.get(self.lines, i)
+            label tag = array.get(self.tags, i)
+            line.set_xy2(drawing, time, price)
+            line.set_y1(drawing, price)
+            line.set_style(drawing, hit ? line.style_dotted : line.style_solid)
+            label.set_xy(tag, time, price)
+            label.set_text(tag, name + (hit ? " hit " : " ") + str.tostring(price, format.mintick))
+
+f_new_plan(int direction, float anchor) =>
+    float entry = close
+    float paddedStop = anchor - direction * atr * stopPadding
+    float initialRisk = math.max(math.max(direction * (entry - paddedStop), atr * minRiskATR), syminfo.mintick)
+    TradePlan plan = TradePlan.new(direction, bar_index, entry, entry - direction * initialRisk, initialRisk)
+    plan.lines := array.new<line>()
+    plan.tags := array.new<label>()
+    if showPlans
+        for i = 0 to 4
+            float price = i == 0 ? entry : i == 1 ? plan.stop : entry + direction * initialRisk * (i == 2 ? tp1R : i == 3 ? tp2R : tp3R)
+            color c = i == 0 ? neutral : i == 1 ? bear : bull
+            array.push(plan.lines, line.new(time, price, time + 1, price, xloc = xloc.bar_time, color = c, width = i == 1 ? 2 : 1, force_overlay = true))
+            array.push(plan.tags, label.new(time, price, "", xloc = xloc.bar_time, style = label.style_label_left, color = color.new(ink, 15), textcolor = c, size = size.tiny, force_overlay = true))
+        plan.redraw()
+    plan
+
+var TradePlan live = na
+var array<TradePlan> closedPlans = array.new<TradePlan>()
+var array<label> markers = array.new<label>()
+var int lastLongStop = na
+var int lastShortStop = na
+var int closedCount = 0
+var int winCount = 0
+var float grossWinR = 0.0
+var float grossLossR = 0.0
+var float netR = 0.0
+var int lastSignalScore = na
+var string lastSignal = "Waiting"
+bool buyEvent = false
+bool sellEvent = false
+bool premiumEvent = false
+bool targetEvent = false
+bool stopEvent = false
+bool timeEvent = false
+string events = ""
+
+if barstate.isconfirmed and not na(live) and bar_index > live.born
+    // Entry is at signal-bar CLOSE. Never resolve a plan on its own entry bar.
+    bool stopped = live.direction == 1 ? low <= live.stop : high >= live.stop
+    bool finished = false
+    string outcomeText = ""
+    float outcomePrice = close
+    if stopped
+        // Pessimistic ambiguity rule: old stop wins over every target on this bar.
+        // Adverse gaps fill at open; favourable target gaps fill only at target.
+        outcomePrice := live.direction == 1 ? math.min(open, live.stop) : math.max(open, live.stop)
+        float exitR = live.direction * (outcomePrice - live.entry) / live.initialRisk
+        live.realized += live.remaining * exitR
+        live.remaining := 0
+        outcomeText := math.abs(exitR) <= 0.11 ? "BE exit" : "Stop"
+        stopEvent := true
+        if live.direction == 1
+            lastLongStop := bar_index
+        else
+            lastShortStop := bar_index
+        finished := true
+    else
+        for stage = 1 to 3
+            float multiple = stage == 1 ? tp1R : stage == 2 ? tp2R : tp3R
+            float target = live.entry + live.direction * live.initialRisk * multiple
+            bool alreadyHit = stage == 1 ? live.hit1 : stage == 2 ? live.hit2 : live.hit3
+            bool touched = live.direction == 1 ? high >= target : low <= target
+            if not alreadyHit and touched
+                float fraction = stage == 1 ? 0.50 : stage == 2 ? 0.30 : useRunner ? 0.10 : live.remaining
+                fraction := math.min(fraction, live.remaining)
+                live.realized += fraction * multiple
+                live.remaining := math.max(0, live.remaining - fraction)
+                if stage == 1
+                    live.hit1 := true
+                else if stage == 2
+                    live.hit2 := true
+                else
+                    live.hit3 := true
+                targetEvent := true
+                events += "TP" + str.tostring(stage) + " hit; "
+                outcomePrice := target
+        if live.remaining < 0.000001
+            live.remaining := 0
+            finished := true
+            outcomeText := "TP3"
+        else if reverseExit and trendFlip and trend != live.direction
+            outcomePrice := close
+            live.realized += live.remaining * live.direction * (close - live.entry) / live.initialRisk
+            live.remaining := 0
+            finished := true
+            outcomeText := "Trend exit"
+        else if not live.hit1 and bar_index - live.born >= timeStopBars
+            live.realized += live.remaining * live.direction * (close - live.entry) / live.initialRisk
+            live.remaining := 0
+            finished := true
+            outcomeText := "Time stop"
+            timeEvent := true
+        // Ratchets below take effect NEXT bar, after this bar's old-stop test.
+        if not finished and live.hit1 and effectiveBE != "Off"
+            float beStop = live.entry + live.direction * live.initialRisk * (effectiveBE == "Entry + 0.1R" ? 0.1 : 0)
+            live.stop := live.direction == 1 ? math.max(live.stop, beStop) : math.min(live.stop, beStop)
+        if not finished and live.hit3 and useRunner and not na(trail)
+            // A close through a newly computed trail exits at close, not at a stale price.
+            if live.direction * (close - trail) <= 0
+                outcomePrice := close
+                live.realized += live.remaining * live.direction * (close - live.entry) / live.initialRisk
+                live.remaining := 0
+                finished := true
+                outcomeText := "Runner exit"
+            else
+                live.stop := live.direction == 1 ? math.max(live.stop, trail) : math.min(live.stop, trail)
+    live.redraw()
+    if finished
+        closedCount += 1
+        winCount += live.realized > 0 ? 1 : 0
+        grossWinR += math.max(live.realized, 0)
+        grossLossR += math.max(-live.realized, 0)
+        netR += live.realized
+        events += outcomeText + " " + str.tostring(live.realized, "#.##") + "R; "
+        live.outcome := label.new(time, outcomePrice, outcomeText + "\n" + str.tostring(live.realized, "#.##") + "R", xloc = xloc.bar_time, style = label.style_label_left, color = color.new(ink, 10), textcolor = live.realized >= 0 ? bull : bear, size = size.tiny, force_overlay = true)
+        array.push(closedPlans, live)
+        while array.size(closedPlans) > keepClosed
+            TradePlan expired = array.shift(closedPlans)
+            expired.erase()
+        live := na
+
+bool cooled = trend == 1 ? na(lastLongStop) or bar_index - lastLongStop > stopCooldown : na(lastShortStop) or bar_index - lastShortStop > stopCooldown
+bool htfPass = not hardHTF or (vote1 == trend and vote2 == trend)
+bool qualified = barstate.isconfirmed and ready and family > 0 and setupScore >= minScore and not churn and not counterHTFChop and htfPass and cooled
+if qualified and na(live)
+    live := f_new_plan(trend, structuralAnchor)
+    buyEvent := trend == 1
+    sellEvent := trend == -1
+    premiumEvent := setupScore >= premiumScore
+    lastSignal := f_family(family) + (trend == 1 ? " long" : " short")
+    lastSignalScore := setupScore
+    events += lastSignal + ", score " + str.tostring(setupScore) + ", entry " + str.tostring(live.entry, format.mintick) + "; "
+    if keepMarkers > 0
+        string markerText = (premiumEvent ? "★ " : "") + (trend == 1 ? "BUY" : "SELL") + (markerScore ? " " + str.tostring(setupScore) : "") + "\n" + f_family(family)
+        label marker = label.new(time, trend == 1 ? low : high, markerText, xloc = xloc.bar_time, style = trend == 1 ? label.style_label_up : label.style_label_down, color = color.new(color.white, 12), textcolor = trendColor, size = premiumEvent ? size.small : size.tiny, force_overlay = true)
+        array.push(markers, marker)
+        while array.size(markers) > keepMarkers
+            label.delete(array.shift(markers))
+
+// --------------------------- Multi-timeframe flow lane ---------------------------
+float rawFlow = 0.50 * trend + 0.30 * nz(vote1) + 0.20 * nz(vote2)
+int flowLength = flowMode == "Fast" ? 1 : flowMode == "Strict" ? 5 : 3
+float smoothedFlow = ta.ema(rawFlow, flowLength)
+float flowThreshold = flowMode == "Strict" ? 0.50 : flowMode == "Fast" ? 0.10 : 0.25
+int flowRequired = flowMode == "Strict" ? 3 : flowMode == "Fast" ? 1 : 2
+var int flowDirection = 0
+var int flowPending = 0
+var int flowCount = 0
+var int flowBorn = na
+if barstate.isconfirmed and ready and flowMode != "Disabled"
+    int candidate = smoothedFlow > flowThreshold ? 1 : smoothedFlow < -flowThreshold ? -1 : 0
+    if candidate != 0
+        flowCount := candidate == flowPending ? flowCount + 1 : 1
+        flowPending := candidate
+        if flowCount >= flowRequired and candidate != flowDirection
+            flowDirection := candidate
+            flowBorn := bar_index
+    else
+        flowCount := 0
+        flowPending := 0
+bool risingEvent = barstate.isconfirmed and flowDirection == 1 and flowDirection[1] == -1
+bool fallingEvent = barstate.isconfirmed and flowDirection == -1 and flowDirection[1] == 1
+color flowColor = flowDirection == 1 ? bull : flowDirection == -1 ? bear : neutral
+plot(flowMode != "Disabled" and ready ? 0 : na, "Reaction Flow", color = color.new(flowColor, math.abs(rawFlow) >= 0.99 ? 5 : 60), linewidth = 12)
+hline(1, "Flow top", color = color.new(neutral, 100))
+hline(-1, "Flow bottom", color = color.new(neutral, 100))
+
+// --------------------------- Main-chart visuals ---------------------------
+int glowAlpha = glowMode == "Bright" ? 78 : glowMode == "Balanced" ? 87 : 94
+plot(showRibbon and glowMode != "Off" ? middle : na, "Ribbon glow", color = color.new(trendColor, glowAlpha), linewidth = 10, force_overlay = true)
+pFast = plot(showRibbon ? fast : na, "Fast adaptive average", color = color.new(trendColor, 5), linewidth = 1, force_overlay = true)
+pSlow = plot(showRibbon ? slow : na, "Slow adaptive average", color = color.new(trendColor, 25), linewidth = 1, force_overlay = true)
+fill(pFast, pSlow, color = color.new(trendColor, 76), title = "Adaptive ribbon")
+plot(showMiddle ? middle : na, "Ribbon middle", color = trendColor, linewidth = 2, force_overlay = true)
+plot(showTrail ? trail : na, "Adaptive trail", color = color.new(trendColor, 35), linewidth = 1, style = plot.style_linebr, force_overlay = true)
+plotshape(showStrip and ready, title = "Trend strip", style = shape.square, location = location.bottom, color = trendColor, size = size.tiny, force_overlay = true)
+barcolor(colorBars ? trendColor : na)
+plot(buyEvent or sellEvent ? setupScore : na, "Signal score", display = display.none)
+
+// --------------------------- Dashboard ---------------------------
+f_direction(int direction) =>
+    na(direction) ? "Warming up" : direction == 1 ? "Bullish" : direction == -1 ? "Bearish" : "Neutral"
+
+f_row(table panel, int row, string name, string value, color c, string fontSize) =>
+    table.cell(panel, 0, row, name, text_color = neutral, bgcolor = ink, text_size = fontSize, text_halign = text.align_left)
+    table.cell(panel, 1, row, value, text_color = c, bgcolor = ink, text_size = fontSize, text_halign = text.align_right)
+
+string panelPos = panelPosition == "Top left" ? position.top_left : panelPosition == "Bottom left" ? position.bottom_left : panelPosition == "Bottom right" ? position.bottom_right : position.top_right
+string fontSize = panelSize == "Tiny" ? size.tiny : panelSize == "Normal" ? size.normal : size.small
+var table dashboard = table.new(panelPos, 2, 16, border_width = 0, force_overlay = true)
+if barstate.islast and showPanel
+    table.cell(dashboard, 0, 0, "PRL · RECONSTRUCTION", text_color = textColor, bgcolor = #202A3A, text_size = fontSize)
+    table.cell(dashboard, 1, 0, tradingStyle, text_color = bull, bgcolor = #202A3A, text_size = fontSize)
+    f_row(dashboard, 1, "Trend", f_direction(trend), trendColor, fontSize)
+    f_row(dashboard, 2, "Market", not ready ? "Warming up" : churn or counterHTFChop ? "Churning" : "Trending", churn or counterHTFChop ? amber : textColor, fontSize)
+    f_row(dashboard, 3, "Efficiency", str.tostring(efficiency * 100, "#") + "%", textColor, fontSize)
+    f_row(dashboard, 4, "HTF " + htf1, f_direction(vote1), vote1 == 1 ? bull : vote1 == -1 ? bear : neutral, fontSize)
+    f_row(dashboard, 5, "HTF " + htf2, f_direction(vote2), vote2 == 1 ? bull : vote2 == -1 ? bear : neutral, fontSize)
+    string flowText = flowMode == "Disabled" ? "Disabled" : f_direction(flowDirection) + (na(flowBorn) ? "" : " · " + str.tostring(bar_index - flowBorn) + " bars")
+    f_row(dashboard, 6, "Flow", flowText, flowColor, fontSize)
+    f_row(dashboard, 7, "Last setup", lastSignal, textColor, fontSize)
+    f_row(dashboard, 8, "Heuristic score", na(lastSignalScore) ? "—" : str.tostring(lastSignalScore) + " / 100", textColor, fontSize)
+    f_row(dashboard, 9, "Position", na(live) ? "Flat" : (live.direction == 1 ? "Long" : "Short") + " · " + str.tostring(live.remaining * 100, "#") + "% left", na(live) ? neutral : live.direction == 1 ? bull : bear, fontSize)
+    string nextTarget = "—"
+    string sizeText = "—"
+    if not na(live)
+        float nextR = not live.hit1 ? tp1R : not live.hit2 ? tp2R : tp3R
+        nextTarget := live.hit3 ? "Trail runner" : str.tostring(live.entry + live.direction * live.initialRisk * nextR, format.mintick)
+        float units = balance * riskPercent * 0.01 / (live.initialRisk * math.max(syminfo.pointvalue, 0.00000001))
+        sizeText := str.tostring(volumeMode == "Lots" ? units / lotSize : units, "#.####") + (volumeMode == "Lots" ? " lots" : " units")
+    f_row(dashboard, 10, "Next target", nextTarget, textColor, fontSize)
+    f_row(dashboard, 11, "Initial size", sizeText, textColor, fontSize)
+    f_row(dashboard, 12, "Risk budget", str.tostring(balance * riskPercent * 0.01, "#.##") + " " + syminfo.currency, textColor, fontSize)
+    f_row(dashboard, 13, "Closed / win rate", str.tostring(closedCount) + " / " + (closedCount > 0 ? str.tostring(100.0 * winCount / closedCount, "#.0") + "%" : "—"), textColor, fontSize)
+    string pf = grossLossR > 0 ? str.tostring(grossWinR / grossLossR, "#.##") : grossWinR > 0 ? "∞" : "—"
+    f_row(dashboard, 14, "Profit factor (R)", pf, grossWinR >= grossLossR ? bull : bear, fontSize)
+    f_row(dashboard, 15, "Closed net R", (netR > 0 ? "+" : "") + str.tostring(netR, "#.##") + "R", netR >= 0 ? bull : bear, fontSize)
+
+// --------------------------- Alerts: confirmed bars only ---------------------------
+alertcondition(buyEvent, "Buy signal", "{{ticker}} confirmed PRL reconstruction BUY at {{close}}")
+alertcondition(sellEvent, "Sell signal", "{{ticker}} confirmed PRL reconstruction SELL at {{close}}")
+alertcondition(premiumEvent, "Premium signal", "{{ticker}} premium PRL reconstruction signal at {{close}}")
+alertcondition(trendFlip, "Trend flip", "{{ticker}} dual-confirmation trend changed at {{close}}")
+alertcondition(targetEvent, "Target hit", "{{ticker}} PRL staged target hit")
+alertcondition(stopEvent, "Stop hit", "{{ticker}} PRL stop / break-even exit")
+alertcondition(timeEvent, "Time stop", "{{ticker}} PRL stalled plan closed")
+alertcondition(levelBrokenEvent, "Level broken", "{{ticker}} PRL reaction level broken")
+alertcondition(risingEvent, "Reaction Flow Turned Rising", "{{ticker}} PRL reaction flow turned rising")
+alertcondition(fallingEvent, "Reaction Flow Turned Falling", "{{ticker}} PRL reaction flow turned falling")
+if detailedAlerts and barstate.isconfirmed and str.length(events) > 0
+    alert(syminfo.ticker + " [" + timeframe.period + "] " + events, alert.freq_once_per_bar_close)
