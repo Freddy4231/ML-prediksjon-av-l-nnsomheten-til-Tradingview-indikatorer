@@ -1,4 +1,4 @@
-# ML-prediksjon av lønnsomheten til TradingView-indikatorer
+# ML-prediksjon av lønnsomheten til TradingView-indikatorer.
 
 ML assignment 2 for Fredrik, Gabriel og Lloyd. Innleveringsrapporten ligger i Mal DAT158 innlevering 2.docx ovenfor README.md.
 
@@ -22,8 +22,6 @@ dag, uke eller måned, og meravkastningen mot vanlig kjøp og hold. Modellen tre
 **Nederst på ML-siden ligger Pine-testen:** lim inn et hvilket som helst Pine Script fra TradingView, velg marked
 og periode, og se om det tjente penger etter gebyr på 1–60 minutters lys. Maskinlæringsdelen forutsier om hver
 handel skriptet gjør, blir lønnsom (logistisk regresjon, Random Forest og gradient boosting).
-
-
 
 
 
