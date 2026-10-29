@@ -5,3 +5,4 @@ lys på ekte markedsdata. Brukerkoden kjøres aldri direkte: bare syntakstreet o
 navn får prefiks, og bare funksjoner fra tolkens egen liste kan kalles.
 """
 from pine_engine.parser import PineError, parse  # noqa: F401
+
