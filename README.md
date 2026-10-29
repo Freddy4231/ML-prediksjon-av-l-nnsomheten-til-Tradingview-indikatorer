@@ -2,7 +2,7 @@
 
 ML assignment 2 for Fredrik, Gabriel og Lloyd. Innleveringsrapporten ligger i Mal DAT158 innlevering 2.docx ovenfor README.md.
 
-En Gradio-app bestående av 3 element: 
+En Gradio-app bestående av 2 element: 
 
 **Automatisk handel · WEEX (papirhandel)** – tre skript-felt med tekniske indikatorer (Clean Wave Matrix PRO,
 SuperTrend, Chandelier Exit, TMG Trades, Pro Swing, Kinetic Scalper, Market Oracle og Bigscalp) på offentlige
