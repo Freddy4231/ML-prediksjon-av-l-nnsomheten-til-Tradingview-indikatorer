@@ -1,0 +1,1 @@
+# ML-prediksjon-av-l-nnsomheten-til-Tradingview-indikatorer
