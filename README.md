@@ -1,4 +1,4 @@
-# ML-prediksjon av lønnsomheten til TradingView-indikatorer.
+# ML-prediksjon av lønnsomheten til TradingView-indikatorer
 
 ML assignment 2 for Fredrik, Gabriel og Lloyd. Innleveringsrapporten ligger i Mal DAT158 innlevering 2.docx ovenfor README.md.
 
