@@ -1,0 +1,41 @@
+{
+  "checks": [
+    {
+      "symbol": "BTCUSDT",
+      "hours": 2184,
+      "mismatches": {
+        "position": 0,
+        "waiting_direction": 0,
+        "buy_signal": 0,
+        "sell_signal": 0,
+        "exit_signal": 0
+      }
+    },
+    {
+      "symbol": "ETHUSDT",
+      "hours": 2184,
+      "mismatches": {
+        "position": 0,
+        "waiting_direction": 0,
+        "buy_signal": 0,
+        "sell_signal": 0,
+        "exit_signal": 0
+      }
+    },
+    {
+      "symbol": "SOLUSDT",
+      "hours": 2184,
+      "mismatches": {
+        "position": 0,
+        "waiting_direction": 0,
+        "buy_signal": 0,
+        "sell_signal": 0,
+        "exit_signal": 0
+      }
+    }
+  ],
+  "source_sha256": "9e3f0a3052e2824d9d2ec059b042f01757811810002e402660a0493be6c40b00",
+  "scope": "Kun valgt Pine-ventetilstand, injisert kjent OI/grunnmål og faktiske 1h-close. Ingen native TV-feed eller full request.security mot lavere TF.",
+  "native_feed_verified": false,
+  "native_compilation_verified": false
+}

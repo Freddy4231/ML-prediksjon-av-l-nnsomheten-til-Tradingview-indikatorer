@@ -1,0 +1,10 @@
+gradio==6.30.0
+pandas==3.0.6
+numpy==2.5.3
+scikit-learn==1.9.1
+joblib==1.6.0
+plotly==7.1.0
+requests==2.34.2
+tzdata==2026.5
+fastapi==0.143.0
+uvicorn==0.54.0

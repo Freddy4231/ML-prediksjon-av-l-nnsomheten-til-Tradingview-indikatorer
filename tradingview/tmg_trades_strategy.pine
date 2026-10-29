@@ -1,0 +1,291 @@
+//@version=6
+// TMG Trades v2 [That Martini Guy / @tmgtrades & nioctib.live] - Kvantitativ indikator og strategi (DAT158)
+// Uavhengig v2-rekonstruksjon basert på offentlige videoer fra YouTube-kanalen «TMG Trades» (@tmgtrades / Jordan)
+// og konseptene fra hans ordreflyt-/analyseplattform (nioctib.live & Stonksy):
+//   1. Multi-Timeframe Stonksy-ankring («Slow Context First»):
+//      - Skalerer Stonksy 50/200 EMA trendregime, 4-farget momentumoscillator (12/26/9) og VRVP til en roligere
+//        1,5–2-timers kontekst på intradag-grafer (skalafaktor 1x–4x), som fjerner mikro-støy på 15m/30m/1t.
+//   2. Rullerende VRVP (Volume Profile, 70 % Value Area) + «No Man's Land»-filter:
+//      - POC (Point of Control) = likviditetsmagnet og Take Profit-anker (front-runnes ved 88 % på likviditetsfeller)
+//      - VAH / VAL = øvre og nedre grense for 70 % av omsatt volum
+//      - Unngår nye trendhandler midt inne i trang konsolidering rundt POC; krever enten aksept utenfor VAH/VAL
+//        eller sterk strukturell Stonksy-spredning (|EMA50 - EMA200| / ATR >= nmlThreshold).
+//   3. Institusjonell rullerende VWAP + Nioctib CVD-absorpsjon, Divergens & Buy Pressure %:
+//      - Volumvektet referansepris (VWAP) + kumulativ volumdelta (CVD) og absorpsjonsdivergens.
+//   4. Ikke-avbrytende Liquidation Cascade Traps -> 88 % VRVP POC + Break-Even ved 50 %:
+//      - Utløses KUN når strategien er flat (kutter aldri en aktiv Stonksy-trendbølge!).
+//      - Krever likvidasjonsvolum-spike (>= 1,5x SMA20), sveip utenfor svinglikviditet og VAH/VAL,
+//        avvisningsveke >= 40 %, RSI-ekstrem og CVD-/ordreflytabsorpsjon.
+//      - Flytter stop-loss til break-even ved 50 % av veien mot målet, og tar gevinst ved 88 % av avstanden til POC.
+// Kun avsluttede stolper brukes; ingen fremtidige data lekker inn i signalene. Ikke finansiell rådgivning.
+strategy("TMG Trades v2 [HTF Stonksy + VRVP + VWAP/CVD] (DAT158)", "TMG Trades v2", overlay = true, max_bars_back = 1000, max_labels_count = 500, initial_capital = 10000, default_qty_type = strategy.percent_of_equity, default_qty_value = 100, commission_type = strategy.commission.percent, commission_value = 0.1, process_orders_on_close = false)
+
+// ---------------- 1. Input ----------------
+string tmgMode = input.string("TMG Hybrid (Trend + Liquidity Trap)", "Strategimodus", options = ["TMG Hybrid (Trend + Liquidity Trap)", "Kun Stonksy Trend", "Kun Liquidity Trap -> POC"], group = "TMG Strategi")
+string tradeDirection = input.string("Long og short", "Retning", options = ["Long og short", "Kun long"], group = "TMG Strategi")
+bool useHtfAnchor = input.bool(true, "Multi-timeframe Stonksy-ankring (Slow Context)", group = "TMG Strategi")
+int htfAnchorMin = input.int(100, "Mål-kontekst for Stonksy (minutter, maks 4x)", minval = 15, maxval = 240, step = 5, group = "TMG Strategi")
+bool useMacroFilter = input.bool(true, "Bruk HTF 200 EMA makrofilter på trendhandler", group = "TMG Strategi")
+bool useVwapFilter = input.bool(true, "Bruk institusjonell VWAP-bekreftelse", group = "TMG Strategi")
+bool useCvdFilter = input.bool(true, "Bruk Nioctib CVD / Buy Pressure-bekreftelse", group = "TMG Strategi")
+float maxSlPct = input.float(2.5, "Maks Stop Loss på Liquidity Trap (%)", minval = 0.3, maxval = 15.0, step = 0.1, group = "TMG Strategi") / 100.0
+float pocTpRatio = input.float(88.0, "Front-run VRVP POC Take Profit (%)", minval = 50.0, maxval = 100.0, step = 2.0, group = "TMG Strategi") / 100.0
+
+int vpLookback = input.int(100, "VRVP basis-tilbakeblikk (stolper)", minval = 20, maxval = 200, group = "VRVP & No Man's Land")
+int vpBins = input.int(32, "VRVP prisbøtter (øk til 100-200 i TradingView)", minval = 12, maxval = 200, group = "VRVP & No Man's Land")
+int vpStep = input.int(4, "VRVP oppdateringssteg (stolper)", minval = 1, maxval = 10, group = "VRVP & No Man's Land")
+float vaFraction = input.float(0.70, "Value Area-andel", minval = 0.50, maxval = 0.90, step = 0.05, group = "VRVP & No Man's Land")
+float nmlThreshold = input.float(0.85, "No Man's Land spredningsterskel (x ATR)", minval = 0.0, maxval = 2.5, step = 0.05, group = "VRVP & No Man's Land")
+
+float bgThreshold = input.float(0.50, "Stonksy regimeskifte-terskel (50/200 EMA x ATR)", minval = 0.10, maxval = 2.0, step = 0.05, group = "Stonksy & Nioctib Ordreflyt")
+int liqLookback = input.int(72, "Likviditetssveip basis-tilbakeblikk (stolper)", minval = 10, maxval = 144, group = "Stonksy & Nioctib Ordreflyt")
+float minWickRatio = input.float(0.40, "Minste avvisningsveke ved sveip", minval = 0.10, maxval = 0.75, step = 0.05, group = "Stonksy & Nioctib Ordreflyt")
+float volSpikeMult = input.float(1.50, "Minste likvidasjonsvolum-spike (x SMA20)", minval = 1.0, maxval = 4.0, step = 0.1, group = "Stonksy & Nioctib Ordreflyt")
+
+// ---------------- 2. Multi-Timeframe Skala, EMA-er, VWAP og Stonksy Regime ----------------
+int tfSec = timeframe.in_seconds()
+int tfMin = math.max(1, int(tfSec / 60))
+int htfScale = useHtfAnchor ? int(math.min(4, math.max(1, math.round(float(htfAnchorMin) / float(tfMin))))) : 1
+
+float atrBar = ta.atr(14)
+float atrHtf = ta.atr(14 * htfScale)
+float ema50 = ta.ema(close, 50 * htfScale)
+float ema200 = ta.ema(close, 200 * htfScale)
+float rsi14 = ta.rsi(close, 14)
+
+int vwapLen = int(math.min(96, math.max(16, math.round(1440.0 / float(tfMin)))))
+float effVol = volume > 0 ? volume : 1.0
+float typPx = (high + low + close) / 3.0
+float sumPvVwap = math.sum(typPx * effVol, vwapLen)
+float sumVolVwap = math.sum(effVol, vwapLen)
+float instVwap = sumVolVwap > 0 ? sumPvVwap / sumVolVwap : close
+
+float hlcc4Val = (high + low + 2.0 * close) / 4.0
+float fastMom = ta.ema(hlcc4Val, 12 * htfScale)
+float slowMom = ta.ema(hlcc4Val, 26 * htfScale)
+float rawMom = atrHtf > 0 ? (fastMom - slowMom) / atrHtf : 0.0
+float osc = ta.ema(rawMom, 9 * htfScale) * 100.0
+int oscState = osc > 0 ? (osc > nz(osc[1]) ? 2 : 1) : (osc < 0 ? (osc < nz(osc[1]) ? -2 : -1) : 0)
+
+float spread = atrHtf > 0 ? (ema50 - ema200) / atrHtf : 0.0
+var int bgRegime = 0
+if na(spread) or na(ema50) or na(ema200)
+    bgRegime := 0
+else if bgRegime == 1
+    if spread < -bgThreshold and close < ema200
+        bgRegime := -1
+    else if spread <= 0.0
+        bgRegime := 0
+else if bgRegime == -1
+    if spread > bgThreshold and close > ema200
+        bgRegime := 1
+    else if spread >= 0.0
+        bgRegime := 0
+else
+    if spread > bgThreshold and close > ema50
+        bgRegime := 1
+    else if spread < -bgThreshold and close < ema50
+        bgRegime := -1
+
+// ---------------- 3. Nioctib Ordreflyt: Buy Pressure %, CVD & Absorpsjonsdivergens ----------------
+float barRange = math.max(high - low, syminfo.mintick)
+float clvBuy = math.min(math.max((close - low) / barRange, 0.0), 1.0)
+float buyVol = effVol * clvBuy
+int flowLen = 12 * htfScale
+float sumBuyFlow = math.sum(buyVol, flowLen)
+float sumVolFlow = math.sum(effVol, flowLen)
+float buyPressurePct = sumVolFlow > 0 ? 100.0 * sumBuyFlow / sumVolFlow : 50.0
+
+float barDelta = 2.0 * buyVol - effVol
+float cvd = ta.cum(barDelta)
+int cvdLook = 6 * htfScale
+float cvdSlope = cvd - nz(cvd[cvdLook], cvd)
+
+float volMa20 = ta.sma(effVol, 20)
+bool volSpike = not na(volMa20) and effVol >= volSpikeMult * volMa20
+
+// ---------------- 4. Rullerende VRVP (POC, VAH, VAL) ----------------
+int effVpLb = int(math.min(200, math.max(40, vpLookback * htfScale)))
+int effVpStep = int(math.max(vpStep, 2 * htfScale))
+float rangeHigh = ta.highest(high, effVpLb)
+float rangeLow = ta.lowest(low, effVpLb)
+var float poc = na
+var float vah = na
+var float val = na
+var array<float> volHist = array.new_float(200, 0.0)
+
+if bar_index >= effVpLb and (bar_index % effVpStep == 0 or na(poc))
+    float span = rangeHigh - rangeLow
+    if span <= 0
+        poc := close
+        vah := close
+        val := close
+    else
+        for b = 0 to vpBins - 1
+            array.set(volHist, b, 0.0)
+        float totalVol = 0.0
+        for k = 0 to effVpLb - 1
+            float typ = (high[k] + low[k] + close[k]) / 3.0
+            float v = volume[k] > 0 ? volume[k] : 1.0
+            int idx = int((typ - rangeLow) / span * vpBins)
+            int binIdx = math.min(math.max(idx, 0), vpBins - 1)
+            array.set(volHist, binIdx, array.get(volHist, binIdx) + v)
+            totalVol += v
+        int pocBin = 0
+        float bestVol = -1.0
+        for b = 0 to vpBins - 1
+            float bv = array.get(volHist, b)
+            if bv > bestVol
+                bestVol := bv
+                pocBin := b
+        float stepPx = span / vpBins
+        poc := rangeLow + (pocBin + 0.5) * stepPx
+        float targetVol = totalVol * vaFraction
+        float cumVol = bestVol
+        int loB = pocBin
+        int hiB = pocBin
+        for iter = 0 to vpBins - 1
+            if cumVol < targetVol and (loB > 0 or hiB < vpBins - 1)
+                float downV = loB > 0 ? array.get(volHist, loB - 1) : -1.0
+                float upV = hiB < vpBins - 1 ? array.get(volHist, hiB + 1) : -1.0
+                if upV >= downV
+                    hiB += 1
+                    cumVol += upV
+                else
+                    loB -= 1
+                    cumVol += downV
+        val := rangeLow + loB * stepPx
+        vah := rangeLow + (hiB + 1) * stepPx
+
+// ---------------- 5. Liquidation Cascade Sweeps (Stop-Hunt + CVD-divergens) ----------------
+int effLiqLb = int(math.min(144, math.max(20, liqLookback * htfScale)))
+float prevLiqHigh = ta.highest(high, effLiqLb)[1]
+float prevLiqLow = ta.lowest(low, effLiqLb)[1]
+
+float lowerWickRatio = (math.min(open, close) - low) / barRange
+float upperWickRatio = (high - math.max(open, close)) / barRange
+
+int divLb = 10 * htfScale
+bool bullDiv = low < nz(low[divLb], low) and cvd > nz(cvd[divLb], cvd)
+bool bearDiv = high > nz(high[divLb], high) and cvd < nz(cvd[divLb], cvd)
+
+bool bullSweep = not na(prevLiqLow) and low < prevLiqLow and close > prevLiqLow and lowerWickRatio >= minWickRatio and (barDelta > 0 or bullDiv) and volSpike and rsi14 < 40.0
+bool bearSweep = not na(prevLiqHigh) and high > prevLiqHigh and close < prevLiqHigh and upperWickRatio >= minWickRatio and (barDelta < 0 or bearDiv) and volSpike and rsi14 > 60.0
+
+// ---------------- 6. TMG v2 Handelsregler (HTF Stonksy Trend + Ikke-avbrytende Cascade Trap) ----------------
+bool allowTrend = tmgMode != "Kun Liquidity Trap -> POC"
+bool allowTrap = tmgMode != "Kun Stonksy Trend"
+bool macroBull = not useMacroFilter or close > ema200
+bool macroBear = not useMacroFilter or close < ema200
+bool vwapBull = not useVwapFilter or close >= instVwap
+bool vwapBear = not useVwapFilter or close <= instVwap
+bool flowBull = not useCvdFilter or buyPressurePct >= 50.0 or cvdSlope > 0
+bool flowBear = not useCvdFilter or buyPressurePct <= 50.0 or cvdSlope < 0
+
+bool nmlBull = nmlThreshold > 0 ? (not na(vah) and (close >= vah or spread >= nmlThreshold)) : (not na(poc) and close >= poc)
+bool nmlBear = nmlThreshold > 0 ? (not na(val) and (close <= val or spread <= -nmlThreshold)) : (not na(poc) and close <= poc)
+
+var int tradedBgDir = 0
+if bgRegime == 0
+    tradedBgDir := 0
+else if tradedBgDir != 0 and bgRegime != tradedBgDir
+    tradedBgDir := 0
+
+bool trendLong = allowTrend and bgRegime == 1 and tradedBgDir != 1 and macroBull and vwapBull and flowBull and oscState == 2 and close > ema50 and not na(poc) and close >= poc and nmlBull
+bool trendShort = allowTrend and bgRegime == -1 and tradedBgDir != -1 and macroBear and vwapBear and flowBear and oscState == -2 and close < ema50 and not na(poc) and close <= poc and nmlBear
+
+bool isFlat = strategy.position_size == 0
+bool trapLong = allowTrap and isFlat and bullSweep and not na(poc) and close < val and not na(atrBar) and (poc - close) > 1.3 * atrBar
+bool trapShort = allowTrap and isFlat and bearSweep and not na(poc) and close > vah and not na(atrBar) and (close - poc) > 1.3 * atrBar
+
+var string activeKind = ""
+var float entryPx = na
+var float trapSl = na
+var float trapTp = na
+
+if strategy.position_size == 0
+    activeKind := ""
+    entryPx := na
+    trapSl := na
+    trapTp := na
+
+if strategy.position_size > 0
+    if activeKind == "trap"
+        if not na(entryPx) and not na(trapTp) and high >= entryPx + 0.5 * (trapTp - entryPx)
+            trapSl := math.max(trapSl, entryPx * 1.0015)
+        if not na(trapSl) and close <= trapSl
+            strategy.close("TMG Long", comment = trapSl >= entryPx ? "Break-Even stopp" : "Trap SL")
+            activeKind := ""
+    else
+        if bgRegime <= 0
+            strategy.close("TMG Long", comment = "Stonksy Hvit konsolidering")
+            activeKind := ""
+
+if strategy.position_size < 0
+    if activeKind == "trap"
+        if not na(entryPx) and not na(trapTp) and low <= entryPx - 0.5 * (entryPx - trapTp)
+            trapSl := math.min(trapSl, entryPx * 0.9985)
+        if not na(trapSl) and close >= trapSl
+            strategy.close("TMG Short", comment = trapSl <= entryPx ? "Break-Even stopp" : "Trap SL")
+            activeKind := ""
+    else
+        if bgRegime >= 0
+            strategy.close("TMG Short", comment = "Stonksy Hvit konsolidering")
+            activeKind := ""
+
+bool longTriggered = false
+bool shortTriggered = false
+int warmupBars = int(math.max(effVpLb, useMacroFilter ? 200 : 75))
+
+if bar_index >= warmupBars and not na(atrHtf) and not na(poc)
+    if trendLong and strategy.position_size <= 0
+        strategy.entry("TMG Long", strategy.long, comment = "TMG v2 Stonksy Bull")
+        activeKind := "trend"
+        tradedBgDir := 1
+        entryPx := close
+        trapSl := na
+        trapTp := na
+        longTriggered := true
+    else if trendShort
+        if tradeDirection == "Kun long"
+            if strategy.position_size > 0
+                strategy.close("TMG Long", comment = "TMG Short-signal")
+                activeKind := ""
+        else if strategy.position_size >= 0
+            strategy.entry("TMG Short", strategy.short, comment = "TMG v2 Stonksy Bear")
+            activeKind := "trend"
+            tradedBgDir := -1
+            entryPx := close
+            trapSl := na
+            trapTp := na
+            shortTriggered := true
+    else if trapLong and strategy.position_size == 0
+        strategy.entry("TMG Long", strategy.long, comment = "TMG Cascade Trap -> 88% POC")
+        activeKind := "trap"
+        entryPx := close
+        trapSl := math.max(low - 0.5 * atrBar, close * (1.0 - maxSlPct))
+        trapTp := close + pocTpRatio * (poc - close)
+        strategy.exit("Exit Long POC", "TMG Long", limit = trapTp)
+        longTriggered := true
+    else if trapShort and tradeDirection != "Kun long" and strategy.position_size == 0
+        strategy.entry("TMG Short", strategy.short, comment = "TMG Cascade Trap -> 88% POC")
+        activeKind := "trap"
+        entryPx := close
+        trapSl := math.min(high + 0.5 * atrBar, close * (1.0 + maxSlPct))
+        trapTp := close - pocTpRatio * (close - poc)
+        strategy.exit("Exit Short POC", "TMG Short", limit = trapTp)
+        shortTriggered := true
+
+// ---------------- 7. Visning ----------------
+bgcolor(bgRegime == 1 ? color.new(#00e676, 90) : bgRegime == -1 ? color.new(#ff1744, 90) : na, title = "HTF Stonksy Bakgrunnsregime")
+plot(poc, "VRVP POC (Likviditetsmagnet)", color = #ffab00, linewidth = 2)
+plot(vah, "VRVP VAH (70 % topp)", color = color.new(#29b6f6, 35), linewidth = 1)
+plot(val, "VRVP VAL (70 % bunn)", color = color.new(#29b6f6, 35), linewidth = 1)
+plot(instVwap, "Institusjonell VWAP", color = color.new(#e0f7fa, 20), linewidth = 1)
+plot(ema50, "HTF 50 EMA (TMG Grønn linje)", color = #00e676, linewidth = 2)
+plot(ema200, "HTF 200 EMA (Makro trend)", color = #ab47bc, linewidth = 2)
+
+plotshape(longTriggered, "TMG BUY", shape.triangleup, location.belowbar, #00e676, size = size.small, text = "TMG BUY")
+plotshape(shortTriggered, "TMG SELL", shape.triangledown, location.abovebar, #ff1744, size = size.small, text = "TMG SELL")
+alertcondition(longTriggered, "TMG Long", "TMG Trades v2: nytt LONG-signal")
+alertcondition(shortTriggered, "TMG Short", "TMG Trades v2: nytt SHORT-signal")

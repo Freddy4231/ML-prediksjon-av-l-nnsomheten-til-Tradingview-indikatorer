@@ -1,0 +1,158 @@
+//@version=6
+// Uavhengig rekonstruksjon fra offentlig beskrivelse, 13 input og 94 graflys.
+// Ikke AdrienS2s beskyttede kildekode. HTF, alternative moduser og TP/SL er tolket.
+// Referanse: https://www.tradingview.com/script/ZMchHHg3-Bigscalp-Premium/
+indicator("Bigscalp Premium · Independent Reconstruction", "Bigscalp Recon", overlay=true, max_labels_count=500)
+
+showLabels = input.bool(true, "Show labels (L / ADD / S / X)", group="Display")
+showTable = input.bool(true, "Show table", group="Display")
+tablePosition = input.string("Top Right", "Table position", options=["Top Right", "Top Left", "Bottom Right", "Bottom Left"], group="Display")
+entryMode = input.string("Normal", "Entry mode", options=["Conservative", "Normal", "Aggressive"], group="Entry Mode")
+htfOverride = input.timeframe("", "HTF override (empty = 5min)", group="Entry Mode")
+tradeDirection = input.string("Both", "Direction", options=["Both", "Long Only", "Short Only"], group="Entry Mode")
+addMode = input.string("One ADD", "ADD count", options=["Disabled", "One ADD", "Unlimited"], group="ADD")
+minExtension = input.float(0.0, "Min extension for ADD (%)", minval=0.0, step=0.1, group="ADD")
+exitMode = input.string("Normal", "Exit mode", options=["Tight", "Normal", "Wide"], group="Exit")
+enableTP = input.bool(false, "Enable Take Profit (%)", group="Exit")
+tpPercent = input.float(1.0, "Take Profit (%)", minval=0.1, step=0.1, group="Exit")
+enableSL = input.bool(false, "Enable Stop Loss (%)", group="Exit")
+slPercent = input.float(0.5, "Stop Loss (%)", minval=0.1, step=0.1, group="Exit")
+
+// HTF-retning er estimert som close mot forrige close. Høyere rammer bruker
+// forrige ferdige lys; lik/lavere ramme bruker siste intralys ved graflysets close.
+filterTF = htfOverride == "" ? "5" : htfOverride
+isHigher = timeframe.in_seconds(filterTF) > timeframe.in_seconds(timeframe.main_period)
+liveC = request.security(syminfo.tickerid, filterTF, close, lookahead=barmerge.lookahead_off)
+livePrev = request.security(syminfo.tickerid, filterTF, close[1], lookahead=barmerge.lookahead_off)
+liveH = request.security(syminfo.tickerid, filterTF, high[1], lookahead=barmerge.lookahead_off)
+liveL = request.security(syminfo.tickerid, filterTF, low[1], lookahead=barmerge.lookahead_off)
+doneC = request.security(syminfo.tickerid, filterTF, close[1], lookahead=barmerge.lookahead_on)
+donePrev = request.security(syminfo.tickerid, filterTF, close[2], lookahead=barmerge.lookahead_on)
+doneH = request.security(syminfo.tickerid, filterTF, high[2], lookahead=barmerge.lookahead_on)
+doneL = request.security(syminfo.tickerid, filterTF, low[2], lookahead=barmerge.lookahead_on)
+filterC = isHigher ? doneC : liveC
+filterPrev = isHigher ? donePrev : livePrev
+filterH = isHigher ? doneH : liveH
+filterL = isHigher ? doneL : liveL
+htfUp = filterC > filterPrev
+htfDown = filterC < filterPrev
+breakLong = close > high[1]
+breakShort = close < low[1]
+longFilter = entryMode == "Aggressive" or (entryMode == "Conservative" ? htfUp and filterC > filterH and breakLong[1] : htfUp)
+shortFilter = entryMode == "Aggressive" or (entryMode == "Conservative" ? htfDown and filterC < filterL and breakShort[1] : htfDown)
+longCondition = breakLong and longFilter and tradeDirection != "Short Only"
+shortCondition = breakShort and shortFilter and tradeDirection != "Long Only"
+// De to offentlige inngangsvarslene er kantdetekterte betingelser, også under
+// en åpen handel. De er ikke identiske med de faktiske L/S-inngangsmerkene.
+longAlert = barstate.isconfirmed and longCondition and not longCondition[1]
+shortAlert = barstate.isconfirmed and shortCondition and not shortCondition[1]
+
+exitLongRule = exitMode == "Tight" ? close < open and close[1] < open[1] : exitMode == "Wide" ? close < math.min(low[1], low[2]) : close < low[1]
+exitShortRule = exitMode == "Tight" ? close > open and close[1] > open[1] : exitMode == "Wide" ? close > math.max(high[1], high[2]) : close > high[1]
+var int side = 0
+var float entry = na
+var float trigger = na
+var int entryBar = na
+var int adds = 0
+var int planTime = na
+bool enteredLong = false
+bool enteredShort = false
+bool added = false
+bool exited = false
+bool takeProfitHit = false
+bool stopLossHit = false
+int eventSide = side
+float eventEntry = entry
+if barstate.isconfirmed
+    int previousSide = side
+    if previousSide != 0
+        float sl = enableSL ? entry * (1.0 - side * slPercent / 100.0) : na
+        float tp = enableTP ? entry * (1.0 + side * tpPercent / 100.0) : na
+        bool stopTouched = enableSL and bar_index > entryBar and (side == 1 ? low <= sl : high >= sl)
+        bool targetTouched = enableTP and bar_index > entryBar and (side == 1 ? high >= tp : low <= tp)
+        bool ruleExit = side == 1 ? exitLongRule : exitShortRule
+        if stopTouched or targetTouched or ruleExit
+            stopLossHit := stopTouched
+            takeProfitHit := not stopTouched and targetTouched
+            exited := true
+            side := 0
+            trigger := na
+            adds := 0
+        else
+            bool extension = side == 1 ? close > trigger * (1.0 + minExtension / 100.0) : close < trigger * (1.0 - minExtension / 100.0)
+            bool trendOK = entryMode == "Aggressive" or (side == 1 ? htfUp : htfDown)
+            bool mayAdd = addMode == "Unlimited" or (addMode == "One ADD" and adds == 0)
+            if mayAdd and extension and trendOK and bar_index > entryBar
+                added := true
+                adds += 1
+                trigger := side == 1 ? high : low
+    else
+        if longCondition or shortCondition
+            side := longCondition ? 1 : -1
+            entry := close
+            eventEntry := close
+            entryBar := bar_index
+            planTime := time_close
+            trigger := side == 1 ? high : low
+            adds := 0
+            enteredLong := side == 1
+            enteredShort := side == -1
+            eventSide := side
+
+if showLabels
+    if enteredLong
+        label.new(bar_index, low, "L", style=label.style_label_up, color=color.green, textcolor=color.white, size=size.small)
+    if enteredShort
+        label.new(bar_index, high, "S", style=label.style_label_down, color=color.red, textcolor=color.white, size=size.small)
+    if added
+        label.new(bar_index, side == 1 ? low : high, "ADD", style=side == 1 ? label.style_label_up : label.style_label_down, color=color.blue, textcolor=color.white, size=size.tiny)
+    if exited
+        label.new(bar_index, eventSide == 1 ? high : low, stopLossHit ? "SL" : takeProfitHit ? "TP" : "X", style=eventSide == 1 ? label.style_label_down : label.style_label_up, color=stopLossHit ? color.red : takeProfitHit ? color.green : color.orange, textcolor=color.white, size=size.tiny)
+
+activeSL = side != 0 and enableSL ? entry * (1.0 - side * slPercent / 100.0) : na
+activeTP = side != 0 and enableTP ? entry * (1.0 + side * tpPercent / 100.0) : na
+plot(side != 0 ? entry : na, "Entry", color=color.new(color.gray, 40), style=plot.style_linebr)
+plot(activeSL, "SL", color=color.red, style=plot.style_linebr)
+plot(activeTP, "TP", color=color.green, style=plot.style_linebr)
+// Eksplisitt kontrakt for nettsiden: ekte hendelser holdes adskilt fra rå varsler.
+plot(enteredLong ? 1 : 0, "Actual Long", display=display.none)
+plot(enteredShort ? 1 : 0, "Actual Short", display=display.none)
+plot(added ? 1 : 0, "Actual ADD", display=display.none)
+plot(exited ? 1 : 0, "Actual Exit", display=display.none)
+plot(side, "Position", display=display.none)
+plot(planTime, "Plan Time", display=display.none)
+plot(trigger, "ADD Trigger", display=display.none)
+plot(adds, "ADD Count", display=display.none)
+plot(exitLongRule ? 1 : 0, "Exit Long Rule", display=display.none)
+plot(exitShortRule ? 1 : 0, "Exit Short Rule", display=display.none)
+plot(longAlert ? 1 : 0, "Long Alert", display=display.none)
+plot(shortAlert ? 1 : 0, "Short Alert", display=display.none)
+alertcondition(longAlert, "Long Entry", "{{ticker}} - L | {{close}}")
+alertcondition(shortAlert, "Short Entry", "{{ticker}} - S | {{close}}")
+alertcondition(added, "ADD", "{{ticker}} - ADD | {{close}}")
+alertcondition(exited and not takeProfitHit and not stopLossHit, "Exit", "{{ticker}} - X | {{close}}")
+alertcondition(takeProfitHit, "Take Profit", "{{ticker}} - TP | {{close}}")
+alertcondition(stopLossHit, "Stop Loss", "{{ticker}} - SL | {{close}}")
+
+tablePos = tablePosition == "Top Left" ? position.top_left : tablePosition == "Bottom Right" ? position.bottom_right : tablePosition == "Bottom Left" ? position.bottom_left : position.top_right
+var table panel = table.new(tablePos, 2, 8, bgcolor=color.new(color.black, 10), border_width=1)
+if barstate.islast and showTable
+    float pnl = side == 0 ? 0.0 : side * (close / entry - 1.0) * 100.0
+    color posColor = side == 1 ? color.lime : side == -1 ? color.red : color.gray
+    bool blink = barstate.isrealtime and int(timenow / 500) % 2 == 0
+    table.cell(panel, 0, 0, "BIGSCALP RECON", text_color=color.white)
+    table.cell(panel, 1, 0, "Uavhengig", text_color=color.gray)
+    table.cell(panel, 0, 1, side == 1 ? "LONG" : side == -1 ? "SHORT" : "FLAT", text_color=posColor)
+    table.cell(panel, 1, 1, side == 0 ? "—" : str.tostring(pnl, "#.##") + "%", text_color=pnl >= 0 ? color.lime : color.red)
+    table.cell(panel, 0, 2, "L", text_color=color.lime)
+    table.cell(panel, 1, 2, longAlert or (side == 1 and blink) ? "L" : "—", text_color=color.lime)
+    table.cell(panel, 0, 3, "ADD", text_color=color.blue)
+    table.cell(panel, 1, 3, added ? "ADD" : "—", text_color=color.blue)
+    table.cell(panel, 0, 4, "S", text_color=color.red)
+    table.cell(panel, 1, 4, shortAlert or (side == -1 and blink) ? "S" : "—", text_color=color.red)
+    table.cell(panel, 0, 5, "X", text_color=color.orange)
+    table.cell(panel, 1, 5, exited ? stopLossHit ? "SL" : takeProfitHit ? "TP" : "X" : "—", text_color=color.orange)
+    table.cell(panel, 0, 6, "Filter", text_color=color.gray)
+    table.cell(panel, 1, 6, filterTF + " · " + entryMode, text_color=color.white)
+    table.cell(panel, 0, 7, "Regler", text_color=color.gray)
+    table.cell(panel, 1, 7, "Delvis estimert", text_color=color.gray)

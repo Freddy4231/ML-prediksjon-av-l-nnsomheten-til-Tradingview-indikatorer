@@ -1,0 +1,2425 @@
+{
+  "source": "Binance USD-M perpetual 1h, offentlige månedsarkiv",
+  "symbols": {
+    "BTCUSDT": {
+      "path": "data/tmg_channel_2026-10-26/BTCUSDT_perp_1h.csv",
+      "sha256": "774698a69c31f8ad7031b1e884b97fc7f16afd29f0d0ec693b3a352669b89bd2",
+      "rows": 59160,
+      "start": "2020-01-01 00:00:00+00:00",
+      "end": "2026-09-30 23:00:00+00:00",
+      "missing_hours": 0,
+      "archives": [
+        {
+          "month": "2020-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-01.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-01.zip",
+          "archive_sha256": "512a1d725c8df97a1bbbee4f118e730e9628500a8f271c9e59d2a7fc5fbfcfcc",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-01.zip.CHECKSUM",
+          "checksum_sha256": "eab2e4e8021e836a063c316c502ff61bae8e396b04dd039b23b6c0ab408def8b",
+          "rows": 744
+        },
+        {
+          "month": "2020-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-02.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-02.zip",
+          "archive_sha256": "13d067e5c7b258764b8524e1d3c61b129c44838c2ce9850f4d86cae13c61f198",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-02.zip.CHECKSUM",
+          "checksum_sha256": "7ce1a346c3b6ee6cffbee5630867721595a4f01bd4af8a38a1122e360b79d6f4",
+          "rows": 696
+        },
+        {
+          "month": "2020-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-03.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-03.zip",
+          "archive_sha256": "9fc0c560cce35fd083febee10c0c8c3ffcd56a9185f9b489f265a51bbf60ec6e",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-03.zip.CHECKSUM",
+          "checksum_sha256": "ef53588ecc7696ef5ae2f9e318bce03ca2e0871a112bd21387865c0681dc69ca",
+          "rows": 744
+        },
+        {
+          "month": "2020-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-04.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-04.zip",
+          "archive_sha256": "bfa6d2adc1aefd8a96b3cbd38932486741caa1ae40f1e646df3606205402176f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-04.zip.CHECKSUM",
+          "checksum_sha256": "f08add7e73fb1463b774ae9905920b2748cdc0650c9018b020f6a2ea8891e996",
+          "rows": 720
+        },
+        {
+          "month": "2020-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-05.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-05.zip",
+          "archive_sha256": "1eb7de25a14b8a6c70098b866a21ba2c35f1b55c9e1c1d4dadb431cd4d3e180d",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-05.zip.CHECKSUM",
+          "checksum_sha256": "1767ec90b952006645e65c31bc763f36d871945624d04e76f6172b394532159b",
+          "rows": 744
+        },
+        {
+          "month": "2020-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-06.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-06.zip",
+          "archive_sha256": "5f5b7ccd40facb7ddecd6019192be8de148e0aeeec8c8adc30cab3c474406c5b",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-06.zip.CHECKSUM",
+          "checksum_sha256": "509fe12fffa994ad9cea1c0ca17c89fd550466ab7b2127223c7218b5b74bf512",
+          "rows": 720
+        },
+        {
+          "month": "2020-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-07.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-07.zip",
+          "archive_sha256": "f116be7c0a36e71f771ae4987b95e1f6d098dc0dae3b71154c12e7c390cf1a4c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-07.zip.CHECKSUM",
+          "checksum_sha256": "70772a5d6968eeb40996ba945b5648451f303bf53a275f0ebeb4533f6380562a",
+          "rows": 744
+        },
+        {
+          "month": "2020-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-08.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-08.zip",
+          "archive_sha256": "d4dff9c958c878c00f2f3f059043612ac051fdc4117c3e9e74261db28c4f13fc",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-08.zip.CHECKSUM",
+          "checksum_sha256": "be5921c48ffc2fafd50c3d51c2adea298d71b6e81cf741621f1d56218410edb9",
+          "rows": 744
+        },
+        {
+          "month": "2020-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-09.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-09.zip",
+          "archive_sha256": "b210c5ecfae463aaef862ea0e6d8ccbf63430f32d6a80bad0bdeb2eef83a7165",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-09.zip.CHECKSUM",
+          "checksum_sha256": "db67363a735a641c1d4bfb8c9941389f98d7cd5b06b6a3bbf741c12467911db7",
+          "rows": 720
+        },
+        {
+          "month": "2020-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-10.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-10.zip",
+          "archive_sha256": "753bc2e366777b40294690c5bbee38da8ec99e3157739ba0f16850c94ac92dc7",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-10.zip.CHECKSUM",
+          "checksum_sha256": "819ebdc5fcdc6a2b731cbb3bbe52d76d4b0157f76cdce71c92a20f38fc50e723",
+          "rows": 744
+        },
+        {
+          "month": "2020-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-11.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-11.zip",
+          "archive_sha256": "23694fa6fc619c159992db5325d37730a392e8ee23e9e5c375a7bfef6022fb82",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-11.zip.CHECKSUM",
+          "checksum_sha256": "bf23c1e1b98bf5d033349651b1d45aacb7a41a33b20fc3e5135628298c6dcfdb",
+          "rows": 720
+        },
+        {
+          "month": "2020-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2020-12.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2020-12.zip",
+          "archive_sha256": "9eca4954142f813a1ab404161b76facb56389a26fcd0b05bf93a19bf29578cb3",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2020-12.zip.CHECKSUM",
+          "checksum_sha256": "87da5a2e463ee94c86d0f54ccc834e8cd6031d703d9936c1ca69e7dac463cba3",
+          "rows": 744
+        },
+        {
+          "month": "2021-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-01.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-01.zip",
+          "archive_sha256": "00de1eb2f3e3bc7f21b7ab321f1681385726fe7ba55306a7337acfd8f81fedfa",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-01.zip.CHECKSUM",
+          "checksum_sha256": "7951b7b11e9b8c17e0540a2df60b563ec884e9312fbbd9a4c6dc0182d6368269",
+          "rows": 744
+        },
+        {
+          "month": "2021-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-02.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-02.zip",
+          "archive_sha256": "c5739d16db0aa917f9b4f196cf1dc3c9741b2889253c029571dcd2d00e83ccbb",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-02.zip.CHECKSUM",
+          "checksum_sha256": "27f3c56cab6fefe1b2403ff64076d964951e0640ece4910a12e384b72c27b5a3",
+          "rows": 672
+        },
+        {
+          "month": "2021-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-03.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-03.zip",
+          "archive_sha256": "518891de0fa643092cac84143c9b35a7cbcebfc75ae0846ce36c8e3adab1929f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-03.zip.CHECKSUM",
+          "checksum_sha256": "62519362d8a525d8286d4f02983f1e8a8e37a95fd20129ad4f6abd7539b872b9",
+          "rows": 744
+        },
+        {
+          "month": "2021-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-04.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-04.zip",
+          "archive_sha256": "0fdf8d01fa2eae368a63dcf709e6e6c5b0fd79bbe83b2f086aefbe2a7890924f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-04.zip.CHECKSUM",
+          "checksum_sha256": "999283906863d200e12d44c624cc056ee4d675c1363195530ed5f68135ded941",
+          "rows": 720
+        },
+        {
+          "month": "2021-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-05.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-05.zip",
+          "archive_sha256": "c209747915a1451a7b51d80d92e68332622c1dd1b9517dc7723f78cfa4f28ab9",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-05.zip.CHECKSUM",
+          "checksum_sha256": "b4c0fe40ee0017201343cbb479ccf94575094075934b59988976b7f397171078",
+          "rows": 744
+        },
+        {
+          "month": "2021-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-06.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-06.zip",
+          "archive_sha256": "5134cef4361e0819b721776da6e99f715141d122e3cfbf4be729e3dfc153ac33",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-06.zip.CHECKSUM",
+          "checksum_sha256": "e49f2594d987d99bcbbca02f353d9df0dece88ac6fdcacb099dbab691aa5accc",
+          "rows": 720
+        },
+        {
+          "month": "2021-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-07.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-07.zip",
+          "archive_sha256": "97241c02191fd4694daf9836269e6f8ed04ef5bf858414de5a3354678552b54d",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-07.zip.CHECKSUM",
+          "checksum_sha256": "8caaca37b13849ad5b5d41476511fd7bce8e1b7c449fee15f10d4b89eafca56c",
+          "rows": 744
+        },
+        {
+          "month": "2021-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-08.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-08.zip",
+          "archive_sha256": "4c8290ad0baa9fcf37d45b893e8cae1a1e3b9ef77987a9d9abd64e44ab7deb09",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-08.zip.CHECKSUM",
+          "checksum_sha256": "b1642a86c7fb338ea452133d3bef9c9ebda4f95e8abaf6dd48af51404f11ad51",
+          "rows": 744
+        },
+        {
+          "month": "2021-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-09.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-09.zip",
+          "archive_sha256": "22c55191129632daf70611af13e8f2b0f34a5e79f4876f41744a9848c43b9864",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-09.zip.CHECKSUM",
+          "checksum_sha256": "9c5ce00fe2ba9ccd37a00cf2485cda2d38370f24909b66a593de2a4db9ddc1c4",
+          "rows": 720
+        },
+        {
+          "month": "2021-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-10.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-10.zip",
+          "archive_sha256": "d3b55f8ae3689efe9bccc1d9b7082bda39fa7fa194e4c1197a63d1473ca57b4e",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-10.zip.CHECKSUM",
+          "checksum_sha256": "44aab34a98a659f012ae59298d358241f016df08fda0f304d95863b80949a855",
+          "rows": 744
+        },
+        {
+          "month": "2021-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-11.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-11.zip",
+          "archive_sha256": "a013f6adfd3012130c0b0bc58895373ae478cd38c646ac87957b855682c7f069",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-11.zip.CHECKSUM",
+          "checksum_sha256": "3ed39f9ae3fd5ac6e5ff38ce1f3c6b1d555c3c69ea99b9677ce09e82a4ee65d2",
+          "rows": 720
+        },
+        {
+          "month": "2021-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2021-12.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2021-12.zip",
+          "archive_sha256": "f1dff81c6e322f7d5cee3c0808efd4e35b33e371f04ba613054264d9621318f1",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2021-12.zip.CHECKSUM",
+          "checksum_sha256": "add01061fc1a5ae1f315b2ca220aa902cc8e671b1589b8d11bb14a4999b2935a",
+          "rows": 744
+        },
+        {
+          "month": "2022-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-01.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-01.zip",
+          "archive_sha256": "5281a9c866e7d54b0a5b5e6a7dad5575ad7b96df67f05f74d614c54190ffff5f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-01.zip.CHECKSUM",
+          "checksum_sha256": "82eb7e0d021965a86fbd31a345257487f63085c7887ef2b60c70946e3ade1705",
+          "rows": 744
+        },
+        {
+          "month": "2022-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-02.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-02.zip",
+          "archive_sha256": "b3a199287b2a8fed2c261999205d56cfd72ef9675c4b498a399601978d666228",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-02.zip.CHECKSUM",
+          "checksum_sha256": "7705b5518740c8fbda877fab40c3c59e1b34368e189cb49ae8217999c2ddb1a4",
+          "rows": 672
+        },
+        {
+          "month": "2022-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-03.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-03.zip",
+          "archive_sha256": "f61ebcacd9a38f20b0ad89c64bbeb56baf368641fbbd6e25e987db2b96ede5ff",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-03.zip.CHECKSUM",
+          "checksum_sha256": "2396bcaca2214ed8cef4ff21a995756fe599e5985d0a21dfaba4e8126be4f797",
+          "rows": 744
+        },
+        {
+          "month": "2022-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-04.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-04.zip",
+          "archive_sha256": "db7f9dbcc60cf68051b755346a5be32d27b0d3565cf6c02341b050a234ef44df",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-04.zip.CHECKSUM",
+          "checksum_sha256": "dbe18af7f150553b091a680d4e96f3dd5496d3ada05491d1890d411a91349bd1",
+          "rows": 720
+        },
+        {
+          "month": "2022-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-05.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-05.zip",
+          "archive_sha256": "b1512041ade711819be114fee30668fbdd2783b73fa55607991ae14d1d43653f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-05.zip.CHECKSUM",
+          "checksum_sha256": "50d32bd44e995d61fe048487a1a908d766c06025845709bafac92a6c5c079249",
+          "rows": 744
+        },
+        {
+          "month": "2022-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-06.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-06.zip",
+          "archive_sha256": "1006ae5b8b4704da69f8f14fb4711d075d689fcf44cd0a98317df97953f1332d",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-06.zip.CHECKSUM",
+          "checksum_sha256": "8344275e9bbfeeadbe9339c7fa065bd8a3cd1dde066156485fffda3a7cc55e11",
+          "rows": 720
+        },
+        {
+          "month": "2022-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-07.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-07.zip",
+          "archive_sha256": "72060f8608459b04817f652cbb945be28afef0ae54ccf38113911c194630c184",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-07.zip.CHECKSUM",
+          "checksum_sha256": "c8b59418d215bb4d8e4ceaf5df8bfd8603576cc423d0f91d87396f81c298b6da",
+          "rows": 744
+        },
+        {
+          "month": "2022-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-08.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-08.zip",
+          "archive_sha256": "a1ad9eafd3dfecccfbc60c07de33ec2f7c33eab96f8ec04f88360b73b55dad76",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-08.zip.CHECKSUM",
+          "checksum_sha256": "6511b9aaae1a878ce1bc9b1b6a423764ead39fe0f562b1a014a446c60856c8ee",
+          "rows": 744
+        },
+        {
+          "month": "2022-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-09.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-09.zip",
+          "archive_sha256": "92753ae32ed042ab7f10b90e3b9a49ddafc695c8e60eb563713855c73e2e6e82",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-09.zip.CHECKSUM",
+          "checksum_sha256": "564eb97b6932c577b3745f35e941a74ec5b375cdc229abcc1bfb551b8fd979da",
+          "rows": 720
+        },
+        {
+          "month": "2022-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-10.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-10.zip",
+          "archive_sha256": "d85a5f4bdbe93df2babdecf3b37f866655fa23c3fb31eeca96c3e3f6a1e9b872",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-10.zip.CHECKSUM",
+          "checksum_sha256": "6c46104171e5b48df9b67c7410906aae3a4f6a027456a7fcb830681e937433f9",
+          "rows": 744
+        },
+        {
+          "month": "2022-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-11.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-11.zip",
+          "archive_sha256": "e9b3f3b1929e3f6f255269c2d2eb564d9d9bcacbfc16651888e95765df383888",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-11.zip.CHECKSUM",
+          "checksum_sha256": "0097b6619359969bec8de688489e000541c6d7f45cdb9d4f423efbf1025a78b1",
+          "rows": 720
+        },
+        {
+          "month": "2022-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2022-12.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2022-12.zip",
+          "archive_sha256": "d313c2cb509cba13eff6538829245aedc993f18eff4a7bd48fe0eb6c3a9fa158",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2022-12.zip.CHECKSUM",
+          "checksum_sha256": "715ad571da9c9a5e1c0f2020e462da5611395f9955eb9a94c7d9b074425d1845",
+          "rows": 744
+        },
+        {
+          "month": "2023-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-01.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-01.zip",
+          "archive_sha256": "b9ac60cc3ffc1e16db96ca2314120ff7531988108ebef1733ee54234f4fedf7f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-01.zip.CHECKSUM",
+          "checksum_sha256": "384767af339efc4ba5fa11ed183cbdae87f9ea4a923e0b6412632c76612820fb",
+          "rows": 744
+        },
+        {
+          "month": "2023-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-02.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-02.zip",
+          "archive_sha256": "1ace9802f4da961db025a7b76a6171ef2c516c5307e5dee24267182f059110e0",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-02.zip.CHECKSUM",
+          "checksum_sha256": "a911780386d13edbf14c21e903594166176e23febedc661006f689ff310ae3ad",
+          "rows": 672
+        },
+        {
+          "month": "2023-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-03.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-03.zip",
+          "archive_sha256": "35f0068cc41887ea11960c4bb10e251a404fef5ad4cb4c88699cc2419b6bc38b",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-03.zip.CHECKSUM",
+          "checksum_sha256": "4bb866ffdce3a230b0072ae90fc58e45d866bc51cc91311ee6fdaabc70a8bd26",
+          "rows": 744
+        },
+        {
+          "month": "2023-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-04.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-04.zip",
+          "archive_sha256": "ed6f0a84d1b2ed8f73fbdd4df10703e2ab49864fc4d657b0d8a9464a49dd4a29",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-04.zip.CHECKSUM",
+          "checksum_sha256": "8d64b18a1218914ed7e7b1d8475a5282e38e5461f34e09059fbe92cc5eb8fcb4",
+          "rows": 720
+        },
+        {
+          "month": "2023-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-05.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-05.zip",
+          "archive_sha256": "2f278ad3ea09cc42e577ad7185de74391a1eb09b9d9836d375e2c540aef1667f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-05.zip.CHECKSUM",
+          "checksum_sha256": "a717988d8a8eb6a25dc420b536453355e95075837e4a89ea0de2b49e21b45b87",
+          "rows": 744
+        },
+        {
+          "month": "2023-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-06.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-06.zip",
+          "archive_sha256": "19bd435cdf58b426642c24a0df3b5fa755433f52a8c39f05dc5cfdeffa453aa0",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-06.zip.CHECKSUM",
+          "checksum_sha256": "0a6e5f310308301943224ff4738058347d2dcea1d3060f3c45e52743e69382ba",
+          "rows": 720
+        },
+        {
+          "month": "2023-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-07.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-07.zip",
+          "archive_sha256": "ae9ebc03dff2bdeb805a1401b5cf1256b2b84283f5f9d92b1f454f33b223f499",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-07.zip.CHECKSUM",
+          "checksum_sha256": "95e3d340a6a119294823a3360bca2638dbb9afcf47125ee4f160f69825c13e15",
+          "rows": 744
+        },
+        {
+          "month": "2023-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-08.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-08.zip",
+          "archive_sha256": "599daa607ff593666036fe742d8272de6e0e9d284cd7d41d6585cf53baa20ca2",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-08.zip.CHECKSUM",
+          "checksum_sha256": "328a0a6bf9be53f7343b18818174dc517b6947688ff08a6171502c2a0dd9810e",
+          "rows": 744
+        },
+        {
+          "month": "2023-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-09.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-09.zip",
+          "archive_sha256": "7849f82af86aabcb9a79f64d0527480f22117656a68f98280fe8b840a6ee1339",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-09.zip.CHECKSUM",
+          "checksum_sha256": "2d4ab8ead352eed8a282c5f48c249ccca232afac250bcedc96133ed8681cac10",
+          "rows": 720
+        },
+        {
+          "month": "2023-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-10.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-10.zip",
+          "archive_sha256": "bbf0ef273c80f696ed9eb129a257812162487486692f124b9631ec38a924f6ae",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-10.zip.CHECKSUM",
+          "checksum_sha256": "7b34a920253ee2e368ff23424393f0d9c84a0a6d6b6926cab6fc4febaf326aba",
+          "rows": 744
+        },
+        {
+          "month": "2023-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-11.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-11.zip",
+          "archive_sha256": "26f1a2870f57925303edcf75581f0a33ff5e145c2126e15afc5fc1b400522428",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-11.zip.CHECKSUM",
+          "checksum_sha256": "e26e92a2af7c0939ecf3538ded0be4e922aca33eb49b50d6b34fe256506fbdfd",
+          "rows": 720
+        },
+        {
+          "month": "2023-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2023-12.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2023-12.zip",
+          "archive_sha256": "5377bec9e6dc04027717836cc1c2a3789da4e4122d57e8395265a0414b766b7c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2023-12.zip.CHECKSUM",
+          "checksum_sha256": "dfe78ca3ae976a69671f2a4648ffcac49332a150b6a556abd774b3fc10a0c7ce",
+          "rows": 744
+        },
+        {
+          "month": "2024-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-01.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-01.zip",
+          "archive_sha256": "bf673f3d10804a951e8bac56dd2473486f113025971d43ebe5258ec40f9bfeb3",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-01.zip.CHECKSUM",
+          "checksum_sha256": "ee1d42fdcdb8dea97af0f4e33a583691a89b3e1c8dd6085724e84ac7607dce8d",
+          "rows": 744
+        },
+        {
+          "month": "2024-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-02.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-02.zip",
+          "archive_sha256": "655ff5ac0fc570956756944c7afef4895c9bd149342f1e437de97292cbd1fe22",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-02.zip.CHECKSUM",
+          "checksum_sha256": "d9201ea4f664efe6ff3999d819589def0b690510d9e6cc1c23c9a2fe4711a16c",
+          "rows": 696
+        },
+        {
+          "month": "2024-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-03.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-03.zip",
+          "archive_sha256": "8138642b757ddf5a42207130277be4569afb4c581a0a1817be9f5f35a4415498",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-03.zip.CHECKSUM",
+          "checksum_sha256": "31f1d3b79023c1e0321086346bfd7583fa3c68de8a1890733bc54e289ed3594e",
+          "rows": 744
+        },
+        {
+          "month": "2024-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-04.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-04.zip",
+          "archive_sha256": "4bf3ca3574e0075c1b79f5b22c4253e26f6260f3621943205e3a8016c4c12318",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-04.zip.CHECKSUM",
+          "checksum_sha256": "994cddf8d5a955d83abcfd9725c0f0aeae9c8264f27479b05d119e671ae36a89",
+          "rows": 720
+        },
+        {
+          "month": "2024-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-05.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-05.zip",
+          "archive_sha256": "1d607e3b26e6886ba742477bc97687f0b86c4c26ac564325dc5f1667e0362d35",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-05.zip.CHECKSUM",
+          "checksum_sha256": "57c89034243695257b7067c4834c0a71fb4fe417dbb02cfbae2bd20d8bce171a",
+          "rows": 744
+        },
+        {
+          "month": "2024-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-06.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-06.zip",
+          "archive_sha256": "7dba8642e56641fca2c7f3f363050ae88bf0d6c87d28e14b747fbd3267d4d3a8",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-06.zip.CHECKSUM",
+          "checksum_sha256": "86a19dd99c2d0f58d9740ee331cfdec6bd3fe18d97486066304c3787365e42ac",
+          "rows": 720
+        },
+        {
+          "month": "2024-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-07.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-07.zip",
+          "archive_sha256": "920aacb84b2745ee8f31806a753cdc5b2d672e6814d9c50c0bf524ad45eb5611",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-07.zip.CHECKSUM",
+          "checksum_sha256": "5919760390165ff7377a8afe8200977ac240db194993593be06b117de9921ddd",
+          "rows": 744
+        },
+        {
+          "month": "2024-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-08.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-08.zip",
+          "archive_sha256": "8d8465eb4c8a4fd05ebc0126e4c14a217edb2039441546bf095229e975268de6",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-08.zip.CHECKSUM",
+          "checksum_sha256": "ee5037ad87c69e60b69f21f08646bd34b1653cac345594081b02d906534bbb83",
+          "rows": 744
+        },
+        {
+          "month": "2024-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-09.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-09.zip",
+          "archive_sha256": "0a8118b3601f18ddad04a8afcf887fdc01661f66824a0ce49e0419be1f97f907",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-09.zip.CHECKSUM",
+          "checksum_sha256": "c8c6c2586d7849c6628abecd7879b4e9ecd634a541bb42948e1341f24cc9637a",
+          "rows": 720
+        },
+        {
+          "month": "2024-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-10.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-10.zip",
+          "archive_sha256": "e3dcb9fe9d70fea19dfbdc5294044da69b9061c6f7411e99468825fac1ce8d61",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-10.zip.CHECKSUM",
+          "checksum_sha256": "eb6e4115ecf68ee133dfcac721a28e99552a992fc806b15c4ba441ae67be0831",
+          "rows": 744
+        },
+        {
+          "month": "2024-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-11.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-11.zip",
+          "archive_sha256": "0675e55056748489b8750cf6088a666f65dd4fd932d7ca5bd30491f5996b5f3d",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-11.zip.CHECKSUM",
+          "checksum_sha256": "f07f5e96d8c081421bdbcd46cf68457251c1fdbcf809084665187bb1a05327dd",
+          "rows": 720
+        },
+        {
+          "month": "2024-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2024-12.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2024-12.zip",
+          "archive_sha256": "b072f3147b3e390c81dcbf35830a12ff7d53a73236aa44a9eea78199502529cb",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2024-12.zip.CHECKSUM",
+          "checksum_sha256": "4e49e73e4a69a332ca001b47dc9b3a0a68180d3d75a29e8e683e38f89943ae93",
+          "rows": 744
+        },
+        {
+          "month": "2025-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-01.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-01.zip",
+          "archive_sha256": "9ebc05c9b3d5ab3591edf65bc5c7e5dbc2f96c1efc4adc4ea198c651a99a41b1",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-01.zip.CHECKSUM",
+          "checksum_sha256": "1fc6a93a650a00e65e5fa75eb393a789e401965beb6de2563d1ccf9dd67799bd",
+          "rows": 744
+        },
+        {
+          "month": "2025-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-02.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-02.zip",
+          "archive_sha256": "077d761098eb5f2dbde65457833b9edab41ea6475284a77fcce0d4bec1bfb5cf",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-02.zip.CHECKSUM",
+          "checksum_sha256": "be5ddef5e76c43d1c4df24d69f350ef9529339dd09f84f768d1d95a9d2852249",
+          "rows": 672
+        },
+        {
+          "month": "2025-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-03.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-03.zip",
+          "archive_sha256": "08043384c3336b0fa3eeee06e113a6f1eceb6d3fbe7b2971e9b9fa83625fdfb9",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-03.zip.CHECKSUM",
+          "checksum_sha256": "7981959f61108911fb999632053b7c07cb9af16b29373085dbb135d866423f47",
+          "rows": 744
+        },
+        {
+          "month": "2025-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-04.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-04.zip",
+          "archive_sha256": "2adf7c1be412e43b04a128e997f4cb1e5e7f895f55b6e1bf66621807f221f274",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-04.zip.CHECKSUM",
+          "checksum_sha256": "4bb21af23505ecbc038d40c60c0cdd1a0f6de5888998a01c06eda42f890fd9fe",
+          "rows": 720
+        },
+        {
+          "month": "2025-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-05.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-05.zip",
+          "archive_sha256": "2e736b9e792d5ae9d4607d7426e4530020762cb898d580b18d3fb0faf9d2ba8e",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-05.zip.CHECKSUM",
+          "checksum_sha256": "35366c941391cd5e09f4a59ef10af073ee05ad1d7b0c42c9a9fdc1afe4eede0a",
+          "rows": 744
+        },
+        {
+          "month": "2025-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-06.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-06.zip",
+          "archive_sha256": "d1d9d5dbc540c19dd882305937f864f59ffffe3f5449a6b05b3f95efe7ca4fbc",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-06.zip.CHECKSUM",
+          "checksum_sha256": "725c0520bb5a7562df1222f26cd39789ed75f2d569fdffddf87f414b5191ad7f",
+          "rows": 720
+        },
+        {
+          "month": "2025-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-07.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-07.zip",
+          "archive_sha256": "3f471677b97cd3c5c21e9c1420bd7d58c1fe4041a3d2e195369277298ca01ea2",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-07.zip.CHECKSUM",
+          "checksum_sha256": "27154e1b2ad11a1d63f2776b00d3e05c6d954390eca78580ff965316c72fdc0b",
+          "rows": 744
+        },
+        {
+          "month": "2025-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-08.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-08.zip",
+          "archive_sha256": "a240d3f766cd5c3db4e0702cf660ae54e327ec67aba169dda55abc90cae055f2",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-08.zip.CHECKSUM",
+          "checksum_sha256": "51639fd382f8bde432a1c8b1e1e9fc11990c2f546477d7e0737bf834735c60ae",
+          "rows": 744
+        },
+        {
+          "month": "2025-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-09.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-09.zip",
+          "archive_sha256": "b15817c45e6ca13a907772591664a57e00b711fecbd4285f2a16ced3c7023019",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-09.zip.CHECKSUM",
+          "checksum_sha256": "b1b8b8be80d4e29cb01e4805ae24440c1c95819682f305805739f65b44704071",
+          "rows": 720
+        },
+        {
+          "month": "2025-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-10.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-10.zip",
+          "archive_sha256": "b173469216acad36058ecfb0a5432471ec58b3c49032246d4d687dd3af8ae34a",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-10.zip.CHECKSUM",
+          "checksum_sha256": "51dcbd38b89fffee4d5d50a66539930269faa47c6eaf08c7abbf4ea4447055bc",
+          "rows": 744
+        },
+        {
+          "month": "2025-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-11.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-11.zip",
+          "archive_sha256": "75c4069b8ff93aa5e4064e885077426fd60f1cf6239a728b2d4ca543c0210d5a",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-11.zip.CHECKSUM",
+          "checksum_sha256": "3de0a88ac688793b6a80b5ca4fc385a052f7d4b3cde91be7d58f391b30f9209f",
+          "rows": 720
+        },
+        {
+          "month": "2025-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2025-12.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2025-12.zip",
+          "archive_sha256": "41e977a06b7806ce1398aca5f9075befffd1e6303db891795f3b179c762709ec",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2025-12.zip.CHECKSUM",
+          "checksum_sha256": "92d2143c1bd6d97198a6a63e17babadb0732d95c30dc5f34005951ca6886ca5a",
+          "rows": 744
+        },
+        {
+          "month": "2026-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2026-01.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2026-01.zip",
+          "archive_sha256": "6c15ac5fd895f26bf8e12b99df6ab9aff637dc94b37128e92c75c19887d0e3b3",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2026-01.zip.CHECKSUM",
+          "checksum_sha256": "54989f5663d71e446a4745a9fc9bacafafbe285232563e4fa0d2039e5daa944e",
+          "rows": 744
+        },
+        {
+          "month": "2026-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2026-02.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2026-02.zip",
+          "archive_sha256": "886fca9764139a1d71d97ca28e0a2cb30fe7d6f44df9be2539452c02e3c4e775",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2026-02.zip.CHECKSUM",
+          "checksum_sha256": "d5f523827c51f605b76e9554a12dd3e59649c8b18c9e8efbde00ed11be444ec2",
+          "rows": 672
+        },
+        {
+          "month": "2026-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2026-03.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2026-03.zip",
+          "archive_sha256": "41199df2dd62c333ea306d28de331bfffbbfed03609d100c63b2de1d173f7414",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2026-03.zip.CHECKSUM",
+          "checksum_sha256": "3bddb213a163377c99ee488a92709e40c6eee62d0f5c91505d24f1f694499fb3",
+          "rows": 744
+        },
+        {
+          "month": "2026-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2026-04.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2026-04.zip",
+          "archive_sha256": "c822801b16eb317f4672e376a73664f2e5f9180409c57b6c7517707f4f873e8c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2026-04.zip.CHECKSUM",
+          "checksum_sha256": "31496607815a0abad9fcc35528f43f8ff1083e3d5545cbcf3952f46f9ef3f6a4",
+          "rows": 720
+        },
+        {
+          "month": "2026-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2026-05.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2026-05.zip",
+          "archive_sha256": "9a367708c90de999a7a9d3114fd111ff28203b13c8daef77d154b5216fb571f7",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2026-05.zip.CHECKSUM",
+          "checksum_sha256": "7d22828b27926232e3fb25b5e6925c2be5377d45bdb5e676f1c52006e9f5a2ee",
+          "rows": 744
+        },
+        {
+          "month": "2026-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2026-06.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2026-06.zip",
+          "archive_sha256": "30bba473837a672a6a00a181a447446852414e6927bbda6684f873571788e9aa",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2026-06.zip.CHECKSUM",
+          "checksum_sha256": "c6ac5c043a17678996c8f16cd0f2696091afc5b044f3ef18bdddf347f79c4322",
+          "rows": 720
+        },
+        {
+          "month": "2026-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2026-07.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2026-07.zip",
+          "archive_sha256": "a09f135066ace6925ce051ddbbdd4345c103423fbe35d32b568942de978dcc7c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2026-07.zip.CHECKSUM",
+          "checksum_sha256": "d46218572b6c7b1829c6a0c39b09539d546503d57edd6155b491d0fe9012ff3e",
+          "rows": 744
+        },
+        {
+          "month": "2026-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2026-08.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2026-08.zip",
+          "archive_sha256": "b594301740cbb39818ba60f2835e4636aa06ad53308e25b1b312f1443fe0ccfe",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2026-08.zip.CHECKSUM",
+          "checksum_sha256": "366619c30b010a691eee81bfe569769b0d40ee0fbf8d569369647aa6b19428d7",
+          "rows": 744
+        },
+        {
+          "month": "2026-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDT/1h/BTCUSDT-1h-2026-09.zip",
+          "status": 200,
+          "archive_path": "data/raw_futures/BTCUSDT-1h-2026-09.zip",
+          "archive_sha256": "07ab960882feb6d3120673a851f2a654c4c3f31f3a74d1f3fc4b0351a8ee1483",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/BTCUSDT/BTCUSDT-1h-2026-09.zip.CHECKSUM",
+          "checksum_sha256": "bc1fc3f46795e080751c1a910c8367f5d1bba8c773c6d6e5194e217594bcc2f4",
+          "rows": 720
+        }
+      ]
+    },
+    "ETHUSDT": {
+      "path": "data/tmg_channel_2026-10-26/ETHUSDT_perp_1h.csv",
+      "sha256": "0099f43023dc208f28616d4eb85e05f412cd9b65a0e98b13e245503e2cc61fb4",
+      "rows": 59160,
+      "start": "2020-01-01 00:00:00+00:00",
+      "end": "2026-09-30 23:00:00+00:00",
+      "missing_hours": 0,
+      "archives": [
+        {
+          "month": "2020-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-01.zip",
+          "archive_sha256": "fb4840ec9ce7248ec4d82ce4bf3e9ca50872a3ad6b6ab4e3720f218f5f3a6021",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-01.zip.CHECKSUM",
+          "checksum_sha256": "21cecca1105f190b7bd78232269fb814e72b26d3ff9246d3d344f618201648eb",
+          "rows": 744
+        },
+        {
+          "month": "2020-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-02.zip",
+          "archive_sha256": "10e0e094091fbc32271c19b3b0aaeaf229ed52538ca024dd133f9c34714d931a",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-02.zip.CHECKSUM",
+          "checksum_sha256": "2f3c3f3c42e642085dd0377dfe0c877afb9a8041836b1c054bf8752229573c2b",
+          "rows": 696
+        },
+        {
+          "month": "2020-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-03.zip",
+          "archive_sha256": "36628b7275a7141048a7abbf8944ac07c9230fd055e81ff9d11beb1c229a6cd6",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-03.zip.CHECKSUM",
+          "checksum_sha256": "649baad9f2c289e75aeb41c265c937b5d039334ea54be0e11eae53a2c7e44f99",
+          "rows": 744
+        },
+        {
+          "month": "2020-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-04.zip",
+          "archive_sha256": "13e40f3a8414a1aca0f6ca494012c94f15cff50eed729d61c43ee4fa530f2488",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-04.zip.CHECKSUM",
+          "checksum_sha256": "3814913e44b898662c5c4b84eb5f8eaa6fe0ea3a8f66de3497c8731f35549b24",
+          "rows": 720
+        },
+        {
+          "month": "2020-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-05.zip",
+          "archive_sha256": "f07e9469646e3a4ad519523c5ea6b03abd015a08cf3a5b03640b1dd0ce0c7efd",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-05.zip.CHECKSUM",
+          "checksum_sha256": "499e3ebf8a2d88197c37d9a24d3b5b295ea11a0f0ce389543e8c71740f72bcc0",
+          "rows": 744
+        },
+        {
+          "month": "2020-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-06.zip",
+          "archive_sha256": "312490661c3b420680eb6d99616643150393e9ab65b878060fe7776557b50c5c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-06.zip.CHECKSUM",
+          "checksum_sha256": "f3556762d85225dce634c54ebb219382ed155d046c88841e78f1193aff5a82a6",
+          "rows": 720
+        },
+        {
+          "month": "2020-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-07.zip",
+          "archive_sha256": "e315992b16103f4ec06168ebf6a4b7f892c1089f762b4cf51006a328e16e115f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-07.zip.CHECKSUM",
+          "checksum_sha256": "8949a1a98cb4991a84d3188dfeacee10c95e6fac91fb829ea229693f40f1f2a3",
+          "rows": 744
+        },
+        {
+          "month": "2020-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-08.zip",
+          "archive_sha256": "6ec4b508e0fbb9a2c6d15b6faf6bdb1d7e951affc02c77fa134f610dd1ada221",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-08.zip.CHECKSUM",
+          "checksum_sha256": "6f7c6adc885d11636335069e9a0a90a8b11e209ac73434f7586064123baea8dc",
+          "rows": 744
+        },
+        {
+          "month": "2020-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-09.zip",
+          "archive_sha256": "d7199a24ab2e41e56ede3141caf6dc63ebd759e3931005c87c0062dd7705ae9d",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-09.zip.CHECKSUM",
+          "checksum_sha256": "a518102b09a3600ee882a7123ce7b58b0b110a3f2d6955f5bf90181ec29dddff",
+          "rows": 720
+        },
+        {
+          "month": "2020-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-10.zip",
+          "archive_sha256": "d586eb0bff3c9be1476989d9cb58c45713858678ee35e57f79d47796b34a4937",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-10.zip.CHECKSUM",
+          "checksum_sha256": "b3155ba0f770799dffa0a8cf56e74c9d5fe9726484546685323e71b78d4d456e",
+          "rows": 744
+        },
+        {
+          "month": "2020-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-11.zip",
+          "archive_sha256": "79b4e1f55040f41563342b6dbaaa9d9b02440141e889793e3aac8df87187aaf7",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-11.zip.CHECKSUM",
+          "checksum_sha256": "2507762d4ad6292cb8087cbabc5723e84d0198b4ffbe6506f35a8e8e2bf15906",
+          "rows": 720
+        },
+        {
+          "month": "2020-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2020-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-12.zip",
+          "archive_sha256": "7698fe1677da731dcb82ab3aa4a63e26de6086e8b7f981f57ed76acfe205529a",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2020-12.zip.CHECKSUM",
+          "checksum_sha256": "4c76f20ae653bf2ce4b8e99095e76982c7ce007fba9b23280e0dccc5f9757443",
+          "rows": 744
+        },
+        {
+          "month": "2021-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-01.zip",
+          "archive_sha256": "52b01b6937e57c3299003a91ec93fe8c2560b1ee6cacb24a60c110bf696b6118",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-01.zip.CHECKSUM",
+          "checksum_sha256": "b6a4944fc4c889fdf80a19ecec5aa7a2e8479df1d550939f5d95071b720e9281",
+          "rows": 744
+        },
+        {
+          "month": "2021-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-02.zip",
+          "archive_sha256": "d2833fb9bbbf66cf2f829af2c767f70283e01c3c471858a038e342798aae7d24",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-02.zip.CHECKSUM",
+          "checksum_sha256": "842b5591192dde9602f8ca51a2343da162c07d05c127c560169d5160ba19a43a",
+          "rows": 672
+        },
+        {
+          "month": "2021-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-03.zip",
+          "archive_sha256": "4f5a456703c8d48f947917dd7cb5f07503bd31bfdb60ec9a68b391b70f52666c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-03.zip.CHECKSUM",
+          "checksum_sha256": "c1b8afc24b6977adc7de3082661bc34c383b738b23dca4afab9dfefad13d7b7e",
+          "rows": 744
+        },
+        {
+          "month": "2021-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-04.zip",
+          "archive_sha256": "b522173710fb0aa70bff13c54ad6b3b889edb79b42278246796c5da7c4bfce7f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-04.zip.CHECKSUM",
+          "checksum_sha256": "ff69eeb09ef9471242c24fe431314f145e787ea220ea35631d3ea24a448e1da4",
+          "rows": 720
+        },
+        {
+          "month": "2021-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-05.zip",
+          "archive_sha256": "e43c840fdde7903f99fcbc1311e75cd6cc58b4c302c48a017100747922eefd8c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-05.zip.CHECKSUM",
+          "checksum_sha256": "57913294bc3fa0291eafdad55d522eb7f05eb43b9ce9d8f51179a873f14383af",
+          "rows": 744
+        },
+        {
+          "month": "2021-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-06.zip",
+          "archive_sha256": "625a8c04b76cc9fa096599bd1498b24b28ea31d9900dfddb86995046bd6b2ebf",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-06.zip.CHECKSUM",
+          "checksum_sha256": "553aede36cb93b463f6078a4de8e71ab334b462809e42411fd9dbd1b26d0cd46",
+          "rows": 720
+        },
+        {
+          "month": "2021-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-07.zip",
+          "archive_sha256": "bd4ffb6a1e7eb374915222129b5270ff0e7eb94c5b355ecc75ba491e4cc7b0b9",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-07.zip.CHECKSUM",
+          "checksum_sha256": "276af3f5d7fb7511592bb9092445b79f64d61c7cf0a08c73f10ebacf1e3bd2bf",
+          "rows": 744
+        },
+        {
+          "month": "2021-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-08.zip",
+          "archive_sha256": "56bfd83ab6a604ffb57aa318805e813c04335a08219eac63f3c4750442c1a9c9",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-08.zip.CHECKSUM",
+          "checksum_sha256": "8bc3b0f3914cb38023c4a9a25358a922fdd885bcd7742b9d6ef76ea350d74269",
+          "rows": 744
+        },
+        {
+          "month": "2021-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-09.zip",
+          "archive_sha256": "e29a6a88a2c28b30651cf45e46d5b67f1bd8f8ec42812ad5b4a7a72468dfa3c6",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-09.zip.CHECKSUM",
+          "checksum_sha256": "b146fba4ccc33f78dae1b8188c560948b3d8b71a7165c6b06a4c8511ed58a87b",
+          "rows": 720
+        },
+        {
+          "month": "2021-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-10.zip",
+          "archive_sha256": "515de2962ce7c53706f6dcd489b50bade65148e8d59af1d0711134a6450e912c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-10.zip.CHECKSUM",
+          "checksum_sha256": "d51633b43b34fc26723b75806df70db033bddddc386e66a2bb85d5eb6e92825a",
+          "rows": 744
+        },
+        {
+          "month": "2021-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-11.zip",
+          "archive_sha256": "d61dcde383cefa67bd3febb54690d28db408cc7cfb4b4c99f4c00710f5e5b3ad",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-11.zip.CHECKSUM",
+          "checksum_sha256": "db27af15e17242b757e9592e77f12f067eda1e0aa226acef5ab87d1c716ff6e9",
+          "rows": 720
+        },
+        {
+          "month": "2021-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2021-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-12.zip",
+          "archive_sha256": "764bae4807411d6683b72085aeeb1bcd168654fbcb88e8f1a81a307240761c1a",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2021-12.zip.CHECKSUM",
+          "checksum_sha256": "5832009882f863b3a8443a5b143d744c63a726389269882ba21cbc22da131513",
+          "rows": 744
+        },
+        {
+          "month": "2022-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-01.zip",
+          "archive_sha256": "6d96a19efda6917a3912377ef8e1a5eadc8f1a273f91afa069ae70bd679301bc",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-01.zip.CHECKSUM",
+          "checksum_sha256": "99a4e4a4d181e345806fe0d2cbfaf7d86eedcdcdff8d74a097697790194a19fa",
+          "rows": 744
+        },
+        {
+          "month": "2022-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-02.zip",
+          "archive_sha256": "14f8e42d6d7696d2f622301612a8f4ba6623658732cc5840ef0582b2ee05598e",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-02.zip.CHECKSUM",
+          "checksum_sha256": "72b607e1a82d7bd3aa691db82b3ad1784688e052517fd044a9a20782acb7a303",
+          "rows": 672
+        },
+        {
+          "month": "2022-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-03.zip",
+          "archive_sha256": "1b9fcc8ead1a066017e8c40617a78d1b9ee7b7fdad5f9d5353b04a59883274ce",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-03.zip.CHECKSUM",
+          "checksum_sha256": "10c2094673853ecdb58c015588f76370a5a0dddd7972570f71c0316d728fb0e8",
+          "rows": 744
+        },
+        {
+          "month": "2022-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-04.zip",
+          "archive_sha256": "45bc22bd8603876174adfd1f6273021eeaf76084629030a53cca40f379b8fb0b",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-04.zip.CHECKSUM",
+          "checksum_sha256": "9798174e6b7a7a2bbd74b6db844a182d54363473ea5ed117a2edf634e7f21689",
+          "rows": 720
+        },
+        {
+          "month": "2022-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-05.zip",
+          "archive_sha256": "7adea64d8d82d2017c1b7c3fcc6848f685370b524e0a1512bb443980a487f4b8",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-05.zip.CHECKSUM",
+          "checksum_sha256": "2da349607dc5f6aff90476e24deafc03bba79a5ec228856136e0bdf57473858e",
+          "rows": 744
+        },
+        {
+          "month": "2022-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-06.zip",
+          "archive_sha256": "582aa0b2c72641cb5e93318a92beee0bbc93e968ccd10b0d89ea755a60f9fb62",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-06.zip.CHECKSUM",
+          "checksum_sha256": "2d7a322dce4ff518f981de0aafe54e9d44553c89c50ea673275513d7d7644067",
+          "rows": 720
+        },
+        {
+          "month": "2022-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-07.zip",
+          "archive_sha256": "07781d1411a4b793ca5c4daaee70c9e2c1a3200fe12c954c39b3ad6c37badd42",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-07.zip.CHECKSUM",
+          "checksum_sha256": "2da20751927b2dae1f5f7c50e89e8debf914b8def590cc4717b254dc9e7467b4",
+          "rows": 744
+        },
+        {
+          "month": "2022-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-08.zip",
+          "archive_sha256": "4182681e2b2fc23bbb348411ca8bdb41894609be1f94a0d9939616bf91cc9f25",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-08.zip.CHECKSUM",
+          "checksum_sha256": "2b49a07622926f4a6eebdb3c7147b8b52fb2eb85f405e81244afb80ecff97dbb",
+          "rows": 744
+        },
+        {
+          "month": "2022-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-09.zip",
+          "archive_sha256": "75aa0182242ac65110a1dd1737a2062ee9815032d746a57d3191c44c15eacff2",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-09.zip.CHECKSUM",
+          "checksum_sha256": "6c34b1abc873ed35ede813d77b89925c8a6c5bb6db07bb1b88cf40453bfb570b",
+          "rows": 720
+        },
+        {
+          "month": "2022-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-10.zip",
+          "archive_sha256": "04246418d55fc96753ee5b4be0718796aeb9421af40042b4e145db02e1cfaf3a",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-10.zip.CHECKSUM",
+          "checksum_sha256": "c261b4901114a0f391196529037ada8a10acdce75c6d4008edbeb855f6ae7d45",
+          "rows": 744
+        },
+        {
+          "month": "2022-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-11.zip",
+          "archive_sha256": "e2e15ddc21d24ac6c3ca56ab77f065eda88252a37f2f778505a332e31fcc5b3c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-11.zip.CHECKSUM",
+          "checksum_sha256": "78aac5b0f451f3c966e3eced25018bd16f64048ac26adb44a77b6f69a348f581",
+          "rows": 720
+        },
+        {
+          "month": "2022-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2022-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-12.zip",
+          "archive_sha256": "1ba6559930f09fb8bd68a6592c4059526901939317eea4db8fc2d59cf5688957",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2022-12.zip.CHECKSUM",
+          "checksum_sha256": "b2f6172e3ddb726652ed09f03fd01de9ef9f8d5ef3e1828c2a51cce94c78e921",
+          "rows": 744
+        },
+        {
+          "month": "2023-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-01.zip",
+          "archive_sha256": "247b85e0a8806e139f263831445e1d7bb91f9f56e6ab32e1f285038cdd1ceff4",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-01.zip.CHECKSUM",
+          "checksum_sha256": "72f80180d88afb11ab1028f3f2f810d9b5e465e63bbd74f37dc23adb6fe91430",
+          "rows": 744
+        },
+        {
+          "month": "2023-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-02.zip",
+          "archive_sha256": "f01571f2420b9eb6486e69b884fe1572abfa59bc226c4003c9d78735c559acc5",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-02.zip.CHECKSUM",
+          "checksum_sha256": "540b3cb77678cd50b07ef44db0ebfaf2cf96ef65057c9bbc74778a9045734b9e",
+          "rows": 672
+        },
+        {
+          "month": "2023-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-03.zip",
+          "archive_sha256": "4d5266f12a8a3394ee23516de99fc380e928dbdb79cbf083fd3ddc3242073790",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-03.zip.CHECKSUM",
+          "checksum_sha256": "74ccbf067fc4822a272e41bff88b02c25d4d7cff2f97eed3fb9530826da08fe9",
+          "rows": 744
+        },
+        {
+          "month": "2023-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-04.zip",
+          "archive_sha256": "4ac96035c3867e0bfeff4f2f526812ee4b73a0b87b3962bb40934e2614917395",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-04.zip.CHECKSUM",
+          "checksum_sha256": "a6c2e525ae8d0b5a9f79f5fe1c824ba8998affda62a48af31db36aa203adab07",
+          "rows": 720
+        },
+        {
+          "month": "2023-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-05.zip",
+          "archive_sha256": "a47a9fc2936bcadc99aadfe48858e7d3e31093a9321d9bc083b886b72924f568",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-05.zip.CHECKSUM",
+          "checksum_sha256": "13e018d50081dcab0532ee2941d340910c233b6dc3c2346a7d84ee8651407fb1",
+          "rows": 744
+        },
+        {
+          "month": "2023-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-06.zip",
+          "archive_sha256": "fe108dc555560ded46bb0807d0c2e0bc7722900213a96e4e86bf355f84fbcafa",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-06.zip.CHECKSUM",
+          "checksum_sha256": "505a7a07d206e01a8708687342ae5429b6cae1e089afa7b3a1bd94581b972e66",
+          "rows": 720
+        },
+        {
+          "month": "2023-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-07.zip",
+          "archive_sha256": "911d3674c71a561df5ca5085426e9c61195bf5669bc7da7488ec9548ae476ca1",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-07.zip.CHECKSUM",
+          "checksum_sha256": "c7b6f42e25e35e3c997dbbe526680c989263854bf9316542afd707a9d51dceab",
+          "rows": 744
+        },
+        {
+          "month": "2023-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-08.zip",
+          "archive_sha256": "74210a689eb85c8908ae05cff3297b9dc6eda76a0b41a3f9d72fdde0c14e3b2f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-08.zip.CHECKSUM",
+          "checksum_sha256": "75dab9df02db8ad799ee5a13e15ef15b63c5c2f4e55f9d2a6065b45c0b928e78",
+          "rows": 744
+        },
+        {
+          "month": "2023-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-09.zip",
+          "archive_sha256": "38883595a881aadfbfd8c256e5170c8b016e9927119250f5128abfba96aba9c5",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-09.zip.CHECKSUM",
+          "checksum_sha256": "554cb9f8c77bbb6ca3f71c8df91a6b573283a7b3bb2f161c6a3dad506a7bf700",
+          "rows": 720
+        },
+        {
+          "month": "2023-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-10.zip",
+          "archive_sha256": "61d6692284b406c9f9f655aef68e151a1eeb90509ddcd7f4a97233b1a002ef9e",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-10.zip.CHECKSUM",
+          "checksum_sha256": "959e3478061107e7b40aac4b1e2ee5c6c3e973ce150d5a080f47e1ad0fcb0a9e",
+          "rows": 744
+        },
+        {
+          "month": "2023-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-11.zip",
+          "archive_sha256": "d57c333ac46e779b2399c498cc8fedfbc8804deb688873585ded09aceec1fa16",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-11.zip.CHECKSUM",
+          "checksum_sha256": "dd422a60800d526222ae4197699220afd2d8a1d00a86b0fca733a9a21d56fd19",
+          "rows": 720
+        },
+        {
+          "month": "2023-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2023-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-12.zip",
+          "archive_sha256": "8f581fcee21156d501435fc88db1d99515e6d7432fa7ae2993de3b5f95bb0069",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2023-12.zip.CHECKSUM",
+          "checksum_sha256": "b522d7f43d861cc8fe904e3ad79703d38f222b332b9506fa0cdb08518ff93389",
+          "rows": 744
+        },
+        {
+          "month": "2024-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-01.zip",
+          "archive_sha256": "2f3d1a6d9292f13b1d6cf86716cbda5b3f6119a310daed1dde5ee3d0d71e2fab",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-01.zip.CHECKSUM",
+          "checksum_sha256": "a2418d5aead464940c65e384b7364e7c288753d7b99fe54c0f2814a07475e716",
+          "rows": 744
+        },
+        {
+          "month": "2024-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-02.zip",
+          "archive_sha256": "bde9a1b0824b212ef6cea97065543fda0fc57c33479709d34e5db995fc79af01",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-02.zip.CHECKSUM",
+          "checksum_sha256": "ea04db4f96b37f6dcbaa5f83d3f153096fd75ddfe8f881b20dd2eabaec411ef1",
+          "rows": 696
+        },
+        {
+          "month": "2024-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-03.zip",
+          "archive_sha256": "24af0ecf9db1953e8c83e94823f4aae368ff70ba54106ef121c204cb046f9e41",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-03.zip.CHECKSUM",
+          "checksum_sha256": "9b0154d853503b46bd7e34379b04b412f2817496396bc6b0eab0cb3c6d0f0537",
+          "rows": 744
+        },
+        {
+          "month": "2024-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-04.zip",
+          "archive_sha256": "290b594fa46ef95ab9c1486e2640ce2d1894eecd4d71b79bcd30d6632ca75b9f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-04.zip.CHECKSUM",
+          "checksum_sha256": "66a292e1760b3b668213fadc3bd82dc34d805c055cf88c71ae37b0a2f45d29df",
+          "rows": 720
+        },
+        {
+          "month": "2024-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-05.zip",
+          "archive_sha256": "a9b42949325fd4f236c7c88b63f35d94910109218ce2db80b8e29f7a2b2d623b",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-05.zip.CHECKSUM",
+          "checksum_sha256": "d8136fac727166a018cef0b951bd6e4a2abd6ae0bcf86f92c45a58313f306924",
+          "rows": 744
+        },
+        {
+          "month": "2024-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-06.zip",
+          "archive_sha256": "479dced4a591035987e084dc8a5e5f3f1f2593704c0aeecdebc20c89b35c1d98",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-06.zip.CHECKSUM",
+          "checksum_sha256": "19d0db7a969aa1887e69a8b87980dbe1ed555b45c9b22e9dc02fffa73fb5d8fc",
+          "rows": 720
+        },
+        {
+          "month": "2024-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-07.zip",
+          "archive_sha256": "8cc8d8b6ef13fa0393f53690e5d569afb8a50488e4d7852e20ac22d7bcf17cf5",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-07.zip.CHECKSUM",
+          "checksum_sha256": "b2c1e16a980afe3153dfb5e2e37d932aa5751804b4e4757f68358140bf435702",
+          "rows": 744
+        },
+        {
+          "month": "2024-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-08.zip",
+          "archive_sha256": "00eddbb3297515be14426119f07468846cd04dc527dbc19834dd45294740a67c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-08.zip.CHECKSUM",
+          "checksum_sha256": "b6112725c7a5406997391b4d4b36bcd9730e3ca2e7d040096f632c08e6c30ad2",
+          "rows": 744
+        },
+        {
+          "month": "2024-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-09.zip",
+          "archive_sha256": "37bea2dbe4281fbcaa45a849b6eed4393713b7236c5cb35cff63876e96df5677",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-09.zip.CHECKSUM",
+          "checksum_sha256": "507797820c389395108dc6997da03ec153ae0837622a07960002f3f5bfc56e96",
+          "rows": 720
+        },
+        {
+          "month": "2024-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-10.zip",
+          "archive_sha256": "b4cda93568426a315e1de2fc7ca0ffb56586495680b233ffd7ce6bec11d18713",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-10.zip.CHECKSUM",
+          "checksum_sha256": "3ac4ae0783fd6aa1119d752fbdb5055772786bb1b911e06b6d9366b8ca0e0871",
+          "rows": 744
+        },
+        {
+          "month": "2024-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-11.zip",
+          "archive_sha256": "3e8286eb77062f7c1047ee32aa1ce98dbf42f8e8029acebe38cc1bdd33967c63",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-11.zip.CHECKSUM",
+          "checksum_sha256": "d50b615de565fec5975515ba6241864767b6d04ac9b471539fa81c1bc837588a",
+          "rows": 720
+        },
+        {
+          "month": "2024-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2024-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-12.zip",
+          "archive_sha256": "330397f0cfd0dc62253ce6cf61ec142714fe65592a9f8447e4b88ca428bb4c9c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2024-12.zip.CHECKSUM",
+          "checksum_sha256": "aac32ec7fc7769968a4e96033edde51fcd3ca0cb74d4e3ec60f876ea834fc27a",
+          "rows": 744
+        },
+        {
+          "month": "2025-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-01.zip",
+          "archive_sha256": "99928eb8fdc5d565d317b0e9685e07fc5f9487510a39b8675d7374cfdfcbec82",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-01.zip.CHECKSUM",
+          "checksum_sha256": "c88d8169c5def5e87e3ab10a58107ca8ef3554d69f4eddd5d7f1c69cb4246485",
+          "rows": 744
+        },
+        {
+          "month": "2025-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-02.zip",
+          "archive_sha256": "d7466620f50bb4048080ece1deab8eb0298274413a3eb2a9f4c728536ab3c647",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-02.zip.CHECKSUM",
+          "checksum_sha256": "92ead3c7430b38cc26f0136a89d43732579e0a739adadf777d6c9afad1a4208c",
+          "rows": 672
+        },
+        {
+          "month": "2025-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-03.zip",
+          "archive_sha256": "9dbad1e542ff8344fe8610450cf71d5cb98e1af2e8f2d7a31dbe8679ef263535",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-03.zip.CHECKSUM",
+          "checksum_sha256": "b14bbc9fdd6020b982eae5763226491aec17ed30100ea342f19dcf2790d39da6",
+          "rows": 744
+        },
+        {
+          "month": "2025-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-04.zip",
+          "archive_sha256": "238c691129962d9fe08aaca46ea367f911e62c58a820a8e5ded371bff7f4eec4",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-04.zip.CHECKSUM",
+          "checksum_sha256": "16d9a14bbd0a189b5ba4f465b2025510a410098f485627d4b4e5a1849e518c5b",
+          "rows": 720
+        },
+        {
+          "month": "2025-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-05.zip",
+          "archive_sha256": "201829c864a26677ad0b53df5b0491e9eab00e6f48e1a8bf5204dc7d794dd7ea",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-05.zip.CHECKSUM",
+          "checksum_sha256": "30c2367122407402a5af9b7e525ec1955eb94e7cd3cd3b6e325967831e470500",
+          "rows": 744
+        },
+        {
+          "month": "2025-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-06.zip",
+          "archive_sha256": "45763ee27ad110703c6f71d9ec80711de151b8211b14ad98cc978c4d5ede82ce",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-06.zip.CHECKSUM",
+          "checksum_sha256": "6d4bf485801cada098718652a65bf863ff7c0f0589eba6be7f5a4b173fbbb0f0",
+          "rows": 720
+        },
+        {
+          "month": "2025-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-07.zip",
+          "archive_sha256": "e9c3dcdc09de72386d465800c665169c9bb011f35d350f9ba9bc7b4d7a69876a",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-07.zip.CHECKSUM",
+          "checksum_sha256": "048535544403ed1728a0ba95e2cac156410ee9cb13a4a8b964927aa35968cff3",
+          "rows": 744
+        },
+        {
+          "month": "2025-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-08.zip",
+          "archive_sha256": "51e3ca163e71691ebb43b55d32698fc5c25506ee2e663a195d8e5863194908c2",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-08.zip.CHECKSUM",
+          "checksum_sha256": "cd30afd8780f62acb31e6284026e70121a168fa6cd577d985f901d17758d633f",
+          "rows": 744
+        },
+        {
+          "month": "2025-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-09.zip",
+          "archive_sha256": "9bab9763c1cb2514df907fe6e746405428c6b92cbba12ff987e4820b2a8726f0",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-09.zip.CHECKSUM",
+          "checksum_sha256": "1c58cd07410dbb3fb0a7107784473411de8bb25830407c9c38c689ebd23c3e65",
+          "rows": 720
+        },
+        {
+          "month": "2025-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-10.zip",
+          "archive_sha256": "6c51ad0250f4174431c659a3c78f604be087e844c6357e5feb48ba66e6bb1862",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-10.zip.CHECKSUM",
+          "checksum_sha256": "ccfd22dda39d100e4c1c29fdb0efcbeecd8d3110689c70937639c4dac27a640b",
+          "rows": 744
+        },
+        {
+          "month": "2025-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-11.zip",
+          "archive_sha256": "4b5622c5a4021b1a0bbd2d1fa754bb9d13f16b996d79b153b423bce0ec154f26",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-11.zip.CHECKSUM",
+          "checksum_sha256": "63ab9eb44ef58b41b306ad24980bf686228b5f4beea2266787f4cb179a5132a1",
+          "rows": 720
+        },
+        {
+          "month": "2025-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2025-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-12.zip",
+          "archive_sha256": "80080e1303ab2c291e53103d703b5364ef7a3da36dff5eaf45044cca74e764ca",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2025-12.zip.CHECKSUM",
+          "checksum_sha256": "6b014a83c48df0b0e74248811d789cb47bc8822f6a6c418fb244489c76030388",
+          "rows": 744
+        },
+        {
+          "month": "2026-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2026-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-01.zip",
+          "archive_sha256": "d710e68cf0dc90759814647dff64be482b4ddd05bf332adb73126885cb2979d7",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-01.zip.CHECKSUM",
+          "checksum_sha256": "dcf59915779b644d80a60c36b09deb08367641ceb0e1e7a676e381972d5e3da1",
+          "rows": 744
+        },
+        {
+          "month": "2026-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2026-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-02.zip",
+          "archive_sha256": "97a6c569361290917a525d54d5f964af1642dc2d281e162834b4685157016540",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-02.zip.CHECKSUM",
+          "checksum_sha256": "5582c008f9cab13bf310566a458dc7fe1d8b80c04ff7ca0bb4ea13d668ed56a4",
+          "rows": 672
+        },
+        {
+          "month": "2026-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2026-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-03.zip",
+          "archive_sha256": "9ec5e28db1e0cf093d5c756b85329b43db730d6f95d6ed142a9717044b1423c2",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-03.zip.CHECKSUM",
+          "checksum_sha256": "3a96c0a5a1ae7a0399607520e2136d7910de2655d7e02a5dc82517c391625585",
+          "rows": 744
+        },
+        {
+          "month": "2026-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2026-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-04.zip",
+          "archive_sha256": "b72f5a102bd468d1e3d0c3b88619f1354a29e81616f9a55935d2e00837958e4b",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-04.zip.CHECKSUM",
+          "checksum_sha256": "21d55e9783c5a44ed2e995546ce59d8c65db0eaea7211a83725c78f1bc945180",
+          "rows": 720
+        },
+        {
+          "month": "2026-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2026-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-05.zip",
+          "archive_sha256": "5353c7cd71f610eca5a58824606ba1016efe34ea62fd6e6cd4b7be4b99277915",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-05.zip.CHECKSUM",
+          "checksum_sha256": "793468272ffe2bab2bb0a7bcc4d0768360d58364151336c5a4e11e6e23e95326",
+          "rows": 744
+        },
+        {
+          "month": "2026-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2026-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-06.zip",
+          "archive_sha256": "138bcb6c7c8be4c5bdd8048fa417be551fbeffe4024f64e5bef5ed30d3069d8c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-06.zip.CHECKSUM",
+          "checksum_sha256": "8202f60596dcdfe42e2bdb1bce91bcab7597ef0cae9241e5ff7ec53fb3b5a9d8",
+          "rows": 720
+        },
+        {
+          "month": "2026-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2026-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-07.zip",
+          "archive_sha256": "2036043c65c50a1d9c817db4c93db0c97366851d7cc972efb8c5e951cb3b5cdd",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-07.zip.CHECKSUM",
+          "checksum_sha256": "16a63956d98aeee5faa1d75332ce5aae5eb62ff13c0a7a80e9981da35e3bb65e",
+          "rows": 744
+        },
+        {
+          "month": "2026-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2026-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-08.zip",
+          "archive_sha256": "52ede96e424bdc696b4b7a30aa4f2f56cd32e58c6598400f25f7b3a8dc6cf50a",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-08.zip.CHECKSUM",
+          "checksum_sha256": "3c2e47e96fbdaf1c83715c80e7732d7c996ac629890ef0e426b95e84c95668ba",
+          "rows": 744
+        },
+        {
+          "month": "2026-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDT/1h/ETHUSDT-1h-2026-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-09.zip",
+          "archive_sha256": "f4331baae4c38dea1c123836808f3353473cc28e6c434ef38669698ae79599fc",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/ETHUSDT/ETHUSDT-1h-2026-09.zip.CHECKSUM",
+          "checksum_sha256": "2ec46166b5272eb68fa852e8ea2e447d92defaf88a17d5d5a87a5b6f4b2a3f74",
+          "rows": 720
+        }
+      ]
+    },
+    "SOLUSDT": {
+      "path": "data/tmg_channel_2026-10-26/SOLUSDT_perp_1h.csv",
+      "sha256": "86a73fe1a2ee88096f13dc26844a31f57321a8dcb2768db844298ce87639ecef",
+      "rows": 52865,
+      "start": "2020-09-14 07:00:00+00:00",
+      "end": "2026-09-30 23:00:00+00:00",
+      "missing_hours": 120,
+      "archives": [
+        {
+          "month": "2020-01",
+          "status": 404,
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-01.zip"
+        },
+        {
+          "month": "2020-02",
+          "status": 404,
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-02.zip"
+        },
+        {
+          "month": "2020-03",
+          "status": 404,
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-03.zip"
+        },
+        {
+          "month": "2020-04",
+          "status": 404,
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-04.zip"
+        },
+        {
+          "month": "2020-05",
+          "status": 404,
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-05.zip"
+        },
+        {
+          "month": "2020-06",
+          "status": 404,
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-06.zip"
+        },
+        {
+          "month": "2020-07",
+          "status": 404,
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-07.zip"
+        },
+        {
+          "month": "2020-08",
+          "status": 404,
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-08.zip"
+        },
+        {
+          "month": "2020-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2020-09.zip",
+          "archive_sha256": "bc926b98121dcb870999c4c8b0cdb72551bbb7ac9d6e00047bba34156fce3bb2",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2020-09.zip.CHECKSUM",
+          "checksum_sha256": "a9bbf9dbcdbfd44455974c794d5d6678f244414a561af215ed57a8387802088d",
+          "rows": 401
+        },
+        {
+          "month": "2020-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2020-10.zip",
+          "archive_sha256": "5f6131a244d980d631388ee504922b2bb09848e42cf6e3e59c933679887f5975",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2020-10.zip.CHECKSUM",
+          "checksum_sha256": "c20c76cc104295f32a664614aedfee99286593f9f75bab4176b9c6c592ff30f0",
+          "rows": 744
+        },
+        {
+          "month": "2020-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2020-11.zip",
+          "archive_sha256": "348047e07a306d93694a6c6cf0273a31e4b735740759e78ec9d39678e02d53a8",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2020-11.zip.CHECKSUM",
+          "checksum_sha256": "99c439d94a9ecc16462a9946d8cb014a06c9d775da9d5f600e307f77ff5d6839",
+          "rows": 720
+        },
+        {
+          "month": "2020-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2020-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2020-12.zip",
+          "archive_sha256": "bd5f75cc091658b0794eb80777914b3d7e8940438da77980bd659a935f6bbd5d",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2020-12.zip.CHECKSUM",
+          "checksum_sha256": "1bf6d8cad2697b59973600b9cf99f9fa2e298285fde108fe2cf90c76bea2cebd",
+          "rows": 744
+        },
+        {
+          "month": "2021-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-01.zip",
+          "archive_sha256": "fef310549a5baf8fcdb67a2c6c97a0ec05f25dbc87afbb2a0ba0f08842a52c27",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-01.zip.CHECKSUM",
+          "checksum_sha256": "f50e738d2c83aac8d32442b606420dc2b95bd016d01371dfbee2d3f610c0298c",
+          "rows": 744
+        },
+        {
+          "month": "2021-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-02.zip",
+          "archive_sha256": "029ec118946bf80d43f27baec8a80004265134c9540e7f9a04e440e453a43f99",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-02.zip.CHECKSUM",
+          "checksum_sha256": "bd3b1e3f50771982ae0d55c80006d7517ceea71e9cb50c217d196eac6a772254",
+          "rows": 672
+        },
+        {
+          "month": "2021-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-03.zip",
+          "archive_sha256": "94eaba4252ae9189c9be07ea2d40e3f016ee924a761462303882ffc9bb4e4e4c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-03.zip.CHECKSUM",
+          "checksum_sha256": "364bca12aeb387a045257c0d7da3d093e983f76bbc05a882eda8e2601414361f",
+          "rows": 744
+        },
+        {
+          "month": "2021-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-04.zip",
+          "archive_sha256": "21d8b0ffa824a3d4845f4e0103f9739a9931e4788a5da3958a0c8e4552552965",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-04.zip.CHECKSUM",
+          "checksum_sha256": "a2302759bae00832a154e7b5d531f2c37029d952170ebbce7dcacace2ca90fe3",
+          "rows": 720
+        },
+        {
+          "month": "2021-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-05.zip",
+          "archive_sha256": "efb32d5fd15525744c959ce9685e20af8227b6104ea3b279faae0dc8d73cd4a3",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-05.zip.CHECKSUM",
+          "checksum_sha256": "b96a5afcc894b14cc7816fa558abd49e6ca858ec2ac2d675b749ab5fe2ab2c5e",
+          "rows": 744
+        },
+        {
+          "month": "2021-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-06.zip",
+          "archive_sha256": "8fe15facd01ac0eec8d23b04bc606f2c56344c1ee2aa88c3758c07a6cfeb5765",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-06.zip.CHECKSUM",
+          "checksum_sha256": "36ca24c1b2e1a7a58e570ba85e511272d1b1dd27f71369d72e5b639abc0d2b26",
+          "rows": 720
+        },
+        {
+          "month": "2021-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-07.zip",
+          "archive_sha256": "b1d3d3064ad1c48ee3db89da36f402ba27ed8764c14f5f8725db8c2d44412826",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-07.zip.CHECKSUM",
+          "checksum_sha256": "1b70b11e98a9c00daa94b6e750516ba5e888e790f2bed7af52837b69426cd11c",
+          "rows": 744
+        },
+        {
+          "month": "2021-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-08.zip",
+          "archive_sha256": "13a75507c7c6396782ca02659d2738a668a5b16a438d239b64199f19c69f81a0",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-08.zip.CHECKSUM",
+          "checksum_sha256": "eb311ca69809148f85a4d791c8ba5f6b98b24e052e279183393a50e4be55bfda",
+          "rows": 744
+        },
+        {
+          "month": "2021-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-09.zip",
+          "archive_sha256": "11ee5441a6a3d72b10b501b1ac246bff97ee0673def1954d116ecd2b09f584ff",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-09.zip.CHECKSUM",
+          "checksum_sha256": "4c4394aebec129f2e176dbf1643f53b02bd2ec74c9f6a6d2e3cf4580357f0c3a",
+          "rows": 720
+        },
+        {
+          "month": "2021-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-10.zip",
+          "archive_sha256": "400e88409c92a5a01eb4c4b7b6e4f5fddfef93dd4a3d9c8f89cc35d51cc298ac",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-10.zip.CHECKSUM",
+          "checksum_sha256": "fde7a779164a50980c22dc822e1e31c8c362fc64553929b6877cdecaf26b0ec1",
+          "rows": 744
+        },
+        {
+          "month": "2021-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-11.zip",
+          "archive_sha256": "4939d7a971e30ac1d7b87c6c0352375bf8a0a539cd13bbf3e3920969a24bb42e",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-11.zip.CHECKSUM",
+          "checksum_sha256": "f0bea00db66599c137157ef919d1ff682c7cbb2edc39f7353ca28cb1cec3900a",
+          "rows": 720
+        },
+        {
+          "month": "2021-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2021-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-12.zip",
+          "archive_sha256": "61d5be6bdb0fb8007898c8f61375a83fe466cd18f1fc67c53e6f42b8b8a34d07",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2021-12.zip.CHECKSUM",
+          "checksum_sha256": "86d7976919a7855392c87a62e5f7efee48ef1d5959b91d9becc312170e6fe5a5",
+          "rows": 744
+        },
+        {
+          "month": "2022-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-01.zip",
+          "archive_sha256": "bbe2ad04379133e2ca7b68cb5351b5ba610523c6a0d53b4ecfd628b972165cc3",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-01.zip.CHECKSUM",
+          "checksum_sha256": "8bba55ae00d8123104b9ac0fe45df6eed5f59786bf768b4812f9c068b3aa610b",
+          "rows": 744
+        },
+        {
+          "month": "2022-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-02.zip",
+          "archive_sha256": "36b1e2ff3ffe162718e61bb23ef84a104dc2cc5591c18cd8ce4c04e96655b84c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-02.zip.CHECKSUM",
+          "checksum_sha256": "d0d06ec0775e00c46a402def54bd06238b7b2d917abe7d0a2b1976f074ea426b",
+          "rows": 600
+        },
+        {
+          "month": "2022-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-03.zip",
+          "archive_sha256": "044c37d917fea58900c8ddf4086b9fc71fcadd55215a10680e1e7461ffa78265",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-03.zip.CHECKSUM",
+          "checksum_sha256": "f946a2cff217f855fd356b061d19c863df729455054a2c35b0dca902d064f64b",
+          "rows": 744
+        },
+        {
+          "month": "2022-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-04.zip",
+          "archive_sha256": "1e4464fee6301816ff2efa7696d8cf53f34684b9b60616cf6af26e8cd75cfefc",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-04.zip.CHECKSUM",
+          "checksum_sha256": "16db6343d57daa5bd0062d8fbb4b125253462f46bc9c9f203c50e1f15bf5e3c0",
+          "rows": 672
+        },
+        {
+          "month": "2022-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-05.zip",
+          "archive_sha256": "6a8888b3d3d5a856d44eff5907210c30cc81fe210364f8b611726ad24b6846ba",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-05.zip.CHECKSUM",
+          "checksum_sha256": "688d4689243f4af135e9be42d8305fcce4fee4d58285a9cba4db62d5d9e80433",
+          "rows": 744
+        },
+        {
+          "month": "2022-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-06.zip",
+          "archive_sha256": "0a550357320ba4954437b15b85f01bf0cc0c455f07f19e27ca91ddda19f1f147",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-06.zip.CHECKSUM",
+          "checksum_sha256": "3fee27a291c52d67b2c479bb40cca6c0a22c92ba9bd55a443f52fb9594e8cbf5",
+          "rows": 720
+        },
+        {
+          "month": "2022-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-07.zip",
+          "archive_sha256": "05fc6f96bc940ae0d290b1039387c3a223b5159596819998563f34508594719a",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-07.zip.CHECKSUM",
+          "checksum_sha256": "3b17e40ad4e98844f522258320564314620ede86c190a06519fe2e060f2a1c15",
+          "rows": 744
+        },
+        {
+          "month": "2022-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-08.zip",
+          "archive_sha256": "971ab9bee4ad830767c285d3af6df5357af1bfa2ddb084fa49596cf9b5276036",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-08.zip.CHECKSUM",
+          "checksum_sha256": "1311063b4fa61776d1aae0af0ef8ef8f700728716a8808533a2660fecb346aee",
+          "rows": 744
+        },
+        {
+          "month": "2022-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-09.zip",
+          "archive_sha256": "41699bac620ac3f15318dd9238392fc5782d4321660e5c7986925eee3d172381",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-09.zip.CHECKSUM",
+          "checksum_sha256": "43ccc9017a1ab05f961941c63c865d064d7b0b16a4ec5ffde0ad97bf1d5d4b7c",
+          "rows": 720
+        },
+        {
+          "month": "2022-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-10.zip",
+          "archive_sha256": "bc6bb18da0f2e30171cefad3d2df55a70d12e7eafed7b566225ae67e737be6cd",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-10.zip.CHECKSUM",
+          "checksum_sha256": "df07ce4213a170712b0a63cb72e90f37311632928cfb7d4cc6e1a75fbe9ccbab",
+          "rows": 744
+        },
+        {
+          "month": "2022-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-11.zip",
+          "archive_sha256": "e156bc7231bfe31e21aaf5628260062aa9d59184ef075412ab0fa546dea1fd80",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-11.zip.CHECKSUM",
+          "checksum_sha256": "c85fc8fa5d5e43a445883d999a705f9217392c1aaefa823ca97b1fa4808766bf",
+          "rows": 720
+        },
+        {
+          "month": "2022-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2022-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-12.zip",
+          "archive_sha256": "8f1fa76f20f0cd161f238d4e7014274969df3d3ab5e8b6c9e1dc8327e02ec2d5",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2022-12.zip.CHECKSUM",
+          "checksum_sha256": "4efb768a554028bc27963b4dcbe561e1d5be3419aade2c51d6dc646ca80cd76d",
+          "rows": 744
+        },
+        {
+          "month": "2023-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-01.zip",
+          "archive_sha256": "0d7bc47dc3b49cbadd29274b63c02af8f23af40fe241412d357903ae945aa79d",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-01.zip.CHECKSUM",
+          "checksum_sha256": "87e2985406adefbf03d075523131d3734b4a897a0105e3225cab975e32aceaf5",
+          "rows": 744
+        },
+        {
+          "month": "2023-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-02.zip",
+          "archive_sha256": "1dc1a4ad1c82935fbe8b4c218f22087470b3a20cc2c1a394574ad1587ba5a828",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-02.zip.CHECKSUM",
+          "checksum_sha256": "d5283396e0f3551226575e61b2e058e863a4aaa47f34151524a81cbb9d599e21",
+          "rows": 672
+        },
+        {
+          "month": "2023-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-03.zip",
+          "archive_sha256": "c41bd78088a2bb8547f1b3bf5c89fcadd7606397d2a74f0961c47cf6754f8f8a",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-03.zip.CHECKSUM",
+          "checksum_sha256": "ffff7058bc7bcaa04acb4cc7b337cee077c79735bae61f62b86128ac12d80076",
+          "rows": 744
+        },
+        {
+          "month": "2023-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-04.zip",
+          "archive_sha256": "34aca0062513dbb81e99b4b6e2e0e2dd29b453e33c629c8cea1beeff9faf7543",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-04.zip.CHECKSUM",
+          "checksum_sha256": "71560ae25c8246724c3cd8549a3249512806aa5f50f5f233b3e70d80af8e9284",
+          "rows": 720
+        },
+        {
+          "month": "2023-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-05.zip",
+          "archive_sha256": "4c5b1305d4395bb122f85b60520db8995c810357a2c189158b2beae2d116b1bc",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-05.zip.CHECKSUM",
+          "checksum_sha256": "d53981ab8ee3b5f5783a920d40c647d7339b7e644d194d6e353677c8f94d09df",
+          "rows": 744
+        },
+        {
+          "month": "2023-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-06.zip",
+          "archive_sha256": "023229af2e8a8900ee79ba088837b174acc52512f2e8296b02aa279cf97a82f5",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-06.zip.CHECKSUM",
+          "checksum_sha256": "3097cdcd4b7dada5d0f105360a3424723e1cb376fa3f2e939692a629641cd6fc",
+          "rows": 720
+        },
+        {
+          "month": "2023-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-07.zip",
+          "archive_sha256": "e45b525229f485463a33f3c59f4dc3eafa2de1f9fbca8f2126cd3c074f62b6bb",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-07.zip.CHECKSUM",
+          "checksum_sha256": "5f0e0e4271c0ecb3a6c488491e1c0c9af49e667870e48763e93bc9353260b4d1",
+          "rows": 744
+        },
+        {
+          "month": "2023-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-08.zip",
+          "archive_sha256": "d509bcda20054981e3f738ef1a33090dc12ddaea5593932e2545a285ee4987c9",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-08.zip.CHECKSUM",
+          "checksum_sha256": "e768d7efc2aa5faeccff38f3285f865ec91e047394f5b4ac29f0b04029994cea",
+          "rows": 744
+        },
+        {
+          "month": "2023-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-09.zip",
+          "archive_sha256": "99ac300173c437de0b735ca04ff7ac55512431eedd381795f2ba069edd9020c6",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-09.zip.CHECKSUM",
+          "checksum_sha256": "101b87afdb920e12d3d8d32a72d7180c3c53b45e26cb1c3ced91576918c97636",
+          "rows": 720
+        },
+        {
+          "month": "2023-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-10.zip",
+          "archive_sha256": "e9046fe166dd07107386312716030e66aad44136d40712b17b976ff9dd905bef",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-10.zip.CHECKSUM",
+          "checksum_sha256": "5c5a63a7885bc1d3aee3a9ed30197c165258f5d319034e506fbe74c173f797fe",
+          "rows": 744
+        },
+        {
+          "month": "2023-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-11.zip",
+          "archive_sha256": "96c7b5324c80818622477b6d3fa71b82f62ae2266ec42f763433a11eef7494bb",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-11.zip.CHECKSUM",
+          "checksum_sha256": "72dfb715079a5f4ce655e93e1932e9da5dcc7f8c66ede452ddabcf77954e9edb",
+          "rows": 720
+        },
+        {
+          "month": "2023-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2023-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-12.zip",
+          "archive_sha256": "5d7fea512037fe238b6133df8bec56231cf086b73a44bdff89e5dcdfb991d62f",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2023-12.zip.CHECKSUM",
+          "checksum_sha256": "9d2c304946c464f7fde210a83d514b2216b8c2d5ffe6322d6988ac99f175c9ce",
+          "rows": 744
+        },
+        {
+          "month": "2024-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-01.zip",
+          "archive_sha256": "eb8a8dc7685761609f19b403db0eb6655d757f720f71da9b8c1ab638ddfc85b9",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-01.zip.CHECKSUM",
+          "checksum_sha256": "0c44f9412569eb674a73231056edde54a5dcf200ed85e2664c70e1fb372854cd",
+          "rows": 744
+        },
+        {
+          "month": "2024-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-02.zip",
+          "archive_sha256": "7d87e385b8befd2c3fd6090475904fb6d28ec65d1afb1f1892570178bfba54ac",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-02.zip.CHECKSUM",
+          "checksum_sha256": "3b4d652d592a7dc43a95a5281889d4ad66e274b3d1acdb5a0891c1b396310430",
+          "rows": 696
+        },
+        {
+          "month": "2024-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-03.zip",
+          "archive_sha256": "b679c264fc7d70ccf70d9fb25481bfed485a01c2cd439b8b698933b9398119c1",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-03.zip.CHECKSUM",
+          "checksum_sha256": "3cfb66b72c135e4d3b0c7f568012a58d658930335e9eca82b82f5dc1a8467d00",
+          "rows": 744
+        },
+        {
+          "month": "2024-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-04.zip",
+          "archive_sha256": "02fdeb42d8293094fab995cca7b33ef6fb18714d173e6da9e894119c734557e9",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-04.zip.CHECKSUM",
+          "checksum_sha256": "54554c0ebca2a9af33924088ba4a53ce50a3556036739f5e7edd1c5cbab593af",
+          "rows": 720
+        },
+        {
+          "month": "2024-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-05.zip",
+          "archive_sha256": "b22668d0d3fc2fb430efd5cca654dcf167b5df2d8997401f49d8e3f9ba43b3c8",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-05.zip.CHECKSUM",
+          "checksum_sha256": "9d02d6b5e737cad28680a7b5ca114c018af0fff174582af8534646b10f6f25e2",
+          "rows": 744
+        },
+        {
+          "month": "2024-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-06.zip",
+          "archive_sha256": "80e770b293faa4ae6da7d149df3e1912da67bb121b58123260c7f4b755f4809d",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-06.zip.CHECKSUM",
+          "checksum_sha256": "bc11a6b4f9f9cb2f337746dc5d22cbaee145d3a47a08dc8754d0747144ffdf16",
+          "rows": 720
+        },
+        {
+          "month": "2024-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-07.zip",
+          "archive_sha256": "da7072219268b51067972bf51032440ba3214d63df037180bc0c9e33a77ffa8b",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-07.zip.CHECKSUM",
+          "checksum_sha256": "75598c16d360446ef0339c63dabc6247547b4ca55d50efbac9478729fba45603",
+          "rows": 744
+        },
+        {
+          "month": "2024-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-08.zip",
+          "archive_sha256": "08bc16fd25cb4b024ac2f3d187d4ed5426014e48808ea9523b9792b141dca34d",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-08.zip.CHECKSUM",
+          "checksum_sha256": "4206037e26f0db76efc4f67e90fa4664ea65ac104ad171163da4a914591efc55",
+          "rows": 744
+        },
+        {
+          "month": "2024-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-09.zip",
+          "archive_sha256": "c99c50b8413b34318d5aa778b890d8d06d5c333c4db101570c1c9ee7e35b6451",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-09.zip.CHECKSUM",
+          "checksum_sha256": "83d490f3994801362af2f245eaa47c0a53bb4af9026dd629d3a08cad960478c5",
+          "rows": 720
+        },
+        {
+          "month": "2024-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-10.zip",
+          "archive_sha256": "ae94c6ea35e4b98c5a2e41a32a9d75e18793ced7c3e55c9e524a3e0c43ae75d7",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-10.zip.CHECKSUM",
+          "checksum_sha256": "a03eadae87f433c8ad57ff6ff40a15c03bc7580022c135b2ebd02b47fdc7c2fd",
+          "rows": 744
+        },
+        {
+          "month": "2024-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-11.zip",
+          "archive_sha256": "620f261485e352e46458f683129cdf5141d2f70222a70b65228d6473f884ca81",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-11.zip.CHECKSUM",
+          "checksum_sha256": "84e9f06b83d5a9b32c3285ca77e604aab1831cc287c96e485727e563e8a438c2",
+          "rows": 720
+        },
+        {
+          "month": "2024-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2024-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-12.zip",
+          "archive_sha256": "bdb5c900670da54eac3653f7be69529dbfeb13574aa6072049ff1c419d7f5567",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2024-12.zip.CHECKSUM",
+          "checksum_sha256": "bdb968f1ce375fea1e422d7eb227cf339b0a9df737afaae87f28c87d06e3d538",
+          "rows": 744
+        },
+        {
+          "month": "2025-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-01.zip",
+          "archive_sha256": "372c98abd2da7bbf5e3cbe39e77296efe8ef4e94790c3566da3e7313049be7b8",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-01.zip.CHECKSUM",
+          "checksum_sha256": "1227dce67147dc36b02ccd2c615b41db901c1e36128c7a0d0610c489a06e3701",
+          "rows": 744
+        },
+        {
+          "month": "2025-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-02.zip",
+          "archive_sha256": "863aeb10c3a31a5a9da82bfbcd120740c0dfad5078a579366caf166f58aa9b34",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-02.zip.CHECKSUM",
+          "checksum_sha256": "9e152d54d12c253cd42bf4310b3adb35ed345ee6f0318bb313438029909c8169",
+          "rows": 672
+        },
+        {
+          "month": "2025-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-03.zip",
+          "archive_sha256": "04b504d8b18dd7e1dce1783add7bf40df0132e6aeb9932a46aa950abb36534c8",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-03.zip.CHECKSUM",
+          "checksum_sha256": "19a2dd2a064363ebdaf59b51d7af33879b7beeed4b7c66a7271474a5cf8880f3",
+          "rows": 744
+        },
+        {
+          "month": "2025-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-04.zip",
+          "archive_sha256": "6d8784d0f2a936547897208aada8b57d65104bd3307cfad32fb39070fdec061c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-04.zip.CHECKSUM",
+          "checksum_sha256": "68efe556117a14baedf4e82e18a5370db016a4fb53b0ca61d4b67e2f75df40eb",
+          "rows": 720
+        },
+        {
+          "month": "2025-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-05.zip",
+          "archive_sha256": "b20e5bf7b4b3b3d5c0720ab2d845e03933ef08f15d3f06570b009463ba12bad9",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-05.zip.CHECKSUM",
+          "checksum_sha256": "555438a376851fa6eabea428e9a6fc0b8a6b23e4aab5f18b34db16c209567a30",
+          "rows": 744
+        },
+        {
+          "month": "2025-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-06.zip",
+          "archive_sha256": "72d6fb9cab913d98220a06a08eab70a361b5d3fe84ea9701420e5f2cc6600c7c",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-06.zip.CHECKSUM",
+          "checksum_sha256": "e5a25601680f238ea4a9316664ad98c090cf0a8647595b8f7ba6b5ac8e152dc8",
+          "rows": 720
+        },
+        {
+          "month": "2025-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-07.zip",
+          "archive_sha256": "5493328c22d7804c5d64298e8ac475786eba0810cdb31ed6e6134f5720c5a2bc",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-07.zip.CHECKSUM",
+          "checksum_sha256": "aad7e06a7087892efe02d7800def5e022dcdc4c8e938227548216ca7d7fa570d",
+          "rows": 744
+        },
+        {
+          "month": "2025-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-08.zip",
+          "archive_sha256": "ff753c960ffa6954d3ffbd9cf6f6a0f8d2b280753cf868ebe4732d0afa5a14fd",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-08.zip.CHECKSUM",
+          "checksum_sha256": "369b090b859a2d00226f6ec833f974d14b46d2a5de8fee340f375d0ba1f8e658",
+          "rows": 744
+        },
+        {
+          "month": "2025-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-09.zip",
+          "archive_sha256": "9cbc37023b21bc91802c38689466e2bb69eff22e55d6012c6feb0bb0bce56004",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-09.zip.CHECKSUM",
+          "checksum_sha256": "1300c05eca4d8e2d76e1ce8f612b00aa64c779191f0c1324fe767a7af2d0d40c",
+          "rows": 720
+        },
+        {
+          "month": "2025-10",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-10.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-10.zip",
+          "archive_sha256": "8d96a116ab53375ce88316e027fed319d625a35756122ed4af79d75584133b97",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-10.zip.CHECKSUM",
+          "checksum_sha256": "5ad27b87c77e967474cd7d1c504092c71d2c470878d6da18f4d4fdca1db15336",
+          "rows": 744
+        },
+        {
+          "month": "2025-11",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-11.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-11.zip",
+          "archive_sha256": "2a74a61262338c2cf49d65d3c2d8e5a27ccda3aadedeaeed87da0544b13fb372",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-11.zip.CHECKSUM",
+          "checksum_sha256": "97f11cd0d71f0144a6f85a72430f671c349cb88cde669fa337d9fe10ee454777",
+          "rows": 720
+        },
+        {
+          "month": "2025-12",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2025-12.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-12.zip",
+          "archive_sha256": "7c25b753fd893dc697b5e7e8a1d0db904150181be7b7991cc05ba5b08f81cdf8",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2025-12.zip.CHECKSUM",
+          "checksum_sha256": "7cddb2b285a7f4b957293e1ed994ecf9d8207dde2d88ada1134350de0e2f0e21",
+          "rows": 744
+        },
+        {
+          "month": "2026-01",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2026-01.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-01.zip",
+          "archive_sha256": "cc16e807c075689a73f096b7603c34f1eb289bb2d782ca8f6147e4c42632ed0e",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-01.zip.CHECKSUM",
+          "checksum_sha256": "2cc73da5f61ee1fd1c783681650f548e89542bc7946e38b0aa890d073c5b9e36",
+          "rows": 744
+        },
+        {
+          "month": "2026-02",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2026-02.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-02.zip",
+          "archive_sha256": "fa733e5400163477fa7eb544a9a7e04b5c679656720ccb7f92787fcf33b739a3",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-02.zip.CHECKSUM",
+          "checksum_sha256": "a7944101b7dda63b1b9cdb9e249a12f937501158a2f2a2d071f454ecce5e4596",
+          "rows": 672
+        },
+        {
+          "month": "2026-03",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2026-03.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-03.zip",
+          "archive_sha256": "5e9440665d3e4209c320e2dab897b5c3cec578800e669e1c8fd3503f157e49f1",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-03.zip.CHECKSUM",
+          "checksum_sha256": "61ef9a6f8f4b868c4ecd6ab59deec75f23d89ef8b3e71310db35b0fd3cb2a8ee",
+          "rows": 744
+        },
+        {
+          "month": "2026-04",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2026-04.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-04.zip",
+          "archive_sha256": "2f466580c7e6d2e02a67a968428c0f9b987108cc1a3d2ba73061e329aacc208d",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-04.zip.CHECKSUM",
+          "checksum_sha256": "1e63d803a06ed1b7d0920ba5f9afd7a2bf59d16cd6fc0c50218b6f316f9c6b6b",
+          "rows": 720
+        },
+        {
+          "month": "2026-05",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2026-05.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-05.zip",
+          "archive_sha256": "0d1aef19746005c140421825e55e482813330b19a82cbc24c792aaa0464778c2",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-05.zip.CHECKSUM",
+          "checksum_sha256": "a60d7b92ceb7c390f1b55febd1d298e6e0b9242b6c1c51d89b88623624bcb0a1",
+          "rows": 744
+        },
+        {
+          "month": "2026-06",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2026-06.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-06.zip",
+          "archive_sha256": "5b6913a64843d8fbadeb1783a2ef064291355a33e6eee84f1a03c7e8786acfc8",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-06.zip.CHECKSUM",
+          "checksum_sha256": "46fe18df6d6658b77d50fce7e0f6aadc40faae54f581ef0f1489ff202fe73655",
+          "rows": 720
+        },
+        {
+          "month": "2026-07",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2026-07.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-07.zip",
+          "archive_sha256": "4a88a47617d14ba94ae2154732ba724497a8cad66b1d7fd0dc4f88216101e0be",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-07.zip.CHECKSUM",
+          "checksum_sha256": "9788ffb1fdcc76493971cf17d1b7fc18adc7e7c01f21abb6e8f793823f81c20e",
+          "rows": 744
+        },
+        {
+          "month": "2026-08",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2026-08.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-08.zip",
+          "archive_sha256": "a25ab3dfcabcf739bd8bdd0aa9b1302865d5c571a5af1ffbb6e4a2b5c26ab833",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-08.zip.CHECKSUM",
+          "checksum_sha256": "66c10063fced4abe59bcdb23ad4ed09fd4e7184e93cc91c4a8bc37b2dea350af",
+          "rows": 744
+        },
+        {
+          "month": "2026-09",
+          "url": "https://data.binance.vision/data/futures/um/monthly/klines/SOLUSDT/1h/SOLUSDT-1h-2026-09.zip",
+          "status": 200,
+          "archive_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-09.zip",
+          "archive_sha256": "e57f44b7df1f4269a06395c161d3618d9bc3d56e623825fc77c615d713a19263",
+          "checksum_path": "data/tmg_channel_2026-10-26/raw/SOLUSDT/SOLUSDT-1h-2026-09.zip.CHECKSUM",
+          "checksum_sha256": "a16397660c2ef8e52b53adb63ce17a7c52d221f6ea91b3916a577b92ec093f67",
+          "rows": 720
+        }
+      ]
+    }
+  }
+}

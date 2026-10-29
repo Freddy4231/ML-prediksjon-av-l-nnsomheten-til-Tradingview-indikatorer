@@ -1,0 +1,13 @@
+{
+  "sha256": {
+    "tmg_context_extension.py": "b3b9bc67b54a46f088637727cfea80f46f751502dba51bf2aa31881b89b87d70",
+    "tmg_context_dashboard.py": "b0835ab491f9176a04fcf43eb38b3804dcb0b4a54c212369bd59a74de3988e69",
+    "tmg_daily_confirmation.py": "1fd47fcc8b0777d951092519118a113d6e7baab57a962ab68ebadf3bd812e99c",
+    "tmg_trades_weex.py": "6c365bd9ac40d0a380b1aea4a9d77026dd72b60f8044716c83c4333a4a35069b",
+    "tradingview/tmg_daily_profit_guard.pine": "a2d98fb9147fd8843fb125dc9111f521f2f2779e63737d8b9cf8e6c717bd417f",
+    "tradingview/tmg_daily_confirmation.pine": "cead7b852682d66cceac4b728e3d1965b3973e5c9d1c08b9c4997a4369dd76ce",
+    "reports/tmg_context_2026-10-26/dashboard_data.json": "3f5302576969d84592764926bb4768649297eec473218f422712d6596df94c24"
+  },
+  "plan_sha256": "3468ce7847be0026cb3f8c3f5cc4289d40760acb6d129ae3e0e7c7bf8c95eb4d",
+  "control_sha256": "ba416293d6bff081cfcdf58c095edee6431b7f52ebbffc45ac636cee02e7baed"
+}

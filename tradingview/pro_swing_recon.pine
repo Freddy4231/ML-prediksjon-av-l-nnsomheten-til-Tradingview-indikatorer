@@ -1,0 +1,360 @@
+//@version=6
+// Independent public-output reconstruction. Not the author's protected source.
+// Reference: tradingview.com/script/FNKirzMx-MQLSoftware-Pro-Swing-Trading-System/
+// Verified sample: 549 public EURUSD 15m bars; Medium/Balanced/Normal channel.
+// A seeded offline replay matched the sample: ATR200*8.4, main/echo, EMA8, retests,
+// Low stop = width/2, targets and sizing. Other presets, Auto and quality filters
+// are explicit approximations. No historical seed values or signal dates are hardcoded.
+indicator("Pro Swing - Public Output Reconstruction", "Swing Rec", overlay = true, max_bars_back = 5000, max_lines_count = 500, max_labels_count = 500)
+
+// ------------------------ Setup ------------------------
+string mode = input.string("Public reference", "Detection Mode", options = ["Public reference", "PRO Manual", "Auto Settings"], group = "Quick Setup", tooltip = "Public reference uses the measured Medium/Balanced/Normal core, 20% main, 35% echo (disabled), gap 20, max 1 signal/trend, max age 100 and 1.5 R. Unidentified quality filters are bypassed. PRO Manual enables all inputs. Auto is an approximation, not recovered original logic.")
+bool showCalculator = input.bool(true, "Show Risk Calculator", group = "Quick Setup")
+bool showMonitor = input.bool(true, "Show Trend Strength Monitor", group = "Quick Setup")
+float accountBalance = input.float(10000, "Account Balance (USD)", minval = 0, group = "Quick Setup")
+float riskPercent = input.float(2, "Risk Per Trade (%)", minval = 0.01, maxval = 100, step = 0.01, group = "Quick Setup")
+string stopType = input.string("Low", "Stop Loss Width", options = ["Very Low", "Low", "Medium", "High"], group = "Quick Setup", tooltip = "Low = half the channel width, verified in the public plan. Other choices use inferred 0.25/0.75/1.0 width distances.")
+float rewardRisk = input.float(2, "Reward / Risk Ratio", minval = 0.1, step = 0.1, group = "Quick Setup", tooltip = "Public reference mode uses the published snapshot's 1.5 R. Other modes use this value.")
+string sizeDisplay = input.string("Units", "Position Size Display", options = ["Units", "Lots"], group = "Quick Setup")
+float lotSize = input.float(100000, "Lot Size (units per lot)", minval = 1, group = "Quick Setup")
+bool mobile = input.bool(false, "Mobile Mode", group = "Quick Setup")
+bool enableAlerts = input.bool(true, "Enable Alerts", group = "Quick Setup")
+
+bool filterHTF = input.bool(true, "Higher Timeframe Filter", group = "PRO · Signal Filters", tooltip = "PRO Manual / Auto only. Uses closed HTF channel direction. The original's exact HTF selection and confirmation are unverified.")
+string htfStrength = input.string("Double", "Filter Strength", options = ["Single", "Double"], group = "PRO · Signal Filters")
+string sessionChoice = input.string("Auto", "Active Trading Session", options = ["Auto", "London", "New York", "London + New York", "Asian", "All Day"], group = "PRO · Signal Filters", tooltip = "Reference mode is unrestricted to reproduce its out-of-session examples. Other modes: Auto forex 07-21 UTC, crypto All Day, stocks 13-21 UTC. Hours are fixed UTC, without DST adjustment.")
+bool filterVolume = input.bool(true, "Volume Confirmation", group = "PRO · Signal Filters", tooltip = "Inferred rule: current volume >= SMA20. Missing volume bypasses this filter.")
+bool filterDepth = input.bool(true, "Entry Depth Filter", group = "PRO · Signal Filters", tooltip = "Inferred rule: closing-price overshoot must be <= 15% of channel width.")
+bool filterProgress = input.bool(true, "Trend Progress Filter", group = "PRO · Signal Filters", tooltip = "Inferred rule: after the first 10 bars, the trend extreme must have advanced at least 10% of channel width.")
+
+string widthChoice = input.string("Medium", "Channel Width", options = ["Ultra Narrow", "Narrower", "Slightly Narrow", "Narrow", "Medium", "Wide", "Slightly Wider", "Wider", "Ultra Wide"], group = "PRO · Channel", tooltip = "Medium = 8.4 x ATR, verified. Other width mappings are proportional estimates, not measured original presets.")
+float mainPercent = input.float(20, "Main Swing Level (%)", minval = 10, maxval = 90, group = "PRO · Channel")
+bool enableEcho = input.bool(false, "Enable Echo Swing Signals", group = "PRO · Channel")
+float echoPercent = input.float(40, "Echo Swing Level (%)", minval = 10, maxval = 90, group = "PRO · Channel")
+string sensitivity = input.string("Balanced", "Channel Sensitivity", options = ["Very Fast", "Fast", "Balanced", "Slow", "Very Slow"], group = "PRO · Channel", tooltip = "Balanced = ATR200, verified. Other lengths use inferred 50/100/400/800.")
+string confirmation = input.string("Normal", "Trend Confirmation", options = ["Instant", "Normal", "Strong", "Very Strong"], group = "PRO · Channel", tooltip = "Normal compares previous close to previous channel boundary, as measured. Strong/Very Strong additionally require 2/3 past closes beyond that boundary; these extensions are unverified.")
+bool ignoreSpikes = input.bool(false, "Ignore Spike Bars", group = "PRO · Channel", tooltip = "Inferred smoothing: EMA10 of ATR before width is latched.")
+int atrOverride = input.int(0, "ATR length override (0 = preset)", minval = 0, maxval = 2000, group = "PRO · Channel")
+float widthOverride = input.float(0, "ATR multiplier override (0 = preset)", minval = 0, step = 0.1, group = "PRO · Channel")
+
+bool allowLong = input.bool(true, "Allow Long Entries", group = "PRO · Advanced Filters")
+bool allowShort = input.bool(true, "Allow Short Entries", group = "PRO · Advanced Filters")
+bool filterReversal = input.bool(true, "Channel Reversal Filter", group = "PRO · Advanced Filters", tooltip = "PRO Manual / Auto only. Requires the new trend extreme to clear the old reversal boundary by the selected percentage of the previous channel width. Exact original equation is unverified.")
+float minReversal = input.float(10, "Min Reversal Strength (%)", minval = 0, step = 1, group = "PRO · Advanced Filters")
+int minBars = input.int(10, "Min Bars Between Signals", minval = 1, group = "PRO · Advanced Filters")
+int maxSignals = input.int(5, "Max Signals Per Trend", minval = 1, maxval = 20, group = "PRO · Advanced Filters")
+int maxTrendBars = input.int(100, "Max Bars After Trend Start (0 = off)", minval = 0, group = "PRO · Advanced Filters")
+
+bool monday = input.bool(true, "Monday", inline = "days1", group = "PRO · Schedule UTC")
+bool tuesday = input.bool(true, "Tuesday", inline = "days1", group = "PRO · Schedule UTC")
+bool wednesday = input.bool(true, "Wednesday", inline = "days1", group = "PRO · Schedule UTC")
+bool thursday = input.bool(true, "Thursday", inline = "days2", group = "PRO · Schedule UTC")
+bool friday = input.bool(true, "Friday", inline = "days2", group = "PRO · Schedule UTC")
+bool saturday = input.bool(true, "Saturday", inline = "days2", group = "PRO · Schedule UTC")
+bool sunday = input.bool(true, "Sunday", inline = "days2", group = "PRO · Schedule UTC")
+int startHour = input.int(0, "Session Start (hour UTC)", minval = 0, maxval = 23, group = "PRO · Schedule UTC")
+int endHour = input.int(24, "Session End (hour UTC)", minval = 0, maxval = 24, group = "PRO · Schedule UTC")
+
+bool showSL = input.bool(true, "Show Stop Loss", group = "PRO · Visuals")
+bool showTP = input.bool(true, "Show Take Profit", group = "PRO · Visuals")
+bool showTP2 = input.bool(false, "Show Take Profit 2", group = "PRO · Visuals")
+float tp2Extension = input.float(20, "TP2 Extension (%)", minval = 0, maxval = 100, group = "PRO · Visuals")
+string planDisplay = input.string("Last Signal Only", "TP/SL Display Mode", options = ["Last Signal Only", "All Signals"], group = "PRO · Visuals")
+int keepPlans = input.int(30, "Maximum historical plans", minval = 1, maxval = 50, group = "PRO · Visuals")
+int keepMarkers = input.int(150, "Maximum signal markers", minval = 1, maxval = 200, group = "PRO · Visuals")
+bool showMidline = input.bool(true, "Show Trend Midline", group = "PRO · Visuals")
+int midlineLength = input.int(8, "Midline Smoothing (EMA)", minval = 2, maxval = 50, group = "PRO · Visuals")
+bool showFill = input.bool(true, "Show Channel Fill", group = "PRO · Visuals")
+bool showLevels = input.bool(true, "Show Main / Echo levels", group = "PRO · Visuals")
+color panelBackground = input.color(color.new(#0F0F0F, 15), "Panel Background", group = "PRO · Visuals")
+color longColor = input.color(#00DCB9, "Long Signal Colour", group = "PRO · Visuals")
+color shortColor = input.color(#EB5564, "Short Signal Colour", group = "PRO · Visuals")
+color tpColor = input.color(color.new(#00DCB9, 25), "Take Profit Colour", group = "PRO · Visuals")
+color slColor = input.color(color.new(#EB5564, 25), "Stop Loss Colour", group = "PRO · Visuals")
+
+// Reference is deliberately explicit: it reproduces only the measured configuration.
+bool referenceMode = mode == "Public reference"
+bool autoMode = mode == "Auto Settings"
+int chartSeconds = timeframe.in_seconds(timeframe.main_period)
+int presetATR = sensitivity == "Very Fast" ? 50 : sensitivity == "Fast" ? 100 : sensitivity == "Slow" ? 400 : sensitivity == "Very Slow" ? 800 : 200
+float widthScale = widthChoice == "Ultra Narrow" ? 0.40 : widthChoice == "Narrower" ? 0.55 : widthChoice == "Slightly Narrow" ? 0.70 : widthChoice == "Narrow" ? 0.85 : widthChoice == "Wide" ? 1.20 : widthChoice == "Slightly Wider" ? 1.40 : widthChoice == "Wider" ? 1.65 : widthChoice == "Ultra Wide" ? 2.0 : 1.0
+int atrLength = referenceMode ? 200 : atrOverride > 0 ? atrOverride : autoMode ? (syminfo.type == "crypto" ? 100 : 200) : presetATR
+float widthMult = referenceMode ? 8.4 : widthOverride > 0 ? widthOverride : autoMode ? (syminfo.type == "crypto" ? 10.08 : 8.4) : 8.4 * widthScale
+int delay = referenceMode ? 1 : confirmation == "Instant" ? 0 : confirmation == "Strong" ? 2 : confirmation == "Very Strong" ? 3 : 1
+bool smoothATR = not referenceMode and (ignoreSpikes or (autoMode and syminfo.type == "crypto"))
+float mainFraction = referenceMode ? 0.20 : mainPercent * 0.01
+float echoFraction = referenceMode ? 0.35 : echoPercent * 0.01
+bool useEcho = not referenceMode and enableEcho
+int signalGap = referenceMode ? 20 : minBars
+int signalLimit = referenceMode ? 1 : maxSignals
+int trendAgeLimit = referenceMode ? 100 : maxTrendBars
+float effectiveRR = referenceMode ? 1.5 : rewardRisk
+float stopFraction = referenceMode ? 0.5 : stopType == "Very Low" ? 0.25 : stopType == "Medium" ? 0.75 : stopType == "High" ? 1.0 : 0.5
+int effectiveMidline = referenceMode ? 8 : midlineLength
+if barstate.isfirst and useEcho and echoFraction <= mainFraction
+    runtime.error("Echo depth must be greater than Main depth.")
+if barstate.isfirst and na(chartSeconds)
+    runtime.error("Use a time-based chart for the higher-timeframe monitor.")
+
+// ------------------------ Channel engine ------------------------
+f_channel(simple int length, simple float multiplier, simple int lag, simple bool smooth, simple float mainDepth, simple float echoDepth, simple int emaLength) =>
+    float rawATR = ta.atr(length)
+    float smoothVolatility = ta.ema(rawATR, 10)
+    float candidateWidth = (smooth ? smoothVolatility : rawATR) * multiplier
+    var float upper = na
+    var float lower = na
+    var float width = na
+    var int direction = 0
+    var int born = na
+    var float priorBoundary = na
+    var float priorWidth = na
+    var float firstExtreme = na
+    if not na(candidateWidth) and candidateWidth > 0
+        if na(width)
+            direction := close >= close[1] ? 1 : -1
+            width := candidateWidth
+            upper := direction == 1 ? high : low + width
+            lower := direction == 1 ? high - width : low
+            born := bar_index
+            firstExtreme := direction == 1 ? upper : lower
+        else
+            bool breakUp = lag == 0 ? close > upper[1] : close[1] > upper[1]
+            bool breakDown = lag == 0 ? close < lower[1] : close[1] < lower[1]
+            if lag >= 2
+                breakUp := breakUp and close[2] > upper[1]
+                breakDown := breakDown and close[2] < lower[1]
+            if lag >= 3
+                breakUp := breakUp and close[3] > upper[1]
+                breakDown := breakDown and close[3] < lower[1]
+            if (direction == -1 and breakUp) or (direction == 1 and breakDown)
+                priorBoundary := direction == -1 ? upper[1] : lower[1]
+                priorWidth := width
+                direction := -direction
+                width := candidateWidth
+                upper := direction == 1 ? high : low + width
+                lower := direction == 1 ? high - width : low
+                born := bar_index
+                firstExtreme := direction == 1 ? upper : lower
+            else if direction == 1
+                upper := math.max(upper[1], high)
+                lower := upper - width
+            else
+                lower := math.min(lower[1], low)
+                upper := lower + width
+    float main = direction == 1 ? upper - width * mainDepth : lower + width * mainDepth
+    float echo = direction == 1 ? upper - width * echoDepth : lower + width * echoDepth
+    float midline = ta.ema((upper + lower) * 0.5, emaLength)
+    // Strength approximation: RSI distance from 50, displayed as a signed 0-100 bar.
+    float rsi = ta.rsi(close, 14)
+    float strength = math.min(100.0, math.abs(rsi - 50.0) * 2.0)
+    [upper, lower, width, main, echo, midline, direction, born, priorBoundary, priorWidth, firstExtreme, strength]
+
+f_closed_state(simple int length, simple float multiplier, simple int lag, simple bool smooth, simple float mainDepth, simple float echoDepth, simple int emaLength) =>
+    [u, l, w, m, e, mid, d, b, pb, pw, fe, s] = f_channel(length, multiplier, lag, smooth, mainDepth, echoDepth, emaLength)
+    [d[1], s[1]]
+
+f_next_tf(simple int seconds) =>
+    seconds < 60 ? "1" : seconds < 300 ? "5" : seconds < 900 ? "15" : seconds < 1800 ? "30" : seconds < 3600 ? "60" : seconds < 14400 ? "240" : seconds < 86400 ? "1D" : seconds < 604800 ? "1W" : seconds < timeframe.in_seconds("1M") ? "1M" : seconds < timeframe.in_seconds("3M") ? "3M" : seconds < timeframe.in_seconds("6M") ? "6M" : "12M"
+
+[upper, lower, channelWidth, mainLevel, echoLevel, midline, trend, trendBorn, priorBoundary, priorWidth, firstExtreme, trendStrength] = f_channel(atrLength, widthMult, delay, smoothATR, mainFraction, echoFraction, effectiveMidline)
+string tf1 = f_next_tf(chartSeconds)
+string tf2 = f_next_tf(timeframe.in_seconds(tf1))
+string tf3 = f_next_tf(timeframe.in_seconds(tf2))
+string tf4 = f_next_tf(timeframe.in_seconds(tf3))
+[htf1, strength1] = request.security(syminfo.tickerid, tf1, f_closed_state(atrLength, widthMult, delay, smoothATR, mainFraction, echoFraction, effectiveMidline), gaps = barmerge.gaps_off, lookahead = barmerge.lookahead_on)
+[htf2, strength2] = request.security(syminfo.tickerid, tf2, f_closed_state(atrLength, widthMult, delay, smoothATR, mainFraction, echoFraction, effectiveMidline), gaps = barmerge.gaps_off, lookahead = barmerge.lookahead_on)
+[htf3, strength3] = request.security(syminfo.tickerid, tf3, f_closed_state(atrLength, widthMult, delay, smoothATR, mainFraction, echoFraction, effectiveMidline), gaps = barmerge.gaps_off, lookahead = barmerge.lookahead_on)
+[htf4, strength4] = request.security(syminfo.tickerid, tf4, f_closed_state(atrLength, widthMult, delay, smoothATR, mainFraction, echoFraction, effectiveMidline), gaps = barmerge.gaps_off, lookahead = barmerge.lookahead_on)
+bool ready = trend != 0 and not na(channelWidth) and channelWidth > syminfo.mintick
+bool trendChanged = barstate.isconfirmed and ready and trend[1] != 0 and trend != trend[1]
+
+// ------------------------ Time and signal filters ------------------------
+int utcHour = hour(time, "UTC")
+int utcDay = dayofweek(time, "UTC")
+bool dayAllowed = utcDay == 2 ? monday : utcDay == 3 ? tuesday : utcDay == 4 ? wednesday : utcDay == 5 ? thursday : utcDay == 6 ? friday : utcDay == 7 ? saturday : sunday  // 1 = søndag, 2 = mandag … 7 = lørdag (som dayofweek.*)
+string resolvedSession = sessionChoice == "Auto" ? (syminfo.type == "forex" ? "London + New York" : syminfo.type == "stock" ? "New York" : "All Day") : sessionChoice
+int sessionStart = resolvedSession == "London" or resolvedSession == "London + New York" ? 7 : resolvedSession == "New York" ? 13 : resolvedSession == "Asian" ? 0 : startHour
+int sessionEnd = resolvedSession == "London" ? 16 : resolvedSession == "London + New York" or resolvedSession == "New York" ? 21 : resolvedSession == "Asian" ? 7 : endHour
+bool hourAllowed = sessionStart == sessionEnd or (sessionStart < sessionEnd ? utcHour >= sessionStart and utcHour < sessionEnd : utcHour >= sessionStart or utcHour < sessionEnd)
+bool schedulePass = referenceMode ? dayAllowed : dayAllowed and (not timeframe.isintraday or hourAllowed)
+float averageVolume = ta.sma(volume, 20)
+bool volumePass = referenceMode or not filterVolume or na(volume) or na(averageVolume) or volume >= averageVolume
+bool higherPass = referenceMode or not filterHTF or (timeframe.in_seconds(tf1) > chartSeconds and htf1 == trend and (htfStrength == "Single" or (timeframe.in_seconds(tf2) > timeframe.in_seconds(tf1) and htf2 == trend)))
+int trendAge = ready ? bar_index - trendBorn : 0
+float extreme = trend == 1 ? upper : lower
+float progress = ready ? trend * (extreme - firstExtreme) / channelWidth : 0
+bool progressPass = referenceMode or not filterProgress or trendAge < 10 or progress >= 0.10
+bool reversalPass = referenceMode or not filterReversal or na(priorBoundary) or trend * (extreme - priorBoundary) >= priorWidth * minReversal * 0.01
+bool agePass = trendAgeLimit == 0 or trendAge <= trendAgeLimit
+
+var int entriesThisTrend = 0
+var int lastEntryBar = na
+if barstate.isconfirmed and ready and (na(trendBorn[1]) or trend != trend[1])
+    entriesThisTrend := 0
+bool gapPass = na(lastEntryBar) or bar_index - lastEntryBar >= signalGap
+// Current level, not level[1]: this distinction explains the published first retests.
+bool mainRetest = trend == 1 ? close[1] > mainLevel and low <= mainLevel and close > mainLevel : close[1] < mainLevel and high >= mainLevel and close < mainLevel
+bool echoRetest = useEcho and (trend == 1 ? close[1] > echoLevel and low <= echoLevel and close > echoLevel : close[1] < echoLevel and high >= echoLevel and close < echoLevel)
+float candidateEntry = mainRetest ? mainLevel : echoRetest ? echoLevel : na
+bool depthPass = referenceMode or not filterDepth or (not na(candidateEntry) and trend * (close - candidateEntry) <= channelWidth * 0.15)
+bool directionPass = trend == 1 ? allowLong : allowShort
+bool entryEvent = barstate.isconfirmed and ready and (mainRetest or echoRetest) and directionPass and gapPass and entriesThisTrend < signalLimit and agePass and schedulePass and volumePass and higherPass and depthPass and progressPass and reversalPass
+bool longEvent = entryEvent and trend == 1
+bool shortEvent = entryEvent and trend == -1
+
+// USD sizing uses daily quote conversion; no price/quantity is submitted to a broker.
+bool dollarQuote = syminfo.currency == "USD" or syminfo.currency == "USDT" or syminfo.currency == "USDC"
+float quotedUSD = request.currency_rate(syminfo.currency, "USD", ignore_invalid_currency = true)
+float quoteToUSD = dollarQuote ? 1.0 : quotedUSD
+
+// ------------------------ Plans and bounded drawings ------------------------
+type SwingPlan
+    int direction
+    float entry
+    float stop
+    float tp
+    float tp2
+    float size
+    int born
+    string family
+    bool stopped = false
+    bool targetHit = false
+    bool target2Hit = false
+    array<line> strokes = na
+    array<label> tags = na
+
+method erase(SwingPlan self) =>
+    for stroke in self.strokes
+        line.delete(stroke)
+    for tag in self.tags
+        label.delete(tag)
+
+f_plan_line(SwingPlan plan, float price, string name, color c) =>
+    array.push(plan.strokes, line.new(time, price, time + 1, price, xloc = xloc.bar_time, color = c, style = line.style_dashed))
+    array.push(plan.tags, label.new(time, price, name + " " + str.tostring(price, format.mintick), xloc = xloc.bar_time, style = label.style_label_left, color = color.new(panelBackground, 5), textcolor = c, size = size.tiny))
+
+method extendPlan(SwingPlan self) =>
+    for stroke in self.strokes
+        line.set_x2(stroke, time)
+    for tag in self.tags
+        label.set_x(tag, time)
+
+var array<SwingPlan> plans = array.new<SwingPlan>()
+var array<label> markers = array.new<label>()
+var SwingPlan lastPlan = na
+bool stopEvent = false
+bool targetEvent = false
+if barstate.isconfirmed and not na(lastPlan) and bar_index > lastPlan.born and not lastPlan.stopped
+    // These are latched touch notifications, not a simulated trading account.
+    bool stopTouched = lastPlan.direction == 1 ? low <= lastPlan.stop : high >= lastPlan.stop
+    if stopTouched
+        lastPlan.stopped := true
+        stopEvent := true
+    else
+        if not lastPlan.targetHit and (lastPlan.direction == 1 ? high >= lastPlan.tp : low <= lastPlan.tp)
+            lastPlan.targetHit := true
+            targetEvent := true
+        if showTP2 and not lastPlan.target2Hit and (lastPlan.direction == 1 ? high >= lastPlan.tp2 : low <= lastPlan.tp2)
+            lastPlan.target2Hit := true
+            targetEvent := true
+if barstate.isconfirmed and not na(lastPlan)
+    lastPlan.extendPlan()
+
+if entryEvent
+    entriesThisTrend += 1
+    lastEntryBar := bar_index
+    if planDisplay == "Last Signal Only"
+        for old in plans
+            old.erase()
+        array.clear(plans)
+    float distance = math.max(channelWidth * stopFraction, syminfo.mintick)
+    float units = na(quoteToUSD) ? na : accountBalance * riskPercent * 0.01 / (distance * quoteToUSD * math.max(syminfo.pointvalue, 0.00000001))
+    lastPlan := SwingPlan.new(trend, candidateEntry, candidateEntry - trend * distance, candidateEntry + trend * distance * effectiveRR, candidateEntry + trend * distance * effectiveRR * (1 + tp2Extension * 0.01), units, bar_index, mainRetest ? "Main" : "Echo")
+    lastPlan.strokes := array.new<line>()
+    lastPlan.tags := array.new<label>()
+    if showSL
+        f_plan_line(lastPlan, lastPlan.stop, "SL", slColor)
+    if showTP
+        f_plan_line(lastPlan, lastPlan.tp, "TP", tpColor)
+    if showTP2
+        f_plan_line(lastPlan, lastPlan.tp2, "TP2", tpColor)
+    array.push(plans, lastPlan)
+    while array.size(plans) > keepPlans
+        SwingPlan expired = array.shift(plans)
+        expired.erase()
+    color signalColor = trend == 1 ? longColor : shortColor
+    label marker = label.new(time, candidateEntry, (trend == 1 ? "▲ LONG" : "▼ SHORT") + (mainRetest ? "" : " · ECHO"), xloc = xloc.bar_time, style = trend == 1 ? label.style_label_up : label.style_label_down, color = color.new(signalColor, 15), textcolor = color.white, size = mobile ? size.tiny : size.small)
+    array.push(markers, marker)
+    while array.size(markers) > keepMarkers
+        label.delete(array.shift(markers))
+    if enableAlerts
+        alert(syminfo.ticker + " " + (trend == 1 ? "LONG " : "SHORT ") + lastPlan.family + " | reference entry " + str.tostring(lastPlan.entry, format.mintick) + " | SL " + str.tostring(lastPlan.stop, format.mintick) + " | TP " + str.tostring(lastPlan.tp, format.mintick), alert.freq_once_per_bar_close)
+
+// ------------------------ Channel visuals ------------------------
+color trendColor = trend == 1 ? longColor : shortColor
+pUpper = plot(upper, "Upper Channel", color = color.new(trendColor, 65), linewidth = 1)
+pLower = plot(lower, "Lower Channel", color = color.new(trendColor, 65), linewidth = 1)
+pMain = plot(showLevels ? mainLevel : na, "Main Level", color = color.new(trendColor, 75), linewidth = 1)
+pEcho = plot(showLevels ? echoLevel : na, "Echo Level", color = color.new(trendColor, 75), linewidth = 1)
+fill(pUpper, pLower, color = showFill ? color.new(trendColor, 93) : na, title = "Trend Channel")
+fill(pMain, pEcho, color = showFill ? color.new(trendColor, 88) : na, title = "Main / Echo Zone")
+plot(showMidline ? midline : na, "Trend Midline", color = trendColor, linewidth = 2)
+
+// ------------------------ Trade-plan dashboard ------------------------
+f_price(float value) =>
+    na(value) ? "—" : str.tostring(value, format.mintick)
+
+f_row(table panel, int row, string caption, string value, color valueColor, string textSize) =>
+    table.cell(panel, 0, row, caption, text_color = #8F99A8, bgcolor = panelBackground, text_size = textSize, text_halign = text.align_left)
+    table.cell(panel, 1, row, value, text_color = valueColor, bgcolor = panelBackground, text_size = textSize, text_halign = text.align_right)
+
+f_strength_text(int d, float s, bool valid) =>
+    not valid ? "N/A" : d == 0 or na(s) ? "Warming up" : (d == 1 ? "▲ " : "▼ ") + str.tostring(s, "#") + "/100"
+
+var table dashboard = table.new(position.top_right, 2, 17, border_width = 0)
+if barstate.islast
+    table.clear(dashboard, 0, 0, 1, 16)
+    string font = mobile ? size.tiny : size.small
+    color foreground = #D8DFEA
+    int row = 0
+    if showCalculator
+        f_row(dashboard, row, "SWING · RECONSTRUCTION", syminfo.ticker, foreground, font)
+        row += 1
+        f_row(dashboard, row, "Entry reference", na(lastPlan) ? "Waiting for retest" : f_price(lastPlan.entry), foreground, font)
+        row += 1
+        if not mobile
+            f_row(dashboard, row, "Risk / budget USD", str.tostring(riskPercent, "#.##") + "% / " + str.tostring(accountBalance * riskPercent * 0.01, "#.##"), foreground, font)
+            row += 1
+            string sizeText = na(lastPlan) or na(lastPlan.size) ? "—" : str.tostring(sizeDisplay == "Lots" ? lastPlan.size / lotSize : lastPlan.size, "#.##") + (sizeDisplay == "Lots" ? " lots" : " units")
+            f_row(dashboard, row, "Initial size", sizeText, foreground, font)
+            row += 1
+        f_row(dashboard, row, "SL " + (referenceMode ? "Low" : stopType), na(lastPlan) ? "—" : f_price(lastPlan.stop), shortColor, font)
+        row += 1
+        f_row(dashboard, row, "TP · " + str.tostring(effectiveRR, "#.##") + " R", na(lastPlan) ? "—" : f_price(lastPlan.tp), longColor, font)
+        row += 1
+        if showTP2
+            f_row(dashboard, row, "TP2", na(lastPlan) ? "—" : f_price(lastPlan.tp2), longColor, font)
+            row += 1
+        if not mobile
+            string stateText = na(lastPlan) ? "HOLD / WAIT" : lastPlan.stopped ? "SL touched" : lastPlan.targetHit ? "TP touched" : "HOLD / WAIT"
+            f_row(dashboard, row, "Last plan", stateText, foreground, font)
+            row += 1
+    if showMonitor
+        f_row(dashboard, row, "TREND · strength estimate", f_strength_text(trend, trendStrength, ready), trendColor, font)
+        row += 1
+        f_row(dashboard, row, tf1, f_strength_text(htf1, strength1, timeframe.in_seconds(tf1) > chartSeconds), htf1 == 1 ? longColor : shortColor, font)
+        row += 1
+        f_row(dashboard, row, tf2, f_strength_text(htf2, strength2, timeframe.in_seconds(tf2) > timeframe.in_seconds(tf1)), htf2 == 1 ? longColor : shortColor, font)
+        row += 1
+        f_row(dashboard, row, tf3, f_strength_text(htf3, strength3, timeframe.in_seconds(tf3) > timeframe.in_seconds(tf2)), htf3 == 1 ? longColor : shortColor, font)
+        row += 1
+        f_row(dashboard, row, tf4, f_strength_text(htf4, strength4, timeframe.in_seconds(tf4) > timeframe.in_seconds(tf3)), htf4 == 1 ? longColor : shortColor, font)
+        row += 1
+    if showCalculator or showMonitor
+        f_row(dashboard, row, "Profile", mode, #8F99A8, font)
+
+alertcondition(enableAlerts and longEvent, "Long entry", "{{ticker}} confirmed swing LONG reference")
+alertcondition(enableAlerts and shortEvent, "Short entry", "{{ticker}} confirmed swing SHORT reference")
+alertcondition(enableAlerts and trendChanged, "Channel reversal", "{{ticker}} confirmed swing channel reversal")
+alertcondition(enableAlerts and stopEvent, "Stop level touched", "{{ticker}} swing stop reference touched")
+alertcondition(enableAlerts and targetEvent, "Target level touched", "{{ticker}} swing target reference touched")

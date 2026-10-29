@@ -1,0 +1,490 @@
+//@version=6
+// Selvstendig rekonstruksjon av offentlig atferd. Ingen original/proprietær kildekode.
+// Referanse: https://www.tradingview.com/script/KFHdNC06-Kinetic-Scalper-BULLBYTE/
+// Inputkatalog, gradegrenser, velocity og risikoplan er kontrollert mot offentlig graf.
+// Pulse-formen er målt i normalregimet. Adaptivitet, poeng og filtre er estimerte.
+// Ikke signalidentisk med originalen. Se kinetic_scalper_lesmeg.md.
+indicator("Kinetic Scalper · Independent Reconstruction", "KS Recon", overlay=true,
+     max_labels_count=500, max_lines_count=50, max_bars_back=1000)
+
+instrumentInput = input.string("Auto-Detect", "Instrument Type", options=["Auto-Detect", "Forex Major", "Forex Cross", "Crypto", "Index", "Commodity", "Futures"], group="01 · Hovedvalg")
+sensitivity = input.string("Balanced", "Signal Sensitivity", options=["Conservative", "Balanced", "Aggressive"], group="01 · Hovedvalg")
+enableSignals = input.bool(true, "Enable Trade Signals", group="01 · Hovedvalg")
+trackTrades = input.bool(true, "Enable Trade Tracking", group="01 · Hovedvalg")
+showLevels = input.bool(true, "Show Entry/Stop/Target Levels", group="01 · Hovedvalg")
+theme = input.string("Dark", "Color Theme", options=["Dark", "Light"], group="02 · Utseende")
+signalStyle = input.string("Premium", "Signal Display Style", options=["Premium", "Minimal", "Classic"], group="02 · Utseende")
+signalDistance = input.float(2, "Signal Distance (ATR multiplier)", minval=0.5, maxval=10, group="02 · Utseende")
+levelDistance = input.float(1.5, "TP/SL Label Distance", minval=0.5, maxval=5, group="02 · Utseende")
+showPreviousDay = input.bool(true, "Show Previous Day Levels", group="02 · Utseende")
+showMain = input.bool(true, "Show Main Dashboard", group="03 · Paneler")
+mainPosition = input.string("Top Right", "Main Dashboard Position", options=["Top Right", "Top Left", "Bottom Right", "Bottom Left"], group="03 · Paneler")
+showAnalysis = input.bool(true, "Show Trade Analysis Panel", group="03 · Paneler")
+analysisPosition = input.string("Bottom Left", "Analysis Panel Position", options=["Top Right", "Top Left", "Bottom Right", "Bottom Left", "Middle Right", "Middle Left"], group="03 · Paneler")
+compact = input.bool(false, "Compact Mode (Mobile Friendly)", group="03 · Paneler")
+showDetails = input.bool(true, "Show Factor Details", group="03 · Paneler")
+showHistory = input.bool(false, "Show Historical Backtester", group="03 · Paneler")
+sampleSize = input.int(60, "Trades to Test", options=[30, 60, 90], group="03 · Paneler")
+stopMethod = input.string("Fixed ATR", "Stop Loss Method", options=["Structure-Based", "ATR-Based", "Fixed ATR"], group="04 · Risiko og mål")
+stopMultiple = input.float(1.5, "Stop Loss ATR Multiplier", minval=0.1, maxval=3, group="04 · Risiko og mål")
+maxStop = input.float(2, "Maximum Stop Distance (ATR)", minval=0.1, maxval=5, group="04 · Risiko og mål")
+minStop = input.float(1, "Minimum Stop Distance (ATR)", minval=0.1, maxval=4, group="04 · Risiko og mål")
+targetMethod = input.string("R:R Based", "Target Placement Method", options=["ATR Based", "R:R Based"], group="04 · Risiko og mål")
+tp1Atr = input.float(1.5, "Target 1 Distance (ATR)", minval=0.5, maxval=5, group="04 · Risiko og mål")
+tp2Atr = input.float(3, "Target 2 Distance (ATR)", minval=1, maxval=8, group="04 · Risiko og mål")
+rr1 = input.float(1, "Target 1 Risk Multiple", minval=0.5, maxval=3, group="04 · Risiko og mål")
+rr2 = input.float(2, "Target 2 Risk Multiple", minval=1, maxval=5, group="04 · Risiko og mål")
+sessionAware = input.bool(true, "Session Awareness", group="05 · Filtre")
+sessionZone = input.string("UTC", "Session Timezone", options=["UTC", "America/New_York", "Europe/London", "Asia/Tokyo", "Asia/Hong_Kong"], group="05 · Filtre")
+phaseProtection = input.bool(false, "Market Phase Protection", group="05 · Filtre")
+openingSkip = input.int(15, "Opening Skip Minutes", options=[0, 5, 10, 15, 20, 30], group="05 · Filtre")
+closingSkip = input.int(30, "Closing Skip Minutes", options=[0, 5, 10, 15, 20, 30], group="05 · Filtre")
+useHTF = input.bool(true, "Higher Timeframe Alignment", group="05 · Filtre")
+htfInput = input.timeframe("", "HTF Timeframe", group="05 · Filtre")
+volumeFilter = input.bool(true, "Volume Confirmation", group="05 · Filtre")
+minVolume = input.float(0.8, "Minimum Volume Ratio", minval=0.3, maxval=2, group="05 · Filtre")
+clearanceFilter = input.bool(true, "Structure Clearance Check", group="05 · Filtre")
+cooldown = input.int(3, "Minimum Bars Between Signals", minval=1, maxval=10, group="05 · Filtre")
+momentumLength = input.int(14, "Momentum Period", minval=5, maxval=30, group="06 · Momentum")
+adaptive = input.bool(true, "Adaptive Period", group="06 · Momentum")
+divLookback = input.int(30, "Divergence Lookback", minval=10, maxval=60, group="06 · Momentum")
+swingBars = input.int(3, "Swing Detection Bars", minval=2, maxval=7, group="06 · Momentum")
+chopThreshold = input.float(61.8, "Choppiness Index Threshold", minval=38.2, maxval=80, group="06 · Momentum")
+
+
+// Tall som ikke kan identifiseres entydig fra den offentlige grafen er egne innstillinger.
+pulseScale = input.float(27.3, "Fisher-skala (målt i normalregimet)", minval=1, maxval=50, group="07 · Rekonstruksjon")
+balancedZone = input.float(45.0, "Balanced: long-sone (estimert)", minval=20, maxval=50, group="07 · Rekonstruksjon")
+webhook = input.bool(false, "Send JSON via alert() ved hendelser", group="07 · Rekonstruksjon",
+     tooltip="Bare varseldata. Skriptet sender ingen børsordre. Opprett et TradingView-varsel på Any alert() function call.")
+
+f_clip(float x, float lo, float hi) =>
+    math.max(lo, math.min(hi, x))
+f_num(float x) =>
+    na(x) ? "–" : str.tostring(x, "#.##")
+f_signed(float x) =>
+    (x > 0 ? "+" : "") + f_num(x)
+f_position(string p) =>
+    switch p
+        "Top Left" => position.top_left
+        "Bottom Right" => position.bottom_right
+        "Bottom Left" => position.bottom_left
+        "Middle Right" => position.middle_right
+        "Middle Left" => position.middle_left
+        => position.top_right
+
+// Målt form: kvadratrotvektet gain/loss, Fisher-skala 27.3, EMA3, deretter EMA3 av differansen.
+// Regimegrenser, periodejustering og ekstremklipping er eksplisitte estimater.
+f_pulse() =>
+    float a = ta.atr(14)
+    float ar = a / ta.sma(a, 100)
+    float period = adaptive ? math.round(momentumLength * (ar > 1.3 ? 0.9 : ar < 0.7 ? 1.1 : 1.0)) : momentumLength
+    float alpha = 2.0 / (math.max(5.0, period) + 1.0)
+    float avgVol = ta.sma(volume, 20)
+    float vr = not na(volume) and avgVol > 0 ? volume / avgVol : 1.0
+    float changeWeighted = nz(ta.change(close)) * math.sqrt(vr)
+    var float gains = 0.0
+    var float losses = 0.0
+    gains := alpha * math.max(changeWeighted, 0) + (1.0 - alpha) * gains
+    losses := alpha * math.max(-changeWeighted, 0) + (1.0 - alpha) * losses
+    float z = gains + losses > 0 ? f_clip((gains - losses) / (gains + losses), -0.999, 0.999) : 0.0
+    float fisher = 0.5 * math.log((1 + z) / (1 - z))
+    float p = f_clip(ta.ema(50.0 + pulseScale * fisher, 3), 0.0, 100.0)
+    float v = ta.ema(ta.change(p), 3)
+    [p, v]
+f_confirmed_pulse() =>
+    [p, v] = f_pulse()
+    [p[1], v[1]]
+
+if barstate.isfirst
+    if not chart.is_standard
+        runtime.error("Bruk en vanlig OHLC-graf. Heikin Ashi, Renko og andre syntetiske grafer støttes ikke.")
+    if minStop > maxStop and stopMethod != "Fixed ATR"
+        runtime.error("Minimum stopp kan ikke være større enn maksimum stopp.")
+    if (targetMethod == "ATR Based" and tp2Atr <= tp1Atr) or (targetMethod == "R:R Based" and rr2 <= rr1)
+        runtime.error("TP2 må ligge lenger fra inngangen enn TP1.")
+
+[pulse, velocity] = f_pulse()
+float acceleration = ta.change(velocity)
+float atr = ta.atr(14)
+float atrRatio = atr / ta.sma(atr, 100)
+bool extreme = atrRatio > 2.0
+string volatility = extreme ? "EXTREME" : atrRatio > 1.3 ? "HIGH" : atrRatio < 0.7 ? "LOW" : "NORMAL"
+float avgVolume = ta.sma(volume, 20)
+bool volumeAvailable = not na(volume) and avgVolume > 0
+float volumeRatio = volumeAvailable ? volume / avgVolume : na
+float deltaProxy = volumeAvailable and high > low ? volume * (2 * close - high - low) / (high - low) : 0
+float delta = ta.ema(deltaProxy, 5)
+float cci = ta.cci(hlc3, 20)
+float stochastic = ta.stoch(close, high, low, 14)
+[diPlus, diMinus, adx] = ta.dmi(14, 14)
+float chopRange = ta.highest(high, 14) - ta.lowest(low, 14)
+float chop = chopRange > 0 ? 100 * math.log10(math.sum(ta.tr(true), 14) / chopRange) / math.log10(14) : 100
+
+float seconds = timeframe.in_seconds(timeframe.main_period)
+string autoTF = seconds < 300 ? "5" : seconds < 900 ? "15" : seconds < 3600 ? "60" : seconds < 14400 ? "240" : seconds < 86400 ? "1D" : seconds < 604800 ? "1W" : seconds < 2592000 ? "1M" : "12M"
+string htf = htfInput == "" ? autoTF : htfInput
+bool htfAvailable = timeframe.in_seconds(htf) > seconds
+if barstate.isfirst and useHTF and htfInput != "" and not htfAvailable
+    runtime.error("Velg en høyere tidsramme enn grafens tidsramme.")
+// Både [1] og lookahead_on er nødvendige her: bare forrige FERDIGE HTF-lys brukes.
+[htfPulse, htfVelocity] = request.security(syminfo.tickerid, htf, f_confirmed_pulse(), lookahead=barmerge.lookahead_on)
+int htfDirection = htfAvailable and not na(htfPulse) ? (htfPulse > 55 and htfVelocity > 0 ? 1 : htfPulse < 45 and htfVelocity < 0 ? -1 : 0) : 0
+[dayHigh, dayLow] = request.security(syminfo.tickerid, seconds > 86400 ? timeframe.period : "1D", [high[1], low[1]], lookahead=barmerge.lookahead_on)
+// Dagsnivåer brukes ikke som LTF-filter på uke-/månedsgrafer.
+float pdh = seconds <= 86400 ? dayHigh : na
+float pdl = seconds <= 86400 ? dayLow : na
+
+bool detectedCrypto = syminfo.type == "crypto" or str.contains("|BTC|ETH|SOL|BNB|XRP|ADA|LTC|DOGE|AVAX|DOT|LINK|TRX|TON|SUI|BCH|XLM|", "|" + syminfo.basecurrency + "|")
+string instrument = instrumentInput == "Auto-Detect" ? (detectedCrypto ? "Crypto" : syminfo.type == "forex" ? (syminfo.basecurrency == "USD" or syminfo.currency == "USD" ? "Forex Major" : "Forex Cross") : syminfo.type == "index" ? "Index" : syminfo.type == "futures" ? "Futures" : "Commodity") : instrumentInput
+// Crypto 1.8 er offentlig dokumentert. De andre kalibreringene er estimater.
+float instrumentFactor = instrument == "Crypto" ? 1.8 : instrument == "Forex Cross" ? 0.9 : instrument == "Index" ? 1.2 : instrument == "Futures" ? 1.2 : instrument == "Commodity" ? 1.1 : 1.0
+int minuteOfDay = hour(time, sessionZone) * 60 + minute(time, sessionZone)
+bool overlap = minuteOfDay >= 780 and minuteOfDay < 960
+bool london = minuteOfDay >= 420 and minuteOfDay < 960
+bool newYork = minuteOfDay >= 780 and minuteOfDay < 1320
+bool asian = minuteOfDay < 480
+string sessionName = overlap ? "LDN/NY" : london ? "LONDON" : newYork ? "NEW YORK" : asian ? "ASIAN" : "OFF-HOURS"
+bool primeSession = london or newYork
+
+// Markedsfasen bruker børsens vanlige sesjon og forrige fullførte sesjons lengde.
+var int regularOpen = na
+var int regularDuration = na
+if session.isfirstbar_regular
+    regularOpen := time
+if session.islastbar_regular and not na(regularOpen) and barstate.isconfirmed
+    regularDuration := time_close - regularOpen
+bool blockedOpen = phaseProtection and session.ismarket and not na(regularOpen) and time < regularOpen + openingSkip * 60000
+bool blockedClose = phaseProtection and session.ismarket and not na(regularOpen) and not na(regularDuration) and time_close > regularOpen + regularDuration - closingSkip * 60000
+bool phaseBlocked = blockedOpen or blockedClose
+
+// Divergenser bekreftes swingBars lys ETTER pivoten. Ingen signaler flyttes bakover.
+float pivotLow = ta.pivotlow(low, swingBars, swingBars)
+float pivotHigh = ta.pivothigh(high, swingBars, swingBars)
+var float lastLow = na
+var float lastHigh = na
+var float lowPulse = na
+var float highPulse = na
+var float lowCCI = na
+var float highCCI = na
+var float lowStoch = na
+var float highStoch = na
+var int lowBar = na
+var int highBar = na
+var int bullDivBar = na
+var int bearDivBar = na
+var int bullDivCount = 0
+var int bearDivCount = 0
+if not na(pivotLow)
+    int count = (pulse[swingBars] > lowPulse ? 1 : 0) + (cci[swingBars] > lowCCI ? 1 : 0) + (stochastic[swingBars] > lowStoch ? 1 : 0)
+    if not na(lastLow) and pivotLow < lastLow and bar_index - swingBars - lowBar <= divLookback and count > 0
+        bullDivBar := bar_index
+        bullDivCount := count
+    lastLow := pivotLow
+    lowPulse := pulse[swingBars]
+    lowCCI := cci[swingBars]
+    lowStoch := stochastic[swingBars]
+    lowBar := bar_index - swingBars
+if not na(pivotHigh)
+    int count = (pulse[swingBars] < highPulse ? 1 : 0) + (cci[swingBars] < highCCI ? 1 : 0) + (stochastic[swingBars] < highStoch ? 1 : 0)
+    if not na(lastHigh) and pivotHigh > lastHigh and bar_index - swingBars - highBar <= divLookback and count > 0
+        bearDivBar := bar_index
+        bearDivCount := count
+    lastHigh := pivotHigh
+    highPulse := pulse[swingBars]
+    highCCI := cci[swingBars]
+    highStoch := stochastic[swingBars]
+    highBar := bar_index - swingBars
+bool bullDiv = not na(bullDivBar) and bar_index - bullDivBar <= swingBars
+bool bearDiv = not na(bearDivBar) and bar_index - bearDivBar <= swingBars
+float recentLow = ta.lowest(low, 30)
+float recentHigh = ta.highest(high, 30)
+float baseStop = atr * stopMultiple * instrumentFactor
+float floorStop = atr * minStop
+float ceilingStop = atr * maxStop
+float longRisk = stopMethod == "Structure-Based" ? close - math.min(nz(lastLow, recentLow), recentLow) + atr * 0.3 : baseStop
+float shortRisk = stopMethod == "Structure-Based" ? math.max(nz(lastHigh, recentHigh), recentHigh) - close + atr * 0.3 : baseStop
+longRisk := stopMethod == "Fixed ATR" ? math.max(baseStop, floorStop) : f_clip(longRisk, floorStop, ceilingStop)
+shortRisk := stopMethod == "Fixed ATR" ? math.max(baseStop, floorStop) : f_clip(shortRisk, floorStop, ceilingStop)
+float longTP1 = close + (targetMethod == "ATR Based" ? tp1Atr * atr : rr1 * longRisk)
+float shortTP1 = close - (targetMethod == "ATR Based" ? tp1Atr * atr : rr1 * shortRisk)
+bool clearLong = (na(lastHigh) or lastHigh <= close or lastHigh >= longTP1) and (na(pdh) or pdh <= close or pdh >= longTP1)
+bool clearShort = (na(lastLow) or lastLow >= close or lastLow <= shortTP1) and (na(pdl) or pdl >= close or pdl <= shortTP1)
+bool nearSupport = math.abs(close - nz(lastLow, recentLow)) < atr or (not na(pdl) and math.abs(close - pdl) < atr)
+bool nearResistance = math.abs(close - nz(lastHigh, recentHigh)) < atr or (not na(pdh) and math.abs(close - pdh) < atr)
+
+// Fordelingen summerer til 15. De enkelte sammenligningene er en åpen rekonstruksjon.
+float lowerZone = sensitivity == "Conservative" ? balancedZone - 5 : sensitivity == "Aggressive" ? balancedZone + 5 : balancedZone
+float upperZone = 100 - lowerZone
+int longScore = (pulse < 30 ? 2 : pulse < lowerZone ? 1 : 0) + (velocity > 0 ? 1 : 0) + (velocity > 0 and velocity[1] <= 0 ? 1 : 0) + (acceleration > 0 ? 1 : 0) + (bullDiv ? math.min(2, bullDivCount) : 0) + (volumeRatio > 1.3 ? 1 : 0) + (delta > 0 ? 1 : 0) + (htfDirection == 1 ? 2 : htfDirection == 0 ? 1 : 0) + (sessionAware and primeSession ? 1 : 0) + (clearLong ? 1 : 0) + (nearSupport ? 1 : 0) + (chop < chopThreshold ? 1 : 0)
+int shortScore = (pulse > 70 ? 2 : pulse > upperZone ? 1 : 0) + (velocity < 0 ? 1 : 0) + (velocity < 0 and velocity[1] >= 0 ? 1 : 0) + (acceleration < 0 ? 1 : 0) + (bearDiv ? math.min(2, bearDivCount) : 0) + (volumeRatio > 1.3 ? 1 : 0) + (delta < 0 ? 1 : 0) + (htfDirection == -1 ? 2 : htfDirection == 0 ? 1 : 0) + (sessionAware and primeSession ? 1 : 0) + (clearShort ? 1 : 0) + (nearResistance ? 1 : 0) + (chop < chopThreshold ? 1 : 0)
+int gradePlus = sensitivity == "Conservative" ? 11 : sensitivity == "Aggressive" ? 8 : 9
+int gradeA = sensitivity == "Conservative" ? 8 : sensitivity == "Aggressive" ? 5 : 6
+bool velocityUp = ta.crossover(velocity, 0)
+bool velocityDown = ta.crossunder(velocity, 0)
+bool baseLong = (pulse < lowerZone and velocityUp) or (bullDiv and pulse < 50 and velocity > 0)
+bool baseShort = (pulse > upperZone and velocityDown) or (bearDiv and pulse > 50 and velocity < 0)
+bool volumeOK = not volumeFilter or (volumeAvailable and volumeRatio >= minVolume)
+bool qualifiedLong = baseLong and volumeOK and (not useHTF or not htfAvailable or (not na(htfPulse) and htfDirection >= 0)) and (not clearanceFilter or clearLong)
+bool qualifiedShort = baseShort and volumeOK and (not useHTF or not htfAvailable or (not na(htfPulse) and htfDirection <= 0)) and (not clearanceFilter or clearShort)
+
+color bullColor = color.rgb(0, 220, 150)
+color bearColor = color.rgb(245, 80, 110)
+color textColor = theme == "Dark" ? color.white : color.rgb(30, 35, 45)
+color panelColor = theme == "Dark" ? color.new(color.rgb(22, 26, 38), 8) : color.new(color.white, 5)
+var int side = 0
+var float entry = na
+var float stop = na
+var float target1 = na
+var float target2 = na
+var float risk = na
+var int entryBar = na
+var bool partial = false
+var string activeGrade = ""
+var int lastLongBar = na
+var int lastShortBar = na
+var array<float> outcomes = array.new_float()
+var array<int> durations = array.new_int()
+bool longSignal = false
+bool shortSignal = false
+bool tp1Event = false
+bool tp2Event = false
+bool stopEvent = false
+int eventSide = side
+bool closedThisBar = false
+float resultR = na
+
+// Inngang ved signallysets close. Stopp/mål vurderes først fra neste lys.
+// Hvis samme lys berører både SL og mål, prioriteres SL konservativt.
+if barstate.isconfirmed and side != 0 and bar_index > entryBar
+    bool hitStop = side == 1 ? low <= stop : high >= stop
+    bool hitTP1 = side == 1 ? high >= target1 : low <= target1
+    bool hitTP2 = side == 1 ? high >= target2 : low <= target2
+    if hitStop
+        stopEvent := true
+        resultR := partial ? 0.5 * (math.abs(target1 - entry) / risk) - 0.5 : -1.0
+        closedThisBar := true
+    else
+        if hitTP1 and not partial
+            partial := true
+            tp1Event := true
+        if hitTP2
+            tp2Event := true
+            resultR := 0.5 * math.abs(target1 - entry) / risk + 0.5 * math.abs(target2 - entry) / risk
+            closedThisBar := true
+    if closedThisBar
+        array.push(outcomes, resultR)
+        array.push(durations, bar_index - entryBar)
+        if array.size(outcomes) > 90
+            array.shift(outcomes)
+            array.shift(durations)
+        if trackTrades and enableSignals
+            string outcome = stopEvent ? (partial ? "TP1 → STOP" : "STOPPED") : "TP2 REACHED"
+            label.new(bar_index, side == 1 ? high : low, outcome + "\n" + f_signed(resultR) + "R",
+                 style=side == 1 ? label.style_label_down : label.style_label_up,
+                 color=resultR > 0 ? bullColor : bearColor, textcolor=color.white, size=size.tiny)
+        side := 0
+
+bool ready = bar_index >= 120 and not na(atrRatio) and not extreme and not phaseBlocked
+if barstate.isconfirmed and side == 0 and not closedThisBar and ready
+    bool buy = qualifiedLong and (na(lastLongBar) or bar_index - lastLongBar >= cooldown)
+    bool sell = qualifiedShort and (na(lastShortBar) or bar_index - lastShortBar >= cooldown)
+    if buy and sell
+        buy := longScore > shortScore
+        sell := shortScore > longScore
+    if buy or sell
+        side := buy ? 1 : -1
+        eventSide := side
+        longSignal := buy and enableSignals
+        shortSignal := sell and enableSignals
+        entry := close
+        entryBar := bar_index
+        risk := math.max(syminfo.mintick, buy ? longRisk : shortRisk)
+        stop := entry - side * risk
+        target1 := entry + side * (targetMethod == "ATR Based" ? tp1Atr * atr : rr1 * risk)
+        target2 := entry + side * (targetMethod == "ATR Based" ? tp2Atr * atr : rr2 * risk)
+        partial := false
+        int score = buy ? longScore : shortScore
+        activeGrade := score >= gradePlus ? "A+" : score >= gradeA ? "A" : "B"
+        if buy
+            lastLongBar := bar_index
+        else
+            lastShortBar := bar_index
+        if enableSignals
+            string direction = buy ? "LONG" : "SHORT"
+            string tip = "Uavhengig rekonstruksjon\n" + direction + " [" + activeGrade + "] · Score " + str.tostring(score) + "/" + str.tostring(gradePlus) + "\nEntry " + str.tostring(entry, format.mintick) + "\nSL " + str.tostring(stop, format.mintick) + "\nTP1 " + str.tostring(target1, format.mintick) + "\nTP2 " + str.tostring(target2, format.mintick) + "\n50 % ved TP1, resten ved TP2 eller opprinnelig SL."
+            string marker = signalStyle == "Minimal" ? "●" : signalStyle == "Classic" ? "◆" : direction
+            float y = buy ? low - atr * signalDistance : high + atr * signalDistance
+            label.new(bar_index, y, marker + " [" + activeGrade + "]" + (signalStyle == "Premium" ? "\n@ " + str.tostring(entry, format.mintick) : ""),
+                 style=buy ? label.style_label_up : label.style_label_down, color=buy ? bullColor : bearColor,
+                 textcolor=color.white, size=size.small, tooltip=tip)
+
+if tp1Event and enableSignals and trackTrades
+    label.new(bar_index, eventSide == 1 ? high : low, "TP1 HIT", color=bullColor, textcolor=color.white,
+         style=eventSide == 1 ? label.style_label_down : label.style_label_up, size=size.tiny)
+
+// Seks analysefaktorer og hysterese. Terskler 72/58/48/22 er offentlige; delreglene er estimater.
+float currentR = side != 0 ? side * (close - entry) / risk : 0
+float momentumFactor = side != 0 ? f_clip(side * velocity * 4 + side * acceleration, -15, 15) : 0
+float positionFactor = side != 0 ? f_clip(currentR * 8, -12, 12) : 0
+float volumeFactor = side != 0 and volumeAvailable ? f_clip((volumeRatio - 1) * 10, -6, 6) : 0
+float htfFactor = side == 0 ? 0 : htfDirection == side ? 8 : htfDirection == 0 ? 2 : -6
+float distanceTP = side != 0 ? side * ((partial ? target2 : target1) - close) / atr : na
+float distanceSL = side != 0 ? side * (close - stop) / atr : na
+float targetFactor = side == 0 ? 0 : partial ? 10 : distanceTP < 0.5 ? 6 : 0
+float stopFactor = side == 0 ? 0 : distanceSL < 0.3 ? -15 : distanceSL > 1.5 ? 3 : 0
+float rawConfidence = side != 0 ? f_clip(50 + momentumFactor + positionFactor + volumeFactor + htfFactor + targetFactor + stopFactor, 0, 100) : 50
+var float confidence = 50.0
+confidence := (longSignal or shortSignal) ? rawConfidence : nz(confidence[1], 50) * (2.0 / 3.0) + rawConfidence / 3.0
+float confidenceTrend = (longSignal or shortSignal) ? 0.0 : confidence - (nz(confidence[3], confidence) + nz(confidence[5], confidence)) / 2.0
+var int state = 2
+var int stateSince = 0
+int proposedState = confidence >= 72 ? 4 : confidence >= 58 ? 3 : confidence >= 48 ? 2 : confidence >= 22 ? 1 : 0
+if barstate.isconfirmed and (bar_index - stateSince >= 3 or distanceSL < 0.3 or distanceTP < 0.3)
+    bool passHysteresis = proposedState > state ? confidence >= (proposedState == 4 ? 74 : proposedState == 3 ? 60 : proposedState == 2 ? 50 : 24) : proposedState < state ? confidence < (state == 4 ? 70 : state == 3 ? 56 : state == 2 ? 46 : 20) : false
+    if passHysteresis
+        state := proposedState
+        stateSince := bar_index
+string stateName = state == 4 ? "FACTORS ALIGNED" : state == 3 ? "POSITIVE BIAS" : state == 2 ? "MIXED SIGNALS" : state == 1 ? "FACTORS WEAKENING" : "NEGATIVE BIAS"
+color stateColor = state >= 3 ? bullColor : state <= 1 ? bearColor : color.aqua
+bool showTrade = side != 0 and enableSignals and trackTrades
+plot(showLevels and showTrade ? entry : na, "Entry", color=color.yellow, style=plot.style_linebr)
+plot(showLevels and showTrade ? stop : na, "Stop Loss", color=bearColor, style=plot.style_linebr)
+plot(showLevels and showTrade and not partial ? target1 : na, "TP1", color=color.aqua, style=plot.style_linebr)
+plot(showLevels and showTrade ? target2 : na, "TP2", color=color.blue, style=plot.style_linebr)
+plot(showPreviousDay and timeframe.isintraday ? pdh : na, "PDH", color=color.new(bearColor, 35), style=plot.style_stepline)
+plot(showPreviousDay and timeframe.isintraday ? pdl : na, "PDL", color=color.new(bullColor, 35), style=plot.style_stepline)
+bgcolor(showTrade ? color.new(side == 1 ? bullColor : bearColor, 94) : na)
+bgcolor(extreme ? color.new(color.orange, 88) : phaseBlocked ? color.new(color.gray, 88) : na)
+plot(pulse, "Kinetic Pulse", display=display.data_window)
+plot(velocity, "Velocity", display=display.data_window)
+plot(confidence, "Smoothed Confidence", display=display.data_window)
+plot(confidenceTrend, "Confidence Trend", display=display.data_window)
+plot(longScore, "Long Score", display=display.data_window)
+plot(shortScore, "Short Score", display=display.data_window)
+plot(side, "Tracked Direction", display=display.data_window)
+// Eksplisitt plan-kontrakt til appens WEEX-adapter. Dette plasserer ingen ordre.
+plot(longSignal ? 1 : 0, "Long Signal", display=display.data_window)
+plot(shortSignal ? 1 : 0, "Short Signal", display=display.data_window)
+plot(entry, "Signal Entry", display=display.data_window)
+plot(stop, "Signal SL", display=display.data_window)
+plot(target1, "Signal TP1", display=display.data_window)
+plot(target2, "Signal TP2", display=display.data_window)
+var label entryLevelLabel = na
+var label stopLevelLabel = na
+var label tp1LevelLabel = na
+var label tp2LevelLabel = na
+if barstate.islast
+    label.delete(entryLevelLabel)
+    label.delete(stopLevelLabel)
+    label.delete(tp1LevelLabel)
+    label.delete(tp2LevelLabel)
+    if showLevels and showTrade
+        int labelX = bar_index + math.min(100, int(math.round(10 * levelDistance)))
+        entryLevelLabel := label.new(labelX, entry, "ENTRY " + str.tostring(entry, format.mintick), style=label.style_label_left, color=color.new(color.yellow, 75), textcolor=textColor, size=size.tiny)
+        stopLevelLabel := label.new(labelX, stop, "SL (original) " + str.tostring(stop, format.mintick), style=label.style_label_left, color=color.new(bearColor, 75), textcolor=textColor, size=size.tiny)
+        tp1LevelLabel := label.new(labelX, target1, partial ? "TP1 HIT" : "TP1 " + str.tostring(target1, format.mintick), style=label.style_label_left, color=color.new(bullColor, 75), textcolor=textColor, size=size.tiny)
+        tp2LevelLabel := label.new(labelX, target2, "TP2 " + str.tostring(target2, format.mintick), style=label.style_label_left, color=color.new(color.aqua, 75), textcolor=textColor, size=size.tiny)
+
+
+// Maskinlesbare varsler. Dette er ikke en WEEX-tilkobling.
+f_event(string eventName, int direction) =>
+    '{"system":"kinetic_reconstruction","event":"' + eventName + '","side":"' + (direction == 1 ? "LONG" : "SHORT") + '","symbol":"' + syminfo.tickerid + '","timeframe":"' + timeframe.period + '","bar_close":' + str.tostring(time_close) + ',"entry":' + str.tostring(entry, format.mintick) + ',"sl":' + str.tostring(stop, format.mintick) + ',"tp1":' + str.tostring(target1, format.mintick) + ',"tp2":' + str.tostring(target2, format.mintick) + '}'
+if webhook and barstate.isconfirmed
+    if longSignal or shortSignal
+        alert(f_event("ENTRY", eventSide), alert.freq_all)
+    if tp1Event and enableSignals and trackTrades
+        alert(f_event("TP1", eventSide), alert.freq_all)
+    if tp2Event and enableSignals and trackTrades
+        alert(f_event("TP2", eventSide), alert.freq_all)
+    if stopEvent and enableSignals and trackTrades
+        alert(f_event("STOP", eventSide), alert.freq_all)
+alertcondition(longSignal, "Long Signal", "KINETIC RECON: LONG @ {{close}}")
+alertcondition(shortSignal, "Short Signal", "KINETIC RECON: SHORT @ {{close}}")
+alertcondition(longSignal and activeGrade == "A+", "High-Grade Long Signal (A+)", "KINETIC RECON: LONG A+")
+alertcondition(shortSignal and activeGrade == "A+", "High-Grade Short Signal (A+)", "KINETIC RECON: SHORT A+")
+alertcondition(tp1Event and eventSide == 1 and enableSignals and trackTrades, "LONG TP1", "KINETIC RECON: LONG TP1")
+alertcondition(tp1Event and eventSide == -1 and enableSignals and trackTrades, "SHORT TP1", "KINETIC RECON: SHORT TP1")
+alertcondition(tp2Event and eventSide == 1 and enableSignals and trackTrades, "LONG TP2", "KINETIC RECON: LONG TP2")
+alertcondition(tp2Event and eventSide == -1 and enableSignals and trackTrades, "SHORT TP2", "KINETIC RECON: SHORT TP2")
+alertcondition(stopEvent and eventSide == 1 and enableSignals and trackTrades, "LONG STOP", "KINETIC RECON: LONG STOP")
+alertcondition(stopEvent and eventSide == -1 and enableSignals and trackTrades, "SHORT STOP", "KINETIC RECON: SHORT STOP")
+alertcondition(enableSignals and trackTrades and side != 0 and state == 0 and state[1] != 0 and barstate.isconfirmed, "Analysis: Negative Bias", "KINETIC RECON: NEGATIVE BIAS")
+alertcondition(enableSignals and trackTrades and side != 0 and state == 1 and state[1] != 1 and barstate.isconfirmed, "Analysis: Factors Weakening", "KINETIC RECON: FACTORS WEAKENING")
+
+var table main = table.new(f_position(mainPosition), 2, 12, bgcolor=panelColor, border_width=1)
+var table analysis = table.new(f_position(analysisPosition), 2, 11, bgcolor=panelColor, border_width=1)
+var table history = table.new(position.bottom_center, 6, 3, bgcolor=panelColor, border_width=1)
+f_cell(table t, int col, int row, string txt, color txtColor) =>
+    table.cell(t, col, row, txt, text_color=txtColor, text_size=compact ? size.tiny : size.small)
+if barstate.islast
+    if showMain
+        f_cell(main, 0, 0, "KINETIC RECON", color.aqua)
+        f_cell(main, 1, 0, "Estimert modell", color.orange)
+        f_cell(main, 0, 1, showTrade ? "Trade" : "Bias", textColor)
+        f_cell(main, 1, 1, showTrade ? (side == 1 ? "LONG [" : "SHORT [") + activeGrade + "]" : pulse > 55 ? "BULLISH" : pulse < 45 ? "BEARISH" : "NEUTRAL", showTrade ? (side == 1 ? bullColor : bearColor) : textColor)
+        f_cell(main, 0, 2, showTrade ? "Entry" : "Pulse", textColor)
+        f_cell(main, 1, 2, showTrade ? str.tostring(entry, format.mintick) : f_num(pulse), textColor)
+        f_cell(main, 0, 3, showTrade ? "P/L (R)" : "Velocity", textColor)
+        f_cell(main, 1, 3, f_signed(showTrade ? currentR : velocity), textColor)
+        f_cell(main, 0, 4, showTrade ? "TP1" : "Volatilitet", textColor)
+        f_cell(main, 1, 4, showTrade ? (partial ? "HIT" : str.tostring(target1, format.mintick)) : volatility, textColor)
+        f_cell(main, 0, 5, showTrade ? "TP2" : "Trend", textColor)
+        f_cell(main, 1, 5, showTrade ? str.tostring(target2, format.mintick) : extreme ? "VOLATILE" : adx > 25 ? (diPlus > diMinus ? "TREND UP" : "TREND DOWN") : adx < 20 ? "RANGING" : "TRANSITIONING", textColor)
+        f_cell(main, 0, 6, showTrade ? "Stop" : "Session", textColor)
+        f_cell(main, 1, 6, showTrade ? str.tostring(stop, format.mintick) : sessionName, textColor)
+        f_cell(main, 0, 7, showTrade ? "Bars" : "Volume", textColor)
+        f_cell(main, 1, 7, showTrade ? str.tostring(bar_index - entryBar) : f_num(volumeRatio) + "x", textColor)
+        f_cell(main, 0, 8, "HTF " + htf, textColor)
+        f_cell(main, 1, 8, not htfAvailable ? "AV" : na(htfPulse) ? "VENTER" : htfDirection == 1 ? "BULLISH" : htfDirection == -1 ? "BEARISH" : "NEUTRAL", textColor)
+        f_cell(main, 0, 9, "Score L / S", textColor)
+        f_cell(main, 1, 9, str.tostring(longScore) + " / " + str.tostring(shortScore), textColor)
+        f_cell(main, 0, 10, "Instrument", textColor)
+        f_cell(main, 1, 10, instrument, textColor)
+        f_cell(main, 0, 11, "Grade A / A+", textColor)
+        f_cell(main, 1, 11, str.tostring(gradeA) + " / " + str.tostring(gradePlus), textColor)
+    if showAnalysis
+        f_cell(analysis, 0, 0, "TRADE ANALYSIS", color.aqua)
+        f_cell(analysis, 1, 0, showTrade ? stateName : "SCANNING", stateColor)
+        f_cell(analysis, 0, 1, showTrade ? "Confidence" : "Long / short", textColor)
+        f_cell(analysis, 1, 1, showTrade ? f_num(confidence) + "%" : str.tostring(longScore) + " / " + str.tostring(shortScore), textColor)
+        f_cell(analysis, 0, 2, "Status", textColor)
+        f_cell(analysis, 1, 2, extreme ? "EXTREME · blokkert" : phaseBlocked ? "MARKEDSFASE · blokkert" : not volumeOK ? "VOLUM · blokkert" : showTrade ? (confidenceTrend > 0 ? "Rising" : "Falling") : "Venter på vending", textColor)
+        if showDetails and not compact
+            f_cell(analysis, 0, 3, "Momentum", textColor)
+            f_cell(analysis, 1, 3, f_signed(momentumFactor), textColor)
+            f_cell(analysis, 0, 4, "Position", textColor)
+            f_cell(analysis, 1, 4, f_signed(positionFactor), textColor)
+            f_cell(analysis, 0, 5, "Volume", textColor)
+            f_cell(analysis, 1, 5, f_signed(volumeFactor), textColor)
+            f_cell(analysis, 0, 6, "HTF Align", textColor)
+            f_cell(analysis, 1, 6, f_signed(htfFactor), textColor)
+            f_cell(analysis, 0, 7, "Target", textColor)
+            f_cell(analysis, 1, 7, f_signed(targetFactor), textColor)
+            f_cell(analysis, 0, 8, "Stop Dist", textColor)
+            f_cell(analysis, 1, 8, f_signed(stopFactor), textColor)
+        f_cell(analysis, 0, 9, "50 % TP1", textColor)
+        f_cell(analysis, 1, 9, "50 % TP2 / SL", textColor)
+        f_cell(analysis, 0, 10, "Rekonstruksjon", color.orange)
+        f_cell(analysis, 1, 10, "Ingen originalgaranti", color.orange)
+    if showHistory
+        int count = math.min(sampleSize, array.size(outcomes))
+        float total = 0
+        float wins = 0
+        float losses = 0
+        float barsTotal = 0
+        int lossesCount = 0
+        if count > 0
+            for i = array.size(outcomes) - count to array.size(outcomes) - 1
+                float r = array.get(outcomes, i)
+                total += r
+                wins += math.max(0, r)
+                losses += math.min(0, r)
+                lossesCount += r < 0 ? 1 : 0
+                barsTotal += array.get(durations, i)
+        array<string> titles = array.from("Handler", "Snitt R", "Profit factor", "Sum R", "Snitt tap R", "Snitt lys")
+        array<string> values = array.from(str.tostring(count), count > 0 ? f_num(total / count) : "–", losses < 0 ? f_num(wins / -losses) : wins > 0 ? "∞" : "–", f_num(total), lossesCount > 0 ? f_num(losses / lossesCount) : "–", count > 0 ? f_num(barsTotal / count) : "–")
+        for col = 0 to 5
+            f_cell(history, col, 0, array.get(titles, col), color.aqua)
+            f_cell(history, col, 1, array.get(values, col), textColor)
+            f_cell(history, col, 2, col == 0 ? "Nivåbasert" : col == 1 ? "Uten gebyr" : col == 2 ? "Uten slippage" : col == 3 ? "SL først" : col == 4 ? "Ikke % avkastning" : "Estimert modell", color.orange)

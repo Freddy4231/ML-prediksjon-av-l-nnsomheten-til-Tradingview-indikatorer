@@ -1,0 +1,53 @@
+{
+  "method": "Faktiske predict_proba/predict-kall mot lagrede modeller; ingen konstruerte ML-svar.",
+  "examples": [
+    {
+      "indicator": "ut_bot",
+      "name": "UT Bot Alerts",
+      "minutes": "60",
+      "horizon": "Neste uke",
+      "capital": 10000.0,
+      "source": "Lagret eksempel · 11. oktober 2026",
+      "decision_time": "2026-10-11T00:00:00+00:00",
+      "p_profit": 0.26561324333561465,
+      "expected_return": -0.031021632798768916,
+      "expected_pnl_nok": -310.21632798768917,
+      "classifier": "Logistisk regresjon / Ridge (C=0.01) · rensing av · grunnleggende features · skalering ingen",
+      "regressor": "Random Forest",
+      "feature_count": 27,
+      "model_sha256": "6d142cc3784411761361dfe8d3d806e298cb36d4f9de5f614bafb9f1e7233b31"
+    },
+    {
+      "indicator": "chandelier",
+      "name": "Chandelier Exit (22, 3)",
+      "minutes": "240",
+      "horizon": "Neste måned",
+      "capital": 10000.0,
+      "source": "Lagret eksempel · 11. oktober 2026",
+      "decision_time": "2026-10-11T00:00:00+00:00",
+      "p_profit": 0.630417278595705,
+      "expected_return": 0.08282847335078608,
+      "expected_pnl_nok": 828.2847335078608,
+      "classifier": "Logistisk regresjon / Ridge (C=0.01) · rensing på · grunnleggende features · skalering ingen",
+      "regressor": "Logistisk regresjon / Ridge",
+      "feature_count": 27,
+      "model_sha256": "6d142cc3784411761361dfe8d3d806e298cb36d4f9de5f614bafb9f1e7233b31"
+    },
+    {
+      "indicator": "kivanc_st",
+      "name": "SuperTrend [KivancOzbilgic]",
+      "minutes": "60",
+      "horizon": "Neste dag",
+      "capital": 10000.0,
+      "source": "Lagret eksempel · 11. oktober 2026",
+      "decision_time": "2026-10-11T00:00:00+00:00",
+      "p_profit": 0.49462511745640475,
+      "expected_return": 0.00044545651035543624,
+      "expected_pnl_nok": 4.454565103554362,
+      "classifier": "Random Forest (max_depth=6, min_samples_leaf=50) · rensing på · grunnleggende features · skalering ingen",
+      "regressor": "Random Forest",
+      "feature_count": 27,
+      "model_sha256": "6d142cc3784411761361dfe8d3d806e298cb36d4f9de5f614bafb9f1e7233b31"
+    }
+  ]
+}

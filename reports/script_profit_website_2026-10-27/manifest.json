@@ -1,0 +1,89 @@
+{
+  "created_utc": "2026-10-27T14:09:05.766217+00:00",
+  "model_path": "reports/script_ml_check/models.joblib",
+  "results_path": "reports/script_ml_check/results.json",
+  "runtime_sha256": {
+    "script_profit_predictor.py": "4ea499105691a5283694323fc8fd36188ee6f6da844edb5d17e89f512e4a136b",
+    "script_profit_dashboard.py": "4a9e857b5f4a81c764e45a2f2a9aaeb5dd50c62d066d17d81e43db03d762070c",
+    "script_profit_ml.py": "2517ffb830dc54c4b3376b2afe483b35d90741d97430c3849fa3b2938f7cc726",
+    "script_model_compare.py": "10db3906fe75f574f6121e31f2f9dc1588a877f50a533839c7ae0d052b5f495a",
+    "features.py": "b760e02b824364a595a2f8b33b7499408bf88af02916ae01a6a6fbbe44c3269f",
+    "clean_wave_weex.py": "59ed548a7f26e3aae5ac786c128f3135cbcfab764fb70ffde263a53b2458441a",
+    "kivanc_supertrend.py": "c97ecfe749d3013e2a90ced02fe326acd2344ede4bdf5a5f030c2c336d7e6980",
+    "triple_supertrend.py": "8a70be1b2f605b9af3ce2f9788ce13e06618f0fa4d4ab7d71570d9c5b9d711fc",
+    "ut_bot_signals.py": "773dee57d9dca61602092deb30e09dc8ee6e9a1b00b804cd4595f241e3ab8975",
+    "research/clean_wave.py": "76b73a6ca068ace05f951950740484c0dc59e6bb06c5e03978480e678434ff8b",
+    "research/futures_funding.py": "db61df5003320c02c8e5912b867bc4b67340fe2b12a3bdbe34dcce8c00014cdb",
+    "reports/script_ml_check/results.json": "471633c174a4aed420af2ac3e632c8068ffb97a4b1a12f5045ef8cde7d26b841",
+    "research/script_ml_check.py": "54742488c319630ee870af8255c8d645928d2188be8efcb32087b69ab53cd4ce",
+    "research/script_profit_website.py": "0ae0978e19b704696e95335bd169e7306903d3e504dc8492da2dac5ab0d48630",
+    "reports/script_profit_website_2026-10-27/demo_inputs.json": "5694340448bb4ba71e06b734a92b705b6f5d9eb2a15c32767c5abb98c9469b3b",
+    "reports/script_profit_website_2026-10-27/README.md": "174976aadc931e3e3cb7b4471e068c414531ab2d6fcae93d5721031a39c850f2",
+    "reports/script_ml_check/models.joblib": "6d142cc3784411761361dfe8d3d806e298cb36d4f9de5f614bafb9f1e7233b31",
+    "reports/script_profit_website_2026-10-27/demonstration.json": "0f2d5772b9bfbbe391dd03f275c0f37eb28c90d86a84e4a7d6d43c57feae1b4a"
+  },
+  "dataset_sha256": {
+    "reports/script_profit_website_2026-10-27/BTCUSDT_funding.csv": "d36fdd95a3e3a409e4c14fce65d9535c03e5a011a2dc78e169473bbc03e46f20",
+    "reports/script_profit_website_2026-10-27/BTCUSDT_30_bars.csv": "0bcf89575d83d1968a57a3456044750a93d17ac796241292945138b2dc5af568",
+    "reports/script_profit_website_2026-10-27/30_clean_wave_examples.csv": "c6117fb8a05286abb57a42fb33ab90ecc5b0f22105a2af8b6f2e38a192e5bac9",
+    "reports/script_profit_website_2026-10-27/30_kivanc_st_examples.csv": "ad3ec7f39589bfbe1436a1ab9bc9568afc16f5b44a1b1af0c1e62fac1371aa10",
+    "reports/script_profit_website_2026-10-27/30_chandelier_examples.csv": "60fc3b3c832fb1b865e483c0c2b027321926f2a68dbce57c08f5d72a6d71bb69",
+    "reports/script_profit_website_2026-10-27/30_ut_bot_examples.csv": "4ce5cbc8be8d7fe91e3f473e1f930312ed3f2f7be867f57cbbb2c9bf70efd14d",
+    "reports/script_profit_website_2026-10-27/30_triple_st_examples.csv": "aa026e38324a55f613e233385bf028f28408714c13af59660c607b42f8fb378c",
+    "reports/script_profit_website_2026-10-27/BTCUSDT_60_bars.csv": "95dab396652838760539f3b491d1e2db1544db3fa89ca9cefd96bdbe4a2eac04",
+    "reports/script_profit_website_2026-10-27/60_clean_wave_examples.csv": "353858a25531a6d7fc80bd124b49435a6448f989fcdf7787e6cd2bc2c5e07694",
+    "reports/script_profit_website_2026-10-27/60_kivanc_st_examples.csv": "48b1521e4d135c297d351a73ee414805326588dc5fac30da4319d963f4c80967",
+    "reports/script_profit_website_2026-10-27/60_chandelier_examples.csv": "fc1c8c77784c65073210c3396f74bec4468af788959d2fdee8850013473fa8ad",
+    "reports/script_profit_website_2026-10-27/60_ut_bot_examples.csv": "2ca5b8a94229860d5ef84497832caa150d85aa17c016e798b5f84b1022adbddd",
+    "reports/script_profit_website_2026-10-27/60_triple_st_examples.csv": "d7259b95b469224551a643446a366d893ef6af23a3d793ccdb33677895201d2c",
+    "reports/script_profit_website_2026-10-27/BTCUSDT_240_bars.csv": "8737e350ac860d4c2fae2737cc9fda4885294cc44cafd9fac9bb01f9902cbbff",
+    "reports/script_profit_website_2026-10-27/240_clean_wave_examples.csv": "4f08ee1045df7c1560fad2917ce0bbd91ec9101ee79910ef230690c1c145bb34",
+    "reports/script_profit_website_2026-10-27/240_kivanc_st_examples.csv": "c8b7f474ac260da6fd9e656f5aee24a1cda0f39dc52ac3d21c47d0ee7c91ace3",
+    "reports/script_profit_website_2026-10-27/240_chandelier_examples.csv": "bbeea4dbebbcad74a37d007e0759388b90d64a7d98e34695d67a807e298b084b",
+    "reports/script_profit_website_2026-10-27/240_ut_bot_examples.csv": "e894e7e84959e4450828046c90b58f708794abe9a019666d80bd02fbca41581b",
+    "reports/script_profit_website_2026-10-27/240_triple_st_examples.csv": "13a7850241f1d97326c823850d0ff1729d18cfc6cd96e4d030b735a46325a5f3",
+    "reports/script_profit_website_2026-10-27/BTCUSDT_1440_bars.csv": "c989a59159ee275aafc86c7ef3f6a63ab4306b5f14f3adf86a26e09ee9eae814",
+    "reports/script_profit_website_2026-10-27/1440_clean_wave_examples.csv": "2fff0859c33dc3ee9eb3de545f9208f133ef3922637875a6acb7bd9b8caabd74",
+    "reports/script_profit_website_2026-10-27/1440_kivanc_st_examples.csv": "20ab7b283cd93260bb1f07e7d1f3eacf48f921e5a1a96bf5637eac27c3c2e62c",
+    "reports/script_profit_website_2026-10-27/1440_chandelier_examples.csv": "42ae79c300901e837529cae30ee8a0d694d6cf1fdd29fd8ccb340e31ffdb5be7",
+    "reports/script_profit_website_2026-10-27/1440_ut_bot_examples.csv": "a0cd6ae4d93b58c668b44838667a26be21be6be64bda2f29b6f505b760d11c2a",
+    "reports/script_profit_website_2026-10-27/1440_triple_st_examples.csv": "a74eff42566110eb2bdff26621fe22731c199ae0b7499f05e3e0762c74f8e5d2"
+  },
+  "datasets": {
+    "30": {
+      "bars": 160408,
+      "filled_bars": 360,
+      "first": "2017-08-17T04:00:00+00:00",
+      "last": "2026-10-10T23:30:00+00:00"
+    },
+    "60": {
+      "bars": 80204,
+      "filled_bars": 127,
+      "first": "2017-08-17T04:00:00+00:00",
+      "last": "2026-10-10T23:00:00+00:00"
+    },
+    "240": {
+      "bars": 20051,
+      "filled_bars": 54,
+      "first": "2017-08-17T04:00:00+00:00",
+      "last": "2026-10-10T20:00:00+00:00"
+    },
+    "1440": {
+      "bars": 3342,
+      "filled_bars": 29,
+      "first": "2017-08-17T00:00:00+00:00",
+      "last": "2026-10-10T00:00:00+00:00"
+    }
+  },
+  "input_files_sha256": {
+    "data/btcusdt_latest_1h.csv": "1c4f7aef936db89ca9a3a13f974e0683539f7308eef1b6c618aecc783aa69319",
+    "data/30m/btcusdt_30m.csv": "8ea6336b79ab371b603e084b4c01472d8227b8f5dcb0be661da5f4b5000602e8",
+    "data/funding/btcusdt_funding.csv": "d36fdd95a3e3a409e4c14fce65d9535c03e5a011a2dc78e169473bbc03e46f20"
+  },
+  "funding_file": "reports/script_profit_website_2026-10-27/BTCUSDT_funding.csv",
+  "training": "Eksisterende modeller; ingen ny modelltilpasning eller valg. Full historikk brukes som i originaltreningen.",
+  "demo": "Ekte historiske egenskaper ved11.okt2026, kjøres gjennom ekte estimators ved klikk. Ingen ny måling av presisjon.",
+  "live": "Siste avsluttede UTC-døgn, ekte spotlys uten hull. Forkortet oppvarming kan endre indikatorens tilstand.",
+  "runtime_updated_utc": "2026-10-28T15:14:03.463598+00:00",
+  "comparison": "Modellsammenligningen trener fortløpende (walk-forward) ved klikk på de samme datasettene; lagrede modeller og demonstrasjonsinput er uendret."
+}

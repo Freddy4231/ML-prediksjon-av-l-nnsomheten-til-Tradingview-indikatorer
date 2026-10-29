@@ -1,0 +1,83 @@
+{
+  "version": "tmg_squeeze_next_open_v1",
+  "profiles": [
+    "spot4",
+    "spot24",
+    "participation",
+    "breakout24",
+    "unwind_reversal",
+    "sweep_reversal",
+    "exhaustion_exit",
+    "flow_exit"
+  ],
+  "training": [
+    "2021-01-01",
+    "2024-01-01"
+  ],
+  "validation": [
+    "2024-01-01",
+    "2025-01-01"
+  ],
+  "references": [
+    "daily50_weekend_both",
+    "pending_oi4"
+  ],
+  "execution": "1h, begge retninger, 1× fast mengde, neste ekte open. 0,15%/side + funding, stress dobler begge.",
+  "entry": "Kun ferskt dagsfiltersignal, maks6h venting, kansellering ved målendring/hullsperre/utløp. Ingen ny inngang etter ekstra utgang før neste ferske signal.",
+  "rules": {
+    "spot4": "OI + ekte spotpress i samme retning · 4 t",
+    "spot24": "OI + ekte spotpress i samme retning · 24 t",
+    "participation": "OI + sterk spotdeltakelse alle ukedager",
+    "breakout24": "OI + close utenfor forrige 24-timersintervall",
+    "unwind_reversal": "Vent på fallende OI, motsatt 4 t-pris og 1 t-vending",
+    "sweep_reversal": "Vent på retur innenfor 24 t-intervall med fallende OI",
+    "exhaustion_exit": "OI-inngang; lukk ved OI-fall og kort prisvending",
+    "flow_exit": "OI-inngang; lukk ved motsatt spotpress på 4 og 24 t"
+  },
+  "selection": "Høyest median treningsstress-Sharpe blant kvalifiserte; 2024 kun godkjenning.",
+  "gates": "BTC treningstress>0,min15handler,min2positiveår,DD>-55%; medianstress>0 i begge perioder; BTC2024stress>0; BTCstress bedre enn pending_oi4 i begge perioder; medianstress minst like god i begge; BTC2024DD minst like god.",
+  "placebo": "Kun valgt kandidat. Åtte fortidsskift720–3240h av kontekst, virkelig eligibility beholdes; felles tilgjengelighetsmaske for alle. BTC treningstress over75persentil og2024overmedian. Tester hele regelen, ikke isolert inkrement.",
+  "control": "Ingen2025–26-kjøring: OI-publisering og native feed fortsatt uverifisert. Ingen automatisk erstatning.",
+  "limitations": [
+    "Kjent, ofte gjenbrukt historikk. Tilleggsreglene bygger på tidligere valg.",
+    "OI-arkivtid+65min er antakelse, ikke historisk publiseringsbevis.",
+    "1× Python-simulering, ikke TradingView-/WEEX-fyll eller likvidasjon.",
+    "Ekte spot-takervolum finnes ikke som identisk serie i dagens Pine."
+  ],
+  "sha256": {
+    "data/tmg_channel_2026-10-26/BTCUSDT_perp_1h.csv": "774698a69c31f8ad7031b1e884b97fc7f16afd29f0d0ec693b3a352669b89bd2",
+    "data/tmg_channel_2026-10-26/ETHUSDT_perp_1h.csv": "0099f43023dc208f28616d4eb85e05f412cd9b65a0e98b13e245503e2cc61fb4",
+    "data/tmg_channel_2026-10-26/SOLUSDT_perp_1h.csv": "86a73fe1a2ee88096f13dc26844a31f57321a8dcb2768db844298ce87639ecef",
+    "data/tmg_oi_2026-10-26/BTCUSDT_open_interest.csv": "4c373bf391d0aaa31198bd40c4f8396600b4733eff00361f986bb2a5f48032b7",
+    "data/tmg_oi_2026-10-26/ETHUSDT_open_interest.csv": "da7b87bb20239c5b26a86e1caff6d692f8327d5884a49d0fb293aea000dff070",
+    "data/tmg_oi_2026-10-26/SOLUSDT_open_interest.csv": "e732d374e20e429e735aacb58242af290b400b523162c2350168fc14264d5b5d",
+    "data/tv_search_2026-10-21/BTCUSDT_raw_1h.csv": "a7497f33f0cd8fba46d27e0db5614f982fbfe52e24ab5eecdc736e3c21d2bb8a",
+    "data/tv_search_2026-10-21/ETHUSDT_raw_1h.csv": "5a29911d33e2c218b96bbd6a7fa6717e416dc4cac513c0690f37a3e44ccfbaa3",
+    "data/tv_search_2026-10-21/SOLUSDT_raw_1h.csv": "64e54db369be198e025efbb30c7b110cb3bc9e1f63dcf8ecde5f12ae2b8cf7df",
+    "data/tv_search_2026-10-21/btcusdt_funding.csv": "75ff24306c21ad3a678851f269c0af70fe305285384bb5cc6b51ec3baa1cbd6f",
+    "data/tv_search_2026-10-21/ethusdt_funding.csv": "5d0924b4382fb513b45400cdaefbc95fb2f45bfc9f7ce33b7960b2f2dc8fd893",
+    "data/tv_search_2026-10-21/solusdt_funding.csv": "367a966798dd12631223704399fed2c8b096bd7fae3a673ba6c2aa66285073dd",
+    "reports/tmg_channel_2026-10-26/SOURCE_NOTES.md": "955120d3f68a1a958577528b6a20c92946bb92d7cc53766247d7ef397460a5c4",
+    "reports/tmg_channel_2026-10-26/data_manifest.json": "8dccd0580e4b5d16f9d9d11ad14e2268128c9f9a1aec2574f516a630d76042b0",
+    "reports/tmg_daily_2026-10-26/SOURCE_NOTES.md": "060f128a614edf649b1c0a01811a4dacc0eb845b2660e5a15da1a80bfd4c0d70",
+    "reports/tmg_oi_2026-10-26/SOURCE_NOTES.md": "91ef6a3adc1a6ec3de8bc2956f5cbe97bc445753f1101db0201ad2a8a8767e41",
+    "reports/tmg_oi_2026-10-26/data_manifest.json": "0396c638797125cb432c1e6b007700f2e6a6f5bce9727827c24669268c0ceadb",
+    "reports/tmg_oi_2026-10-26/frozen_choice.json": "66248fc36b802ae59a14d3817c15b9814b2915de980193ac1063ffe601cdfb3b",
+    "reports/tmg_oi_2026-10-26/locked_plan.json": "b7525ecea9837418e4a348c0c486eeecd372e33d9154a223020d320359cb3329",
+    "reports/tmg_squeeze_2026-10-26/SOURCE_NOTES.md": "227153f59dbd5a78bd4b76700b6f732a8905fb224a0742aabdb2b7376635e9f5",
+    "research/tmg_channel_data.py": "65ac10c6e510419d945bc51907be259532d30b6eae87ba04d34d34c3589d95f9",
+    "research/tmg_channel_rules.py": "93ebb3adfdee65bc892894edaf65e03148fb48f63324782ea87a3d6ba72ca2e2",
+    "research/tmg_channel_search.py": "5ac0efacb4f9c0f4c7ea757fbed9797404719264f16bf52a05f5a5b78ca422ec",
+    "research/tmg_daily_search.py": "93361a19aeda8f86eae5de7d58fbc50223d91fbfd81e75e3b01e3c38fd49bbcc",
+    "research/tmg_improvement.py": "ee998ef43e531488541d44db128a0ad8da42a2331f351f24f993f5af553b2ced",
+    "research/tmg_oi_data.py": "70786cebaa401cef3b4e348bba16e0f3d14a4f718454d531a00cfcbf350de872",
+    "research/tmg_position_search.py": "5fe2fc172f6098b0c21a37f97970ac533dd9d7f4988c63cfc87842bf6036a19d",
+    "research/tmg_squeeze_search.py": "a25139f82d337ef34dabbb64e951d93bb0d9ae6f8edb6d68f085c63b26789abd",
+    "tmg_daily_confirmation.py": "1fd47fcc8b0777d951092519118a113d6e7baab57a962ab68ebadf3bd812e99c",
+    "tmg_position_context.py": "302e3b5da46391b53cacf755f0fa4e086c9fdd2aa00820407e1981feca0dd01b",
+    "tmg_squeeze_context.py": "f895651a83ad52175fc22ce368339fba1cf44b23efce03ac45204775e1bc1893",
+    "tmg_trades_weex.py": "6c365bd9ac40d0a380b1aea4a9d77026dd72b60f8044716c83c4333a4a35069b",
+    "tradingview/tmg_trades_strategy.pine": "532a756679311cbae4d4db4b62b1a0fa2b4b6a398f8503f8b8db21f8f8da8af0"
+  },
+  "locked_at_utc": "2026-10-27T11:32:17.305875+00:00"
+}

@@ -1,0 +1,66 @@
+{
+  "version": "tmg_multi_close_next_open_v1",
+  "profiles": [
+    "real_multi_entry",
+    "proxy_multi_entry",
+    "real_multi_exit",
+    "proxy_multi_exit",
+    "funding_neutral",
+    "funding_extreme_exit",
+    "real_pressure_funding",
+    "proxy_pressure_funding"
+  ],
+  "training": [
+    "2021-01-01",
+    "2024-01-01"
+  ],
+  "validation": [
+    "2024-01-01",
+    "2025-01-01"
+  ],
+  "known_control": [
+    "2025-01-01",
+    "2026-10-01"
+  ],
+  "reference": "Uendret daily50_weekend_both. Fast 1 time, begge retninger, ingen økt gearing.",
+  "execution": "1×, signalclose/neste ekte open, 0,15 % per side og faktisk funding; stress dobler begge.",
+  "hypotheses": "Ekte spotandel eller CLV-proxy, begge 4/24h enige; motsatt som utgang. Kjent trehendelsers funding-snitt: inngang <=0 eller <=0,01% i posisjonens retning; utgang >0,03%.",
+  "funding_timing": "Bare publiserte realiserte rater minst en time gamle, aldri estimert kommende rate.",
+  "gates": "BTC trening stress>0,>=15handler,>=2positiveår,DD>-55%,medianstress>0. BTC/median2024stress>0. BTCstress bedre enn dagsfilter i begge perioder.",
+  "ranking": "Median stress-Sharpe i trening på tre markeder blant godkjente. Ingen kontrollrangering.",
+  "placebo": "Samme åtte tidligere kontekstskift 720–3240h, trening over75persentil,2024overmedian.",
+  "release": "Utvikling+placebo, BTC kontroll normal/stress positiv og bedre, medianstress>0,minst2positive,BTC-DD ikke verre. Manuell forskningsvisning kan være aktuell; ingen motoraktivering.",
+  "no_choice": "Ingen godkjent utviklingskandidat: ikke kjør ny kontrollrangering, behold signalregler.",
+  "limitations": [
+    "Retrospektiv historie brukt mange ganger; ingen urørt test.",
+    "Egne formler, ikke kanalens komplette regler eller verifiserte avkastning.",
+    "Binance alene, ikke global spot/OI. Taker, CLV og funding er ulike størrelser.",
+    "Ekte taker/funding er ikke tilgjengelig som identiske Pine-serier i vanlig OHLCV. Ingen falsk port.",
+    "Ingen native TradingView-/WEEX-fyll, børs-SL/TP eller gearingtest."
+  ],
+  "sha256": {
+    "data/tmg_channel_2026-10-26/BTCUSDT_perp_1h.csv": "774698a69c31f8ad7031b1e884b97fc7f16afd29f0d0ec693b3a352669b89bd2",
+    "data/tmg_channel_2026-10-26/ETHUSDT_perp_1h.csv": "0099f43023dc208f28616d4eb85e05f412cd9b65a0e98b13e245503e2cc61fb4",
+    "data/tmg_channel_2026-10-26/SOLUSDT_perp_1h.csv": "86a73fe1a2ee88096f13dc26844a31f57321a8dcb2768db844298ce87639ecef",
+    "data/tv_search_2026-10-21/BTCUSDT_raw_1h.csv": "a7497f33f0cd8fba46d27e0db5614f982fbfe52e24ab5eecdc736e3c21d2bb8a",
+    "data/tv_search_2026-10-21/ETHUSDT_raw_1h.csv": "5a29911d33e2c218b96bbd6a7fa6717e416dc4cac513c0690f37a3e44ccfbaa3",
+    "data/tv_search_2026-10-21/SOLUSDT_raw_1h.csv": "64e54db369be198e025efbb30c7b110cb3bc9e1f63dcf8ecde5f12ae2b8cf7df",
+    "data/tv_search_2026-10-21/btcusdt_funding.csv": "75ff24306c21ad3a678851f269c0af70fe305285384bb5cc6b51ec3baa1cbd6f",
+    "data/tv_search_2026-10-21/ethusdt_funding.csv": "5d0924b4382fb513b45400cdaefbc95fb2f45bfc9f7ce33b7960b2f2dc8fd893",
+    "data/tv_search_2026-10-21/solusdt_funding.csv": "367a966798dd12631223704399fed2c8b096bd7fae3a673ba6c2aa66285073dd",
+    "reports/tmg_channel_2026-10-26/SOURCE_NOTES.md": "955120d3f68a1a958577528b6a20c92946bb92d7cc53766247d7ef397460a5c4",
+    "reports/tmg_channel_2026-10-26/data_manifest.json": "8dccd0580e4b5d16f9d9d11ad14e2268128c9f9a1aec2574f516a630d76042b0",
+    "reports/tmg_daily_2026-10-26/SOURCE_NOTES.md": "060f128a614edf649b1c0a01811a4dacc0eb845b2660e5a15da1a80bfd4c0d70",
+    "reports/tmg_multi_2026-10-26/SOURCE_NOTES.md": "bf1a1c3e886f82391c63fd6009368712eca88edec694996eec67aca7a25bf58e",
+    "research/tmg_channel_data.py": "65ac10c6e510419d945bc51907be259532d30b6eae87ba04d34d34c3589d95f9",
+    "research/tmg_channel_rules.py": "93ebb3adfdee65bc892894edaf65e03148fb48f63324782ea87a3d6ba72ca2e2",
+    "research/tmg_channel_search.py": "5ac0efacb4f9c0f4c7ea757fbed9797404719264f16bf52a05f5a5b78ca422ec",
+    "research/tmg_daily_search.py": "93361a19aeda8f86eae5de7d58fbc50223d91fbfd81e75e3b01e3c38fd49bbcc",
+    "research/tmg_improvement.py": "ee998ef43e531488541d44db128a0ad8da42a2331f351f24f993f5af553b2ced",
+    "research/tmg_multi_search.py": "34bc4d5fc89afd01d5eb9bc206d8a783d6c7c27e459c5376e09649fa6d5d2959",
+    "tmg_daily_confirmation.py": "1fd47fcc8b0777d951092519118a113d6e7baab57a962ab68ebadf3bd812e99c",
+    "tmg_multi_context.py": "fc136e2b021536b18f7798f02996d44c9f3ba29aec5f9896b801521c74bf42aa",
+    "tmg_trades_weex.py": "6c365bd9ac40d0a380b1aea4a9d77026dd72b60f8044716c83c4333a4a35069b",
+    "tradingview/tmg_trades_strategy.pine": "532a756679311cbae4d4db4b62b1a0fa2b4b6a398f8503f8b8db21f8f8da8af0"
+  }
+}

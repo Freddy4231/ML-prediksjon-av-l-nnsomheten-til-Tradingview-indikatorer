@@ -1,0 +1,41 @@
+//@version=5
+// Chandelier Exit (22, 3): samme regel som appen bruker (kivanc_supertrend.compute_chandelier for WEEX og
+// script_strategies.chandelier i skriptturneringen). Regelen er Chuck LeBeaus Chandelier Exit slik den er
+// satt opp i TradingView-skriptet «Chandelier Exit» av everget (Alex Orekhov); denne filen er skrevet på nytt
+// fra appens Python-kode, ikke kopiert fra TradingView.
+//
+// Long-stopp = høyeste close siste 22 lys − 3 × ATR(22). Short-stopp = laveste close + 3 × ATR(22).
+// Stoppene flyttes bare i trendens retning. Retningen blir long når close går over forrige short-stopp
+// og short når close går under forrige long-stopp. «Buy»/«Sell» vises på lyset der retningen skifter;
+// appen handler ved lysets close (neste åpning).
+indicator("Chandelier Exit (22, 3)", shorttitle = "CE", overlay = true)
+
+length = input.int(22, "ATR-periode", minval = 1)
+mult = input.float(3.0, "ATR-multiplikator", minval = 0.1, step = 0.1)
+useClose = input.bool(true, "Bruk close for høyeste/laveste")
+showLabels = input.bool(true, "Vis Buy/Sell")
+
+atr = mult * ta.atr(length)
+
+longStop = (useClose ? ta.highest(close, length) : ta.highest(length)) - atr
+longStopPrev = nz(longStop[1], longStop)
+longStop := close[1] > longStopPrev ? math.max(longStop, longStopPrev) : longStop
+
+shortStop = (useClose ? ta.lowest(close, length) : ta.lowest(length)) + atr
+shortStopPrev = nz(shortStop[1], shortStop)
+shortStop := close[1] < shortStopPrev ? math.min(shortStop, shortStopPrev) : shortStop
+
+var int dir = 1
+dir := close > shortStopPrev ? 1 : close < longStopPrev ? -1 : dir
+
+buySignal = dir == 1 and dir[1] == -1
+sellSignal = dir == -1 and dir[1] == 1
+
+plot(dir == 1 ? longStop : na, "Long-stopp", color.green, 2, plot.style_linebr)
+plot(dir == 1 ? na : shortStop, "Short-stopp", color.red, 2, plot.style_linebr)
+plotshape(buySignal and showLabels ? longStop : na, "Buy", shape.labelup, location.absolute, color.green, text = "Buy", textcolor = color.white, size = size.tiny)
+plotshape(sellSignal and showLabels ? shortStop : na, "Sell", shape.labeldown, location.absolute, color.red, text = "Sell", textcolor = color.white, size = size.tiny)
+
+alertcondition(buySignal, "CE Buy", "Chandelier Exit: Buy (long) på {{ticker}} ved {{close}}")
+alertcondition(sellSignal, "CE Sell", "Chandelier Exit: Sell (short) på {{ticker}} ved {{close}}")
+alertcondition(dir != dir[1], "CE retningsskifte", "Chandelier Exit har skiftet retning på {{ticker}}")

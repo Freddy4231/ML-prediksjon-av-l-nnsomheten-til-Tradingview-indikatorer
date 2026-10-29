@@ -1,0 +1,18 @@
+# Python og virtuelle miljøer
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+gradio-env/
+
+# Gradio, editor og system
+.gradio/
+.claude/
+.DS_Store
+
+# Hemmeligheter og lokale kjøredata skal aldri inn i repoet
+.env
+*.env
+*.sqlite3
+data/runtime/
+data/pine_cache/

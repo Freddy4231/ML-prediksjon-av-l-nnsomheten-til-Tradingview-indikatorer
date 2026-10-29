@@ -1,0 +1,29 @@
+{
+  "sha256": {
+    "reports/tmg_oi_2026-10-26/README.md": "68f17a414a1f90c7c33302c7954dfe21f478cf31b6df4462a7e9196ae4780fcc",
+    "reports/tmg_oi_2026-10-26/SOURCE_NOTES.md": "91ef6a3adc1a6ec3de8bc2956f5cbe97bc445753f1101db0201ad2a8a8767e41",
+    "reports/tmg_oi_2026-10-26/dashboard_data.json": "8f47049536f640059cb1520b8f7293f567c369f592abc1f54d7916d832d8f4b7",
+    "reports/tmg_oi_2026-10-26/data_manifest.json": "0396c638797125cb432c1e6b007700f2e6a6f5bce9727827c24669268c0ceadb",
+    "reports/tmg_oi_2026-10-26/development.json": "9417215a3eb5bff84ee17a506451f7f2437eafe4f061fdc0be1e2a25f7dce09a",
+    "reports/tmg_oi_2026-10-26/frozen_choice.json": "66248fc36b802ae59a14d3817c15b9814b2915de980193ac1063ffe601cdfb3b",
+    "reports/tmg_oi_2026-10-26/known_control.json": "b7bdb2ae4e0ace59874dc76978da83deb83a7886248bae7bd74a04372d3a22d4",
+    "reports/tmg_oi_2026-10-26/locked_plan.json": "b7525ecea9837418e4a348c0c486eeecd372e33d9154a223020d320359cb3329",
+    "reports/tmg_oi_2026-10-26/pine_logic_audit.json": "80caf47380206f8641bc440958423386cabadc5e0bdbd80dd8b33849586e3114",
+    "reports/tmg_oi_2026-10-26/placebo.json": "e005a30b327141325650b276792db07be4fd22621676d2832c0de29c0f956978",
+    "reports/tmg_oi_2026-10-26/placebo_coverage_audit.json": "e8fea7d5d2bbaeaa3099f1d5d47aacc013af0bdcfedc5be7685a686dbba7bd00",
+    "research/export_tmg_oi.py": "0399921368c7ed1849168fb42b0105d3bd9ceb5f1dd2c694061c929dba1ffe1d",
+    "research/tmg_improvement.py": "ee998ef43e531488541d44db128a0ad8da42a2331f351f24f993f5af553b2ced",
+    "research/tmg_oi_data.py": "70786cebaa401cef3b4e348bba16e0f3d14a4f718454d531a00cfcbf350de872",
+    "research/tmg_oi_pine_audit.py": "56316f8cb9fec35fea0c3318a1c266338f3584c76ffeb554163f7a56459da65b",
+    "research/tmg_oi_placebo_audit.py": "32082e17c33b2f94a1f26634eeb8db2e21c008901f58a90380d4e8a2d560f8a1",
+    "research/tmg_position_search.py": "5fe2fc172f6098b0c21a37f97970ac533dd9d7f4988c63cfc87842bf6036a19d",
+    "tmg_daily_confirmation.py": "1fd47fcc8b0777d951092519118a113d6e7baab57a962ab68ebadf3bd812e99c",
+    "tmg_multi_dashboard.py": "cbf16144b483d703123430e96b22ba68045c87d9bf5d0ae2695f34ed7002a021",
+    "tmg_position_context.py": "302e3b5da46391b53cacf755f0fa4e086c9fdd2aa00820407e1981feca0dd01b",
+    "tmg_position_dashboard.py": "3756f166df1ab93de66de1edbe4b5196cda9c458b09d5e40e42e1c1a2891cd04",
+    "tmg_trades_weex.py": "6c365bd9ac40d0a380b1aea4a9d77026dd72b60f8044716c83c4333a4a35069b",
+    "tradingview/TMG_OI_README.md": "9937765024ca4a7e119df530eb4ab97b85f944aed81aa1e94653b96746a3d53b",
+    "tradingview/tmg_oi_confirmation.pine": "9e3f0a3052e2824d9d2ec059b042f01757811810002e402660a0493be6c40b00"
+  },
+  "plan_sha256": "b7525ecea9837418e4a348c0c486eeecd372e33d9154a223020d320359cb3329"
+}

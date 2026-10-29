@@ -1,0 +1,12 @@
+{
+  "sha256": {
+    "tmg_channel_dashboard.py": "b8858c814d18ed6de81a7e1e0b4e8bb83ee65583ac4c5589b3bf413dc968b641",
+    "tmg_trades_weex.py": "6c365bd9ac40d0a380b1aea4a9d77026dd72b60f8044716c83c4333a4a35069b",
+    "tradingview/tmg_trades_strategy.pine": "532a756679311cbae4d4db4b62b1a0fa2b4b6a398f8503f8b8db21f8f8da8af0",
+    "tradingview/tmg_spot_participation.pine": "b827d4bd558c9bea520a6d35f20163a4a2ca6cccef51ea018f9178fd3609f765",
+    "pine_engine/runner.py": "c91b23e73651d4ae14582408d7f754aa5c9b43e6fdcaa41b5872465d6f5f6ea9",
+    "reports/tmg_channel_2026-10-26/dashboard_data.json": "2c0f33f9ff86a53229c3cc420cfe0b7d2d08b739183d0fe11d5f9887d347282c"
+  },
+  "control_sha256": "912254961670e72913acb6b219a78b7b73c0e051963d166e6741d0d799147ae0",
+  "choice_sha256": "98851b1338413cb8d0c860f92dccc10bdcf378b2e07997d5fd349e080213702d"
+}
